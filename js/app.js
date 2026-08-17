@@ -687,6 +687,37 @@
     $("#matModalClose").addEventListener("click", closeModal);
     $("#matModal").addEventListener("click", function (e) { if (e.target === this) closeModal(); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
+    /* ---------- 光影艺术：鼠标跟随光晕 + 卡片局部光 ---------- */
+    var raf = null;
+    function onMove(e) {
+      if (raf) return;
+      raf = requestAnimationFrame(function () {
+        raf = null;
+        var x = e.clientX, y = e.clientY;
+        document.documentElement.style.setProperty("--mx", x + "px");
+        document.documentElement.style.setProperty("--my", y + "px");
+        var t = e.target;
+        var card = t && t.closest ? t.closest(".mat-card,.zone-card,.dim-card,.brand-card,.guide-card,.col") : null;
+        if (card) {
+          var r = card.getBoundingClientRect();
+          card.style.setProperty("--cx", (x - r.left) + "px");
+          card.style.setProperty("--cy", (y - r.top) + "px");
+        }
+      });
+    }
+    document.addEventListener("mousemove", onMove, { passive: true });
+    /* ---------- 滚动渐入 ---------- */
+    if ("IntersectionObserver" in window) {
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { en.target.classList.add("in"); obs.unobserve(en.target); }
+        });
+      }, { threshold: 0.08 });
+      $all(".section > .container > .sec-title, .section > .container > .sec-desc, .zone-cards, .dim-grid, .mat-grid, .guide-grid, .compare-layout, .brand-grid, .table-wrap, .safety-tips, .method-grid, .points, .live-stats").forEach(function (el) {
+        el.classList.add("reveal");
+        obs.observe(el);
+      });
+    }
     var t = $("#navToggle");
     t.addEventListener("click", function () { $("#nav").classList.toggle("open"); });
     $all("#nav a").forEach(function (a) {
