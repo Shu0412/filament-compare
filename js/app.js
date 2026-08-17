@@ -1066,6 +1066,21 @@
     function closeDonate() { $("#donateModal").style.display = "none"; document.body.style.overflow = ""; }
     $all("[data-opendonate]").forEach(function (b) { b.addEventListener("click", openDonate); });
     $("#donateClose").addEventListener("click", closeDonate);
+    /* 微信/支付宝切换 */
+    $all(".pay-tab").forEach(function (tb) {
+      tb.addEventListener("click", function () {
+        $all(".pay-tab").forEach(function (b) { b.classList.remove("on"); });
+        tb.classList.add("on");
+        var pay = tb.getAttribute("data-pay");
+        var img = $("#donateQrImg");
+        if (img) {
+          img.src = "share/donate-" + pay + ".jpg";
+          img.alt = (pay === "wechat" ? "微信" : "支付宝") + "收款码";
+        }
+        var pn = document.querySelector(".pay-name");
+        if (pn) pn.textContent = pay === "wechat" ? "微信" : "支付宝";
+      });
+    });
     $("#donateModal").addEventListener("click", function (e) { if (e.target === this) closeDonate(); });
     var sel = $("#donateSelected");
     function showSel() {
