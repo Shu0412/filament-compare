@@ -24,7 +24,7 @@
 <title>Filament Lab · 丝验室 · 3D 打印耗材对比库 · 内容创建：舒舒</title>
 <meta name="description" content="Filament Lab · 丝验室：主流3D打印耗材可视化对比——PLA、PETG、ABS、ASA、TPU、PA、PEEK 等 41 种主流耗材的物理性能、打印便利性、安全性数据，覆盖拓竹、Kexcelled、三绿、Polymaker、eSUN 等 10 大品牌。内容创建：舒舒，开源免费。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>">
-<link rel="stylesheet" href="css/style.css?v=20260815d">
+<link rel="stylesheet" href="css/style.css?v=20260815e">
 </head>
 <body>
 
@@ -49,6 +49,7 @@
       <a href="#zone-engineering">工程耗材</a>
       <a href="#compare">数据对比</a>
       <a href="#insights">性能洞察</a>
+      <a href="#prices">价格情报</a>
       <a href="#brands">品牌专区</a>
       <a href="#safety">安全指南</a>
       <a href="#method">数据说明</a>
@@ -181,6 +182,21 @@
     </div>
   </section>
 
+  <!-- 价格情报 -->
+  <section class="section section-alt" id="prices">
+    <div class="container">
+      <h2 class="sec-title">💰 价格情报</h2>
+      <p class="sec-desc" id="priceDesc">主流耗材电商价格对比（京东自营/官方旗舰店、淘宝/天猫官方旗舰店）：原价、日常到手价、每公斤价、优惠力度。数据为调研时点参考价，实际以店铺为准。</p>
+      <div class="filter-bar" id="priceFilter"><!-- JS 价格筛选 --></div>
+      <div class="price-summary" id="priceSummary"><!-- JS 性价比排行 --></div>
+      <div class="table-wrap">
+        <h3>品牌 × 耗材 价格明细（点击表头排序）</h3>
+        <div class="table-scroll" id="priceTable"></div>
+      </div>
+      <p class="hint" style="margin-top:12px">⚠️ 价格会随促销波动，史低价为调研记录值；同一商品不同规格价格不同，已按每公斤价折算对比。采集时间见数据说明。</p>
+    </div>
+  </section>
+
   <!-- 安全指南 -->
   <section class="section section-alt" id="safety">
     <div class="container">
@@ -256,7 +272,7 @@
   </div>
 </div>
 
-<script src="js/data.js?v=20260815b"></script>
-<script src="js/app.js?v=20260815d"></script>
+<script src="js/data.js?v=20260815e"></script>
+<script src="js/app.js?v=20260815e"></script>
 </body>
 </html>
