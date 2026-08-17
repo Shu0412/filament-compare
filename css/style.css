@@ -561,6 +561,37 @@ html[data-theme="light"] table.data-table th { background:rgba(233,238,245,.75);
   #flowLayer { opacity:.3; }
 }
 
+/* ---- 性能兜底：保留玻璃层级，但降低重复模糊与合成压力 ---- */
+.site-header { backdrop-filter:blur(10px) saturate(1.25); -webkit-backdrop-filter:blur(10px) saturate(1.25); }
+.mat-card, .brand-card, .zone-card, .dim-card, .guide-card, .chart-wrap, .compare-panel {
+  backdrop-filter:blur(8px) saturate(135%);
+  -webkit-backdrop-filter:blur(8px) saturate(135%);
+}
+.table-wrap, .method-card, .modal, .safety-tips, .guide-result, .filter-bar {
+  backdrop-filter:blur(6px) saturate(125%);
+  -webkit-backdrop-filter:blur(6px) saturate(125%);
+}
+.mat-grid, .brand-grid, .app-grid, .guide-grid, .table-wrap { content-visibility:auto; contain-intrinsic-size: 1px 720px; }
+body.perf-lite #aurora .blob, body.perf-lite #glowLayer, body.perf-lite #flowLayer { display:none; }
+body.perf-lite .mat-card, body.perf-lite .brand-card, body.perf-lite .zone-card,
+body.perf-lite .dim-card, body.perf-lite .guide-card, body.perf-lite .chart-wrap,
+body.perf-lite .compare-panel, body.perf-lite .table-wrap, body.perf-lite .method-card,
+body.perf-lite .modal, body.perf-lite .safety-tips, body.perf-lite .guide-result,
+body.perf-lite .filter-bar {
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+  background:var(--bg-card);
+  box-shadow:var(--shadow);
+}
+@media (prefers-reduced-motion: reduce), (max-width:720px) {
+  .site-header { backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+  .mat-card, .brand-card, .zone-card, .dim-card, .guide-card, .chart-wrap, .compare-panel,
+  .table-wrap, .method-card, .modal, .safety-tips, .guide-result, .filter-bar {
+    backdrop-filter:none;
+    -webkit-backdrop-filter:none;
+  }
+}
+
 /* ---- 折叠栏 ---- */
 .collapse-bar { text-align:center; margin-top:18px; }
 .collapse-bar .btn { border-radius:999px; padding:9px 26px; font-size:13.5px; }
@@ -809,6 +840,25 @@ html[data-theme="light"] .more-drawer { background:#fff; }
 /* ---- 价格区间速览 ---- */
 .price-ranges { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:12px; }
 .price-range-card { background:rgba(255,255,255,.03); border:1px solid var(--border); border-radius:12px; padding:14px 16px; }
+.price-coverage { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-bottom:14px; }
+.price-coverage > div { display:flex; flex-direction:column; gap:2px; padding:10px 12px; border:1px solid var(--border); border-radius:9px; background:rgba(255,255,255,.025); }
+.price-coverage b { color:var(--primary); font-size:18px; font-variant-numeric:tabular-nums; }
+.price-coverage span { color:var(--text-faint); font-size:11.5px; }
+.price-sum-title { margin-top:12px; color:var(--text-dim); font-size:13px; font-weight:700; }
+.price-rank { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px; margin-top:8px; }
+.price-rank-item { display:flex; align-items:center; gap:8px; min-width:0; padding:8px 10px; border:1px solid var(--border); border-radius:8px; background:rgba(255,255,255,.025); font-size:12px; }
+.price-rank-item b { min-width:50px; color:var(--text); }
+.price-rank-item span { color:var(--text-faint); white-space:nowrap; }
+.price-rank-item .rank-no { display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; flex:0 0 20px; border-radius:50%; background:rgba(79,156,249,.14); color:var(--primary); font-weight:800; }
+.price-rank-item .rank-avg { margin-left:auto; color:var(--accent); font-variant-numeric:tabular-nums; }
+.price-note { margin-top:10px; color:var(--text-faint); font-size:12px; }
+.price-fallback, .price-derived { color:var(--accent); font-size:11.5px; }
+.price-date { font-variant-numeric:tabular-nums; white-space:nowrap; }
+.price-verified { display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; border-radius:50%; background:rgba(61,220,132,.16); color:var(--ok); font-size:10px; font-weight:800; vertical-align:1px; cursor:help; }
+.price-derived-note { margin-top:8px; }
+.pr-derived { border-style:dashed; }
+.price-empty { padding:22px !important; color:var(--text-faint); text-align:center; }
+.price-table td .na { color:var(--text-faint); font-size:11px; }
 .pr-mat { font-size:15px; font-weight:800; margin-bottom:6px; }
 .pr-range { font-size:19px; font-weight:800; color:var(--primary); margin-bottom:8px; }
 .pr-per { font-size:11px; color:var(--text-faint); font-weight:500; margin-left:2px; }
@@ -816,6 +866,8 @@ html[data-theme="light"] .more-drawer { background:#fff; }
 .pr-brand { font-size:11px; padding:3px 8px; border-radius:6px; background:rgba(255,255,255,.04); border:1px solid var(--border); color:var(--text-dim); }
 .pr-brand.pr-low { color:var(--ok); border-color:rgba(61,220,132,.4); font-weight:700; }
 @media (max-width:720px){
+  .price-coverage { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  .price-rank { grid-template-columns:1fr; }
   .price-ranges { grid-template-columns:1fr 1fr; }
   .pr-range { font-size:16px; }
 }
