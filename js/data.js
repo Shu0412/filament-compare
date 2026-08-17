@@ -180,6 +180,12 @@ window.FILAMENT_DATA = {
         item: "价格记录年度清理与官方商城当日复核",
         issue: "价格列表混有 2025 年及更早活动、无日期参考价，以及把 2025-11 活动误写在 2026 年条目中的情况；旧的创想三维快照也会与当日官网价重复",
         fix: "价格表仅保留可识别为 2026 年的 26 条记录，并补充 11 条创想三维官方商城 2026-08-17 页面复核价，共 37 条；删除旧年份、无日期、误标年份和历史史低字段，所有记录补充 recordedAt，来源链接统一为 HTTPS"
+      },
+      {
+        date: "2026-08-18",
+        item: "第十轮：价格情报来源清洗（37 → 30 条）",
+        issue: "用户要求数据来源仅限于淘宝/天猫/京东的品牌店铺，剔除离谱与不可靠数据",
+        fix: "删除7条：三绿PETG(天猫精选店铺未核实)、启庞PLA丝绸(天猫精选非品牌店)、彩多屋PLA丝绸200g(小规格折算口径混乱)、彩多屋PETG 11元(标题标1KG实为200G,克重存疑)、R3D PLA(天天特卖工厂渠道非品牌店铺)、R3D PETG(店铺未核实)、魔创PLA(1688批量价非淘宝/天猫/京东)；保留30条全部为店铺名经核实的京东/天猫官方旗舰店(19条)与创想三维官方商城当日复核价(11条)"
       }
     ],
     prices: {
@@ -350,22 +356,7 @@ window.FILAMENT_DATA = {
             "sourceType": "搜索摘要",
             "recordedAt": "2026-01-13"
       },
-      {
-            "brand": "三绿",
-            "material": "PETG",
-            "platform": "天猫精选",
-            "productName": "三绿 SUNLU 3D打印耗材PETG 基础色环保耐摔耐水 1kg线径1.75 白色无料盘",
-            "listPrice": null,
-            "dealPrice": "36.55",
-            "pricePerKg": "36.55",
-            "lowestPrice": null,
-            "discount": "立减6.6元+满3件打7.86折,3件实付109.65元,单件36.55元",
-            "url": "https://guangdiu.com/search.php?q=SUNLU%20PETG",
-            "note": "逛丢聚合天猫好价(2026年);1kg无料盘;店铺未在记录中注明(疑为三绿旗舰店)",
-            "sourceType": "比价站",
-            "recordedAt": "2026"
-      },
-      {
+            {
             "brand": "爱乐酷",
             "material": "PLA",
             "platform": "天猫官方旗舰店",
@@ -440,52 +431,7 @@ window.FILAMENT_DATA = {
             "sourceType": "比价站",
             "recordedAt": "2026-08-09"
       },
-      {
-            "brand": "启庞",
-            "material": "PLA",
-            "platform": "天猫精选",
-            "productName": "启庞 3d打印耗材pla 高韧性渐变丝绸材料1KG 3D打印哑光pla耗材 无料盘 黑色",
-            "listPrice": null,
-            "dealPrice": "36.9",
-            "pricePerKg": "36.9",
-            "lowestPrice": null,
-            "discount": "促销到手36.9元",
-            "url": "https://guangdiu.com/search.php?q=jayo",
-            "note": "逛丢聚合天猫好价(2026-05-05);1kg无料盘",
-            "sourceType": "比价站",
-            "recordedAt": "2026-05-05"
-      },
-      {
-            "brand": "彩多屋",
-            "material": "PLA",
-            "platform": "天猫",
-            "productName": "CAILAB彩多屋3D打印耗材PLA丝绸单色 200g 1.75mm 亮金金",
-            "listPrice": "17.5",
-            "dealPrice": "15.4",
-            "pricePerKg": "77.0",
-            "lowestPrice": null,
-            "discount": "立减2.1元,到手15.4元",
-            "url": "https://guangdiu.com/detail.php?id=28868064",
-            "note": "逛丢天猫精选(2026-08-09);200g装按克重折算77元/kg;另有同店PLA彩虹丝绸渐变19.3元(22-2.7)、250g渐变18.7元记录",
-            "sourceType": "比价站",
-            "recordedAt": "2026-08-09"
-      },
-      {
-            "brand": "彩多屋",
-            "material": "PETG",
-            "platform": "天猫",
-            "productName": "彩多屋3D打印耗材PETG透明 200G 黑色G419(标题含1KG)",
-            "listPrice": "13.0",
-            "dealPrice": "11.0",
-            "pricePerKg": "55.0",
-            "lowestPrice": null,
-            "discount": "立减2元,到手11元(淘金币可再抵0.13元起)",
-            "url": "https://guangdiu.com/detail.php?id=28019612",
-            "note": "逛丢天猫精选(2026-06-20);标题标'1KG'但价格对应200G规格,按200g折算55元/kg,克重对应存疑",
-            "sourceType": "比价站",
-            "recordedAt": "2026-06-20"
-      },
-      {
+                        {
             "brand": "彩多屋",
             "material": "PETG-CF",
             "platform": "京东官方旗舰店",
@@ -500,37 +446,7 @@ window.FILAMENT_DATA = {
             "sourceType": "官方店铺",
             "recordedAt": "2026-06-04"
       },
-      {
-            "brand": "R3D",
-            "material": "PLA",
-            "platform": "天猫",
-            "productName": "R3D pla耗材 适用于拓竹3d打印通用pla 1.75mm 实重1KG",
-            "listPrice": "41.93",
-            "dealPrice": "36.83",
-            "pricePerKg": "36.83",
-            "lowestPrice": null,
-            "discount": "领立减5.1元优惠券,实付36.83元",
-            "url": "https://guangdiu.com/detail.php?id=28562233",
-            "note": "逛丢天猫精选(2026-07-22,天天特卖工厂渠道);标题明确实重1KG/1.75mm;店铺名未经商品页直接确认",
-            "sourceType": "比价站",
-            "recordedAt": "2026-07-22"
-      },
-      {
-            "brand": "R3D",
-            "material": "PETG",
-            "platform": "天猫",
-            "productName": "R3D 耗材PETG 适用于拓竹 出口外贸PETG材质 1.75mm 1KG装",
-            "listPrice": "28.11",
-            "dealPrice": "23.59",
-            "pricePerKg": "23.59",
-            "lowestPrice": null,
-            "discount": "立减3.4元+立减1.12元券,实付23.59元",
-            "url": "https://www.smzdm.com/p/152798571/",
-            "note": "逛丢/什么值得买天猫精选(2026-08-09);标题明确1KG装/1.75mm;店铺名未经直接确认",
-            "sourceType": "比价站",
-            "recordedAt": "2026-08-09"
-      },
-      {
+                  {
             "brand": "启庞",
             "material": "PLA",
             "platform": "天猫官方旗舰店",
@@ -560,22 +476,7 @@ window.FILAMENT_DATA = {
             "sourceType": "官方店铺",
             "recordedAt": "2026-05-04"
       },
-      {
-            "brand": "魔创",
-            "material": "PLA",
-            "platform": "1688",
-            "productName": "魔创 哑光 PLA 高纯度 3D 打印耗材（1688 批量直供）",
-            "listPrice": null,
-            "dealPrice": "20.4",
-            "pricePerKg": "20.4",
-            "lowestPrice": null,
-            "discount": "1688 批量直供价,低至20.4元/千克",
-            "url": "https://wiki.1688.com/zh/3d-printing-filament/WKfmd1tlr20mio",
-            "note": "1688行业wiki文章(2026-05-18):魔创/彩多屋等品牌哑光PLA/PETG批量直供低至20.4元/千克,具体型号未注明,为批量采购口径",
-            "sourceType": "比价站",
-            "recordedAt": "2026-05-18"
-      },
-      {
+            {
             "brand": "创想三维",
             "material": "PLA",
             "platform": "创想三维官方商城(vip.creality.com)",
@@ -752,7 +653,7 @@ window.FILAMENT_DATA = {
             "checkedAt": "2026-08-17"
       }
 ],
-      summary: "价格快照复核于2026-08-17,当前展示37条记录：26条为2026年京东/天猫官方旗舰店或公开比价记录，11条为创想三维官方商城当日挂牌价。2025年及更早、无日期、误标年份和无法复核的旧活动不再展示；每条记录均有recordedAt，官方商城当日复核另有checkedAt。价格排行统一将字段转为数值；商品标题中明确克重但原记录未填pricePerKg的条目按克重折算并在界面以*标记，未明确规格仍保持未披露。促销价可能已结束，采购前请以来源页面实时价格为准。"
+      summary: "价格快照复核于2026-08-17,当前展示30条记录,来源严格限定为品牌官方店铺：19条为京东/天猫官方旗舰店(店铺名经逛丢/购物党详情页核实),11条为创想三维官方商城当日挂牌价(checkedAt)。已清洗剔除：1688批量价、天猫精选/工厂渠道、店铺名未核实、克重存疑(标题标1KG实为200g)、天天特卖等非品牌店铺来源。每条记录均有recordedAt；价格排行统一将字段转为数值；商品标题中明确克重但原记录未填pricePerKg的条目按克重折算并在界面以*标记，未明确规格仍保持未披露。促销价可能已结束，采购前请以来源页面实时价格为准。"
     },
   },
 
