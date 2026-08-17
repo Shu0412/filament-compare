@@ -24,7 +24,7 @@
 <title>Filament Lab · 丝验室 · 3D 打印耗材对比库 · 内容创建：舒舒</title>
 <meta name="description" content="Filament Lab · 丝验室：主流3D打印耗材可视化对比——PLA、PETG、ABS、ASA、TPU、PA、PEEK 等 41 种主流耗材的物理性能、打印便利性、安全性数据，覆盖拓竹、Kexcelled、三绿、Polymaker、eSUN 等 10 大品牌。内容创建：舒舒，开源免费。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>">
-<link rel="stylesheet" href="css/style.css?v=20260824">
+<link rel="stylesheet" href="css/style.css?v=20260825">
 </head>
 <body>
 
@@ -213,9 +213,14 @@
       <p class="sec-desc" id="priceDesc">品牌 × 耗材电商价格对比（京东/天猫官方旗舰店）：原价 · 到手价 · 每kg价 · 史低 · 优惠。📚 调研方法详见<a href="#" data-openmethod>数据说明</a>。</p>
       <div class="filter-bar" id="priceFilter"><!-- JS 价格筛选 --></div>
       <div class="price-summary" id="priceSummary"><!-- JS 性价比排行 --></div>
+      <div class="table-wrap" style="margin-top:18px">
+        <h3>📊 价格区间速览（每公斤价 · 有官方记录才显示）</h3>
+        <div id="priceRanges"></div>
+      </div>
       <div class="table-wrap">
         <h3>品牌 × 耗材 价格明细（点击表头排序）</h3>
         <div class="table-scroll" id="priceTable"></div>
+        <p class="hint" style="margin-top:10px">📌 数据口径：所有价格为京东/天猫官方旗舰店公开好价记录（逛丢/什么值得买/慢慢买聚合）；「—」表示官方未披露该字段；部分活动已结束，以商品页实时价为准。详见<a href="#" data-openmethod>数据说明 → 价格调研说明</a>。</p>
       </div>
 
     </div>
@@ -387,6 +392,6 @@
 </div>
 
 <script src="js/data.js?v=20260816b"></script>
-<script src="js/app.js?v=20260824"></script>
+<script src="js/app.js?v=20260825"></script>
 </body>
 </html>
