@@ -791,7 +791,7 @@
       if (!byMat[p.material]) byMat[p.material] = [];
       byMat[p.material].push({ brand: p.brand, kg: p.pricePerKg });
     });
-    var matOrder = ["PLA", "PLA+", "PETG", "ABS", "ASA", "TPU 95A", "PLA-CF", "PETG-CF", "PA-CF", "ABS+", "PA"];
+    var matOrder = ["PLA", "PLA+", "PETG", "ABS", "ASA", "TPU 95A", "PLA-CF", "PETG-CF", "PA-CF", "ABS+", "PA", "PPA-CF", "PC-CF", "PC-GF", "PA-GF"];
     var rangeHtml = '<div class="price-ranges">';
     matOrder.forEach(function (mat) {
       var list = (byMat[mat] || []).slice().sort(function (a, b) { return a.kg - b.kg; });
