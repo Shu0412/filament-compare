@@ -5,7 +5,7 @@
 > 电脑关机也能访问，分享给朋友永不失效；内容更新后重新部署约 1 分钟生效。
 
 面向 3D 打印玩家的耗材可视化对比站点：**常规耗材 / 工程耗材**两大分区，
-覆盖 PLA 家族、PETG、ABS、ASA、TPU、PA、PC、POM、PPS、PEEK、PEI 等 **37 种主流耗材**（含丝绸/木质 PLA、PETG-CF、PA12-CF、PET-CF、PPS-CF、PPA-CF、PC-ABS、PEBA、BVOH 等），
+覆盖 PLA 家族、PETG、ABS、ASA、TPU、PA、PC、POM、PPS、PEEK、PEI 等 **41 种主流耗材**（含丝绸/木质 PLA、PETG-CF、PA12-CF、PET-CF、PPS-CF、PPA-CF、PC-ABS、PEBA、BVOH 等），
 从**物理性能**（Tg/Tm/HDT/拉伸/冲击/伸长率/密度/吸湿）、**打印便利性**（温度/难度/翘曲/腔体/干燥）、
 **安全性**（释放物/通风/过滤/封闭腔体）三个维度对比，并收录 **17 大品牌**（拓竹 · Kexcelled(诺思贝瑞) · 三绿(Sunlu) · Polymaker · eSUN · Prusament · 创想三维 · 纵维立方 · Overture · 3DXTech · 爱乐酷(ELEGOO) · Jayo · FusRock · R3D · 爱丽滋(ALIZ) · 彩多屋 · 启庞(Kingroon)）官方产品线。
 
