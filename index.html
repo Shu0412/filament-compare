@@ -24,7 +24,7 @@
 <title>Filament Lab · 丝验室 · 3D 打印耗材对比库 · 内容创建：舒舒</title>
 <meta name="description" content="Filament Lab · 丝验室：主流3D打印耗材可视化对比——PLA、PETG、ABS、ASA、TPU、PA、PEEK 等 41 种主流耗材的物理性能、打印便利性、安全性数据，覆盖拓竹、Kexcelled、三绿、Polymaker、eSUN 等 10 大品牌。内容创建：舒舒，开源免费。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>">
-<link rel="stylesheet" href="css/style.css?v=20260815j">
+<link rel="stylesheet" href="css/style.css?v=20260818">
 </head>
 <body>
 
@@ -44,15 +44,15 @@
       <span class="brand-text">Filament Lab<small>丝验室 · 3D打印耗材对比库</small></span>
     </a>
     <nav class="nav" id="nav">
-      <a href="#overview">总览 · 选材</a>
-      <a href="#zone-standard">常规耗材</a>
-      <a href="#zone-engineering">工程耗材</a>
-      <a href="#compare">数据对比</a>
-      <a href="#insights">性能洞察</a>
-      <a href="#prices">价格情报</a>
-      <a href="#brands">品牌专区</a>
-      <a href="#safety">安全指南</a>
-      <a href="#method">数据说明</a>
+      <a href="#" data-home>🏠 首页</a>
+      <a href="#/zone-standard">常规耗材</a>
+      <a href="#/zone-engineering">工程耗材</a>
+      <a href="#/compare">数据对比</a>
+      <a href="#/insights">性能洞察</a>
+      <a href="#/brands">品牌专区</a>
+      <a href="#/prices">价格情报</a>
+      <a href="#/safety">安全指南</a>
+      <a href="#" data-openmethod>数据说明</a>
     </nav>
     <button class="nav-toggle" id="navToggle" aria-label="菜单">☰</button>
     <div class="header-tools">
@@ -71,8 +71,8 @@
       <div class="hero-stats" id="heroStats"><!-- JS 填充 --></div>
       <div class="live-stats" id="liveStats"><!-- JS 填充实时统计 --></div>
       <div class="hero-actions">
-        <a class="btn btn-primary" href="#compare">开始对比 ⚡</a>
-        <a class="btn btn-ghost" href="#method">查看数据口径</a>
+        <a class="btn btn-primary" href="#/compare">开始对比 ⚡</a>
+        <a class="btn btn-ghost" href="#overview">选材向导 🧭</a>
       </div>
     </div>
   </section>
@@ -81,12 +81,12 @@
   <section class="section" id="overview">
     <div class="container">
       <h2 class="sec-title">📊 总览</h2>
-      <p class="sec-desc">两大分区 × 三维度对比：<a href="#zone-standard">常规耗材</a> · <a href="#zone-engineering">工程耗材</a> ｜ <a href="#compare">物理性能</a> · <a href="#zone-standard">打印便利性</a> · <a href="#safety">安全性</a>。数值口径见<a href="#" data-openmethod>数据说明</a>。</p>
+      <p class="sec-desc">两大分区 × 三维度对比：<a href="#/zone-standard">常规耗材</a> · <a href="#/zone-engineering">工程耗材</a> ｜ <a href="#/compare">物理性能</a> · <a href="#/zone-standard">打印便利性</a> · <a href="#/safety">安全性</a>。数值口径见<a href="#" data-openmethod>数据说明</a>。</p>
       <div class="zone-cards" id="zoneCards" data-goto="zone-standard,zone-engineering"><!-- JS 填充 --></div>
       <div class="dim-grid">
-        <div class="dim-card" data-goto="compare"><h3>🧪 物理性能</h3><p>点击进入数据对比 →</p></div>
-        <div class="dim-card" data-goto="zone-standard"><h3>🖨️ 打印便利性</h3><p>点击查看常规耗材参数 →</p></div>
-        <div class="dim-card" data-goto="safety"><h3>🛡️ 安全性</h3><p>点击查看安全指南 →</p></div>
+        <div class="dim-card" data-goto="compare" data-goto-type="module"><h3>🧪 物理性能</h3><p>点击进入数据对比 →</p></div>
+        <div class="dim-card" data-goto="zone-standard" data-goto-type="module"><h3>🖨️ 打印便利性</h3><p>点击查看常规耗材参数 →</p></div>
+        <div class="dim-card" data-goto="safety" data-goto-type="module"><h3>🛡️ 安全性</h3><p>点击查看安全指南 →</p></div>
       </div>
       <div class="guide-block">
         <h3 class="guide-block-title">🧭 选材向导<span class="guide-block-sub">不知道选什么？按使用场景一键匹配</span></h3>
@@ -96,8 +96,38 @@
     </div>
   </section>
 
-  <!-- 常规耗材 -->
-  <section class="section section-alt" id="zone-standard">
+
+
+
+
+
+
+
+
+
+
+  <!-- ===== 二级模块容器（进入时才渲染/显示） ===== -->
+  <div id="moduleViews">
+
+  <!-- 二级菜单入口 -->
+  <section class="section section-alt" id="appgrid">
+    <div class="container">
+      <h2 class="sec-title">🧭 功能入口</h2>
+      <p class="sec-desc">点击进入对应模块（按需加载，返回首页不占资源）</p>
+      <div class="app-grid">
+        <button class="app-card" data-mod="zone-standard"><span class="app-icon">🧱</span><b>常规耗材</b><small>17 种 · 入门友好</small></button>
+        <button class="app-card" data-mod="zone-engineering"><span class="app-icon">🏗️</span><b>工程耗材</b><small>25 种 · 工业级</small></button>
+        <button class="app-card" data-mod="compare"><span class="app-icon">⚖️</span><b>数据对比</b><small>雷达 · 条形 · 数据表</small></button>
+        <button class="app-card" data-mod="insights"><span class="app-icon">🔬</span><b>性能洞察</b><small>散点图 · 一图看懂</small></button>
+        <button class="app-card" data-mod="brands"><span class="app-icon">🏷️</span><b>品牌专区</b><small>17 大品牌 · 覆盖矩阵</small></button>
+        <button class="app-card" data-mod="prices"><span class="app-icon">💰</span><b>价格情报</b><small>75 条电商价 · 性价比排行</small></button>
+        <button class="app-card" data-mod="safety"><span class="app-icon">🛡️</span><b>安全指南</b><small>释放物 · 防护建议</small></button>
+        <button class="app-card" data-openmethod><span class="app-icon">📚</span><b>数据说明</b><small>口径 · 矫正 · 免责</small></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="module" data-module="zone-standard" class="section section-alt" id="zone-standard">
     <div class="container">
       <h2 class="sec-title">🧱 常规耗材区</h2>
       <div class="filter-bar" id="filterBarStandard"><!-- JS 填充筛选条 --></div>
@@ -108,7 +138,7 @@
   </section>
 
   <!-- 工程耗材 -->
-  <section class="section" id="zone-engineering">
+  <section class="module" data-module="zone-engineering" class="section" id="zone-engineering">
     <div class="container">
       <h2 class="sec-title">🏗️ 工程耗材区</h2>
       <div class="filter-bar" id="filterBarEngineering"><!-- JS 填充筛选条 --></div>
@@ -118,10 +148,8 @@
     </div>
   </section>
 
-
-
   <!-- 对比工具 -->
-  <section class="section section-alt" id="compare">
+  <section class="module" data-module="compare" class="section section-alt" id="compare">
     <div class="container">
       <h2 class="sec-title">⚖️ 数据对比工具</h2>
       <div class="compare-layout">
@@ -152,7 +180,7 @@
   </section>
 
   <!-- 性能洞察 -->
-  <section class="section" id="insights">
+  <section class="module" data-module="insights" class="section" id="insights">
     <div class="container">
       <h2 class="sec-title">🔬 性能洞察 · 散点图</h2>
       <p class="sec-desc">横轴=耐热 HDT · 纵轴=打印温度（机器门槛）· 气泡=抗冲击 · 点击气泡查看详情。💡 先在左下找"够用且好打"的，再沿耐热轴升级。</p>
@@ -165,7 +193,7 @@
   </section>
 
   <!-- 品牌专区 -->
-  <section class="section" id="brands">
+  <section class="module" data-module="brands" class="section" id="brands">
     <div class="container">
       <h2 class="sec-title">🏷️ 品牌专区</h2>
       <div class="brand-grid" id="brandGrid"><!-- JS 填充 --></div>
@@ -178,7 +206,7 @@
   </section>
 
   <!-- 价格情报 -->
-  <section class="section section-alt" id="prices">
+  <section class="module" data-module="prices" class="section section-alt" id="prices">
     <div class="container">
       <h2 class="sec-title">💰 价格情报</h2>
       <p class="sec-desc" id="priceDesc">电商官方店铺价格（京东/天猫旗舰店）：原价 · 到手价 · 每kg价 · 史低 · 优惠。价格随促销波动，仅供参考。</p>
@@ -193,7 +221,7 @@
   </section>
 
   <!-- 安全指南 -->
-  <section class="section section-alt" id="safety">
+  <section class="module" data-module="safety" class="section section-alt" id="safety">
     <div class="container">
       <h2 class="sec-title">🛡️ 打印安全指南</h2>
       <div class="table-wrap" id="safetyTable"></div>
@@ -213,18 +241,16 @@
     </div>
   </section>
 
-  <!-- 数据说明入口 + 全屏二级页 -->
-  <section class="section" id="method">
-    <div class="container">
-      <h2 class="sec-title">📚 数据说明</h2>
-      <p class="sec-desc">数据口径 · 矫正记录 · 数据来源 · 免责协议 · 署名信息</p>
-      <div class="method-entry">
-        <button class="btn btn-primary" data-openmethod>📖 查看完整数据说明与矫正记录</button>
-        <button class="btn btn-ghost" data-openmethod>⚖️ 阅读免责协议</button>
-        <p class="hint">数据更新时间：<span id="dataUpdated"></span> · 矫正记录 <span id="dataVersion"></span> 条</p>
-      </div>
+  </div>
+
+  <!-- 二级页顶栏 -->
+  <div class="module-topbar" id="moduleTopbar" style="display:none">
+    <div class="container module-topbar-inner">
+      <button class="btn btn-ghost btn-sm" data-home>← 返回首页</button>
+      <span class="module-crumb" id="moduleCrumb"></span>
+      <span class="module-actions"><button class="btn btn-ghost btn-sm" data-openmethod>📚 数据说明</button></span>
     </div>
-  </section>
+  </div>
 </main>
 
 
@@ -233,6 +259,7 @@
   <div class="method-modal-inner">
     <div class="method-modal-head">
       <h2>📚 数据说明 · 矫正记录 · 免责协议</h2>
+      <span class="hint" style="font-size:12px">数据更新时间：<span id="dataUpdated"></span> · 矫正记录 <span id="dataVersion"></span> 条</span>
       <button class="modal-close" id="methodModalClose" aria-label="关闭">✕</button>
     </div>
     <div class="method-modal-body">
