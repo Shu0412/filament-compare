@@ -49,7 +49,8 @@ h1,h2,h3,h4 { line-height:1.35; }
 .hero { padding:72px 0 60px; text-align:center; background:radial-gradient(1200px 500px at 50% -10%, rgba(79,156,249,.14), transparent 65%), radial-gradient(800px 400px at 85% 0%, rgba(34,195,166,.08), transparent 60%); border-bottom:1px solid var(--border); }
 .hero-badge { display:inline-block; font-size:12.5px; color:var(--primary-2); border:1px solid rgba(34,195,166,.4); background:rgba(34,195,166,.08); padding:5px 14px; border-radius:999px; margin-bottom:18px; letter-spacing:1px; }
 .hero h1 { font-size:42px; font-weight:800; margin-bottom:14px; letter-spacing:1px; }
-.hero .grad { background:linear-gradient(90deg,var(--primary),var(--primary-2)); -webkit-background-clip:text; background-clip:text; color:transparent; }
+.hero .grad { background:linear-gradient(90deg,var(--primary),var(--primary-2),var(--primary),#7fd6ff,var(--primary-2)); background-size:220% 100%; -webkit-background-clip:text; background-clip:text; color:transparent; animation:gradFlow 7s linear infinite; position:relative; }
+@keyframes gradFlow { 0%{background-position:0% 50%;} 100%{background-position:220% 50%;} }
 .hero-sub { color:var(--text-dim); font-size:16px; margin-bottom:28px; }
 .hero-stats { display:flex; justify-content:center; gap:38px; margin-bottom:32px; flex-wrap:wrap; }
 .hstat { text-align:center; }
@@ -304,3 +305,91 @@ html[data-theme="light"] .bar-row .bar-track { background:rgba(0,0,0,.08); }
 td.cell-best { color:var(--accent); font-weight:700; }
 .back-top { display:none; position:fixed; right:26px; bottom:30px; width:46px; height:46px; border-radius:50%; border:1px solid var(--border); background:var(--bg-card); color:var(--text); font-size:20px; cursor:pointer; z-index:200; box-shadow:var(--shadow); transition:.2s; }
 .back-top:hover { border-color:var(--primary); color:var(--primary); transform:translateY(-3px); }
+
+/* ============================================================
+ * 光影艺术层 · 高级感视觉升级
+ * ============================================================ */
+
+/* ---- 全局鼠标光影随行（核心效果） ---- */
+#glowLayer { position:fixed; inset:0; pointer-events:none; z-index:2; mix-blend-mode:screen; opacity:.9;
+  background:radial-gradient(560px circle at var(--mx,50%) var(--my,30%), rgba(79,156,249,.14), transparent 65%),
+             radial-gradient(340px circle at var(--mx,50%) var(--my,30%), rgba(34,195,166,.07), transparent 70%); }
+html[data-theme="light"] #glowLayer { mix-blend-mode:multiply; opacity:.5; }
+
+/* ---- hero 呼吸光晕 + 光点 ---- */
+.hero { position:relative; }
+.hero::before { content:""; position:absolute; left:50%; top:-220px; width:900px; height:520px; transform:translateX(-50%);
+  background:radial-gradient(closest-side, rgba(79,156,249,.16), transparent 70%);
+  animation:heroBreath 9s ease-in-out infinite; pointer-events:none; }
+@keyframes heroBreath { 0%,100%{opacity:.7; transform:translateX(-50%) scale(1);} 50%{opacity:1; transform:translateX(-50%) scale(1.12);} }
+.hero::after { content:""; position:absolute; inset:0; pointer-events:none;
+  background-image:radial-gradient(2px 2px at 22% 30%, rgba(159,200,255,.55) 40%, transparent 50%),
+                   radial-gradient(1.5px 1.5px at 70% 18%, rgba(122,232,208,.5) 40%, transparent 50%),
+                   radial-gradient(2px 2px at 85% 55%, rgba(249,165,79,.4) 40%, transparent 50%),
+                   radial-gradient(1.5px 1.5px at 12% 68%, rgba(159,200,255,.4) 40%, transparent 50%),
+                   radial-gradient(2px 2px at 45% 82%, rgba(201,139,249,.35) 40%, transparent 50%),
+                   radial-gradient(1.5px 1.5px at 92% 82%, rgba(159,200,255,.35) 40%, transparent 50%);
+  animation:starTwinkle 6s ease-in-out infinite; }
+@keyframes starTwinkle { 0%,100%{opacity:.5;} 50%{opacity:1;} }
+
+/* ---- 玻璃拟态 ---- */
+.site-header { background:rgba(13,17,23,.6); backdrop-filter:blur(18px) saturate(1.5); -webkit-backdrop-filter:blur(18px) saturate(1.5); }
+html[data-theme="light"] .site-header { background:rgba(245,247,250,.7); }
+
+/* ---- 卡片鼠标光影随行 ---- */
+.mat-card, .zone-card, .dim-card, .brand-card, .guide-card, .col { position:relative; overflow:hidden; }
+.mat-card::after, .zone-card::after, .dim-card::after, .brand-card::after, .guide-card::after, .col::after {
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .35s ease;
+  background:radial-gradient(420px circle at var(--cx,50%) var(--cy,50%), rgba(255,255,255,.07), transparent 65%); }
+.mat-card:hover::after, .zone-card:hover::after, .dim-card:hover::after, .brand-card:hover::after, .guide-card:hover::after, .col:hover::after { opacity:1; }
+html[data-theme="light"] .mat-card::after, html[data-theme="light"] .brand-card::after { background:radial-gradient(420px circle at var(--cx,50%) var(--cy,50%), rgba(79,156,249,.08), transparent 65%); }
+
+/* ---- 品牌卡顶部流光 ---- */
+.brand-card { border-top:2px solid transparent; background:linear-gradient(var(--bg-card),var(--bg-card)) padding-box, linear-gradient(120deg, rgba(79,156,249,.5), rgba(34,195,166,.35), rgba(249,165,79,.3)) border-box; }
+
+/* ---- 按钮流光 ---- */
+.btn-primary { position:relative; overflow:hidden; }
+.btn-primary::after { content:""; position:absolute; top:0; left:-80%; width:60%; height:100%; transform:skewX(-20deg);
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent); animation:btnShine 3.2s ease-in-out infinite; }
+@keyframes btnShine { 0%{left:-80%;} 55%{left:130%;} 100%{left:130%;} }
+html[data-theme="light"] .btn-primary::after { background:linear-gradient(90deg, transparent, rgba(255,255,255,.85), transparent); }
+
+/* ---- 分区标题渐变下划线 ---- */
+.sec-title { position:relative; display:inline-block; padding-bottom:8px; }
+.sec-title::after { content:""; position:absolute; left:0; bottom:0; height:3px; width:120px; border-radius:3px;
+  background:linear-gradient(90deg, var(--primary), var(--primary-2), transparent);
+  animation:underlineFlow 5s linear infinite; background-size:200% 100%; }
+@keyframes underlineFlow { 0%{background-position:0% 0%;} 100%{background-position:200% 0%;} }
+
+/* ---- 滚动渐入 ---- */
+.reveal { opacity:0; transform:translateY(22px); transition:opacity .7s ease, transform .7s ease; }
+.reveal.in { opacity:1; transform:none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity:1; transform:none; transition:none; } }
+
+/* ---- 材料卡 hover 提升 ---- */
+.mat-card:hover { transform:translateY(-4px) scale(1.005); box-shadow:0 16px 44px rgba(0,0,0,.45), 0 0 0 1px rgba(79,156,249,.25), 0 0 42px -8px var(--mat-color,var(--primary)); border-color:transparent; }
+.mat-card::before { transition:height .3s ease, opacity .3s; }
+.mat-card:hover::before { height:100%; opacity:.08; }
+
+/* ---- 页脚上边界渐变线 ---- */
+.site-footer { position:relative; }
+.site-footer::before { content:""; position:absolute; top:0; left:0; right:0; height:1px;
+  background:linear-gradient(90deg, transparent, rgba(79,156,249,.55), rgba(34,195,166,.45), transparent); }
+
+/* ---- 滚动条与选区 ---- */
+::-webkit-scrollbar { width:10px; height:10px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:linear-gradient(180deg, var(--primary), var(--primary-2)); border-radius:6px; border:2px solid var(--bg); }
+::selection { background:rgba(79,156,249,.35); color:var(--text); }
+
+/* ---- 链接/数值 hover 微光 ---- */
+a { transition:color .2s, text-shadow .2s; }
+a:hover { text-shadow:0 0 14px rgba(79,156,249,.5); }
+
+/* ---- 统计数字卡 hover ---- */
+.hstat b { transition:transform .25s ease, text-shadow .25s; }
+.hstat:hover b { transform:translateY(-2px); text-shadow:0 0 24px rgba(79,156,249,.6); }
+
+/* ---- 对比工具面板玻璃感 ---- */
+.compare-panel { background:rgba(22,29,41,.75); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); }
+html[data-theme="light"] .compare-panel { background:rgba(255,255,255,.82); }
