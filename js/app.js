@@ -333,6 +333,21 @@
         tipEl.style.top = (e.clientY - r.top - 8) + "px";
       });
       dot.addEventListener("mouseleave", function () { tipEl.style.opacity = "0"; });
+      dot.addEventListener("click", function (e) {
+        var show = tipEl.style.opacity !== "1";
+        if (show) {
+          tipEl.innerHTML = '<b>' + dot.getAttribute("data-name") + "</b><br>" + dot.getAttribute("data-info").split("\n").slice(1).join("<br>");
+          tipEl.style.opacity = "1";
+          var r = el.getBoundingClientRect();
+          var cx = Math.min(e.clientX - r.left, r.width - 180);
+          var cy = Math.min(e.clientY - r.top, r.height - 70);
+          tipEl.style.left = Math.max(0, cx) + "px";
+          tipEl.style.top = Math.max(0, cy) + "px";
+        } else {
+          tipEl.style.opacity = "0";
+        }
+      });
+      dot.addEventListener("touchstart", function (e) { e.preventDefault(); dot.dispatchEvent(new MouseEvent("click", { clientX: e.touches[0].clientX, clientY: e.touches[0].clientY, bubbles: true })); }, { passive: false });
     });
   }
 
