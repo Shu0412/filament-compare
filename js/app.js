@@ -778,7 +778,7 @@
         return '<div class="price-rank-item"><span class="rank-no">' + (i + 1) + "</span><b>" + esc(r.brand) + "</b><span class='rank-min'>史低 ¥" + r.min + "/kg</span><span class='rank-avg'>均价 ¥" + r.avg + "/kg</span></div>";
       }).join("")
       + "</div>";
-    if (prices.summary) sumHtml += '<p class="price-note">💡 ' + esc(prices.summary) + "</p>";
+    if (prices.summary) sumHtml += '<p class="price-note">📚 调研时间与数据口径等详见<a href="#" data-openmethod>数据说明 → 价格调研说明</a></p>';
     $("#priceSummary").innerHTML = sumHtml;
     // 明细表
     var head = "<tr><th data-pk='brand'>品牌</th><th data-pk='material'>材料</th><th data-pk='platform'>平台</th><th data-pk='listPrice'>原价 ¥</th><th data-pk='dealPrice'>到手价 ¥</th><th data-pk='pricePerKg'>每kg ¥</th><th data-pk='lowestPrice'>史低 ¥</th><th>优惠</th></tr>";
@@ -883,6 +883,13 @@
       return "<li>" + esc(s.name) + " — <a href='" + esc(s.url) + "' target='_blank' rel='noopener'>" + esc(s.url) + "</a></li>";
     }).join("");
     $("#dataUpdated").textContent = DATA.meta.updatedAt;
+    var pr = $("#priceResearch");
+    if (pr) {
+      var prices = DATA.meta.prices;
+      if (prices && prices.summary) {
+        pr.innerHTML = '<div class="legal"><p>' + esc(prices.summary) + "</p></div>";
+      }
+    }
   }
 
 
