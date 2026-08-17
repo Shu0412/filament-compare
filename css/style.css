@@ -580,3 +580,30 @@ html[data-theme="light"] table.data-table th { background:rgba(233,238,245,.75);
 /* 场景卡图标入场微动画 */
 .guide-card .guide-icon { transition:transform .25s ease; }
 .guide-card:hover .guide-icon { transform:scale(1.15) rotate(-6deg); }
+
+/* ---- 数据说明入口 + 二级页 modal ---- */
+.method-entry { display:flex; gap:14px; flex-wrap:wrap; align-items:center; margin-top:6px; }
+.method-modal { position:fixed; inset:0; z-index:400; background:rgba(5,8,14,.85); backdrop-filter:blur(8px);
+  display:flex; align-items:stretch; justify-content:center; }
+.method-modal-inner { width:min(860px, 94vw); margin:26px auto; background:var(--bg-card); border:1px solid var(--border);
+  border-radius:18px; display:flex; flex-direction:column; overflow:hidden; box-shadow:var(--shadow); }
+.method-modal-head { display:flex; justify-content:space-between; align-items:center; padding:18px 26px;
+  border-bottom:1px solid var(--border); background:rgba(255,255,255,.03); }
+.method-modal-head h2 { font-size:19px; }
+.method-modal-body { padding:22px 26px; overflow-y:auto; }
+.method-modal-body h3 { font-size:16px; margin:20px 0 10px; color:var(--primary-2); }
+.method-modal-body h3:first-child { margin-top:0; }
+.method-ul { padding-left:20px; color:var(--text-dim); font-size:13.5px; }
+.method-ul li { margin-bottom:8px; }
+.method-modal-body .legal { margin-bottom:14px; }
+/* 安全建议折叠 */
+.safety-details { }
+.safety-details summary { cursor:pointer; font-size:15px; font-weight:700; color:var(--primary); padding:4px 0; list-style:none; }
+.safety-details summary::before { content:"▸ "; }
+.safety-details[open] summary::before { content:"▾ "; }
+.safety-details summary:hover { color:var(--primary-2); }
+.safety-details .safety-tips { margin-top:14px; }
+/* 维度卡跳转提示 */
+.dim-card { cursor:pointer; transition:border-color .2s, transform .2s; }
+.dim-card:hover { border-color:var(--primary); transform:translateY(-2px); }
+.dim-card p { margin-top:6px; color:var(--primary); font-size:12.5px; }
