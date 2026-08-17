@@ -76,6 +76,26 @@
       html += '<div class="hstat"><b>' + s[0] + '</b><span>' + s[1] + "</span></div>";
     });
     $("#heroStats").innerHTML = html;
+    renderLiveStats();
+  }
+
+  /* ---------- 实时访问统计（第三方计数服务，加载失败自动降级） ---------- */
+  function renderLiveStats() {
+    var el = $("#liveStats");
+    if (!el) return;
+    var badge = function (pageId, label) {
+      var src = "https://visitor-badge.laobi.icu/badge?page_id=" + pageId
+        + "&labelColor=1b2434&color=4f9cf9";
+      return '<span class="live-stat"><span class="live-label">' + label + '</span>'
+        + '<img src="' + src + '" alt="' + label + '" loading="lazy" '
+        + 'onerror="this.outerHTML=\'<span class=&quot;live-fallback&quot;>统计服务暂不可用</span>\'"></span>';
+    };
+    el.innerHTML = '<div class="live-stats-inner">'
+      + badge("shu0412-filament-lab", "📈 累计访问")
+      + '<span class="live-divider" style="width:1px;height:20px;background:var(--border)"></span>'
+      + badge("shu0412-filament-lab-helpers", "🧡 已帮助")
+      + "</div>"
+      + '<p class="live-note">实时统计 · 唯一访客计数 · 由第三方计数服务提供 · 加载失败时自动隐藏</p>';
   }
 
   /* ---------- 分区卡片 ---------- */
