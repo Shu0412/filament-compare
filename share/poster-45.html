@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Filament Lab · 丝验室 宣传图 4:5</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0d1117; font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; color:#e6edf3; }
+  .poster { width:1080px; height:1350px; position:relative; overflow:hidden;
+    background:
+      radial-gradient(800px 400px at 15% -5%, rgba(79,156,249,.20), transparent 62%),
+      radial-gradient(700px 380px at 95% 105%, rgba(34,195,166,.14), transparent 60%),
+      #0d1117;
+  }
+  .grid-bg { position:absolute; inset:0; opacity:.5;
+    background-image:linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+    background-size:56px 56px; }
+  .content { position:relative; padding:54px 64px; height:100%; display:flex; flex-direction:column; }
+
+  .logo { display:flex; align-items:center; gap:16px; }
+  .logo-icon { width:60px; height:60px; border-radius:17px; display:flex; align-items:center; justify-content:center;
+    font-size:32px; background:linear-gradient(135deg, rgba(79,156,249,.28), rgba(34,195,166,.22));
+    border:1px solid rgba(79,156,249,.45); }
+  .logo h1 { font-size:32px; letter-spacing:1px; }
+  .logo h1 small { display:block; font-size:14px; color:#6b7a8f; letter-spacing:4px; font-weight:600; }
+  .badge { margin:26px auto 0; text-align:center; font-size:17px; color:#22c3a6; border:1.5px solid rgba(34,195,166,.5);
+    background:rgba(34,195,166,.09); padding:10px 26px; border-radius:999px; font-weight:600; letter-spacing:1px; width:fit-content; }
+
+  .hero { margin-top:30px; text-align:center; }
+  .hero h2 { font-size:56px; font-weight:800; letter-spacing:2px; line-height:1.3; }
+  .hero h2 .g { background:linear-gradient(90deg,#4f9cf9,#22c3a6); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .hero p { margin-top:14px; font-size:24px; color:#9aa7b8; letter-spacing:1px; }
+  .hero p b { color:#f9a54f; font-weight:700; }
+
+  .radar-wrap { margin:34px auto 0; width:430px; display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .radar-cap { font-size:15px; color:#6b7a8f; letter-spacing:2px; }
+
+  .cols { margin-top:34px; display:flex; flex-direction:column; gap:18px; }
+  .col { background:rgba(255,255,255,.028); border:1px solid #263041; border-radius:18px; padding:20px 24px; }
+  .col h3 { font-size:21px; display:inline-block; margin-right:14px; }
+  .col .sub { display:inline-block; font-size:14px; color:#6b7a8f; }
+  .chip-row { display:flex; flex-wrap:wrap; gap:9px; margin-top:12px; }
+  .chip { font-size:15px; padding:7px 13px; border-radius:9px; background:rgba(255,255,255,.05); border:1px solid #2c3748; color:#c6d2e0; }
+  .chip.hl { background:rgba(79,156,249,.16); border-color:rgba(79,156,249,.5); color:#9cc3ff; font-weight:600; }
+  .chip.hl2 { background:rgba(249,165,79,.12); border-color:rgba(249,165,79,.45); color:#ffd9a3; font-weight:600; }
+  .chip.hl3 { background:rgba(34,195,166,.12); border-color:rgba(34,195,166,.45); color:#9df0dd; font-weight:600; }
+
+  .points { display:flex; flex-direction:column; gap:12px; margin-top:30px; }
+  .point { text-align:center; font-size:18px; color:#dbe6f2; background:rgba(255,255,255,.03);
+    border:1px solid #263041; border-radius:12px; padding:12px 10px; }
+  .point b { color:#3ddc84; margin-right:8px; }
+
+  .footer { margin-top:auto; background:rgba(255,255,255,.03); border:1px solid #263041; border-radius:16px;
+    padding:20px 26px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
+  .dh-badge { font-size:15px; padding:8px 16px; border-radius:10px; background:rgba(79,156,249,.14);
+    border:1px solid rgba(79,156,249,.5); color:#9cc3ff; font-weight:600; white-space:nowrap; }
+  .footer-text .url { color:#22c3a6; font-weight:700; font-size:19px; letter-spacing:.3px; }
+  .footer-text .open { color:#9aa7b8; font-size:14px; margin-top:2px; }
+  .qr { width:104px; height:104px; background:#fff; border-radius:12px; padding:6px; flex-shrink:0; }
+  .qr img { width:100%; height:100%; display:block; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="grid-bg"></div>
+  <div class="content">
+    <div class="logo">
+      <div class="logo-icon">🧪</div>
+      <h1>Filament Lab · 丝验室<small>3D 打印耗材对比库</small></h1>
+    </div>
+    <div class="badge">📊 数据多源交叉验证 · 持续矫正</div>
+
+    <div class="hero">
+      <h2>37 种主流耗材<br><span class="g">一图看懂怎么选</span></h2>
+      <p><b>物理性能</b> × <b>打印便利性</b> × <b>安全性</b></p>
+    </div>
+
+    <div class="radar-wrap">
+      <svg viewBox="0 0 400 340">
+        <g fill="none" stroke="rgba(255,255,255,.08)">
+          <polygon points="200,22 338,118 296,290 104,290 62,118"/>
+          <polygon points="200,58 303,130 272,252 128,252 97,130"/>
+          <polygon points="200,94 269,142 248,214 152,214 131,142"/>
+          <polygon points="200,130 234,154 224,176 176,176 166,154"/>
+          <line x1="200" y1="22" x2="200" y2="290"/><line x1="62" y1="118" x2="338" y2="118"/>
+          <line x1="104" y1="290" x2="296" y2="290"/>
+        </g>
+        <polygon points="200,60 300,128 270,238 140,238 110,128" fill="rgba(79,156,249,.22)" stroke="#4f9cf9" stroke-width="2.5"/>
+        <polygon points="200,80 285,135 255,220 155,220 125,135" fill="rgba(34,195,166,.18)" stroke="#22c3a6" stroke-width="2.5"/>
+        <polygon points="200,100 260,145 240,195 160,195 140,145" fill="rgba(249,165,79,.18)" stroke="#f9a54f" stroke-width="2.5"/>
+        <g font-size="13" fill="#6b7a8f" text-anchor="middle">
+          <text x="200" y="12">耐热</text><text x="352" y="121">强度</text><text x="305" y="310">韧性</text>
+          <text x="95" y="310">打印易度</text><text x="48" y="121">安全</text>
+        </g>
+      </svg>
+      <div class="radar-cap">性能画像 · PLA / PETG / ABS / PA-CF</div>
+    </div>
+
+    <div class="cols">
+      <div class="col">
+        <h3>🧱 常规耗材</h3><span class="sub">17 种 · 入门友好</span>
+        <div class="chip-row">
+          <span class="chip hl">PLA</span><span class="chip hl">PLA+</span><span class="chip">PLA Silk</span>
+          <span class="chip hl2">PETG</span><span class="chip hl2">ABS</span><span class="chip hl2">ASA</span>
+          <span class="chip hl3">TPU</span><span class="chip">木质 PLA</span><span class="chip">PETG-CF</span>
+          <span class="chip">PP</span><span class="chip">HIPS</span><span class="chip">PVA</span>
+        </div>
+      </div>
+      <div class="col">
+        <h3>🏗️ 工程耗材</h3><span class="sub">20 种 · 工业级</span>
+        <div class="chip-row">
+          <span class="chip hl">PA-CF</span><span class="chip hl">PPA-CF</span><span class="chip hl2">PEEK</span>
+          <span class="chip hl2">PEI</span><span class="chip hl3">PC</span><span class="chip">POM</span>
+          <span class="chip">PPS-CF</span><span class="chip">PET-CF</span><span class="chip">PA12-CF</span>
+          <span class="chip">PC-ABS</span><span class="chip">PEBA</span>
+        </div>
+      </div>
+      <div class="col">
+        <h3>🏷️ 10 大品牌</h3><span class="sub">官方产品线</span>
+        <div class="chip-row">
+          <span class="chip hl">拓竹</span><span class="chip">Polymaker</span><span class="chip">eSUN</span>
+          <span class="chip">三绿</span><span class="chip">Kexcelled</span><span class="chip">Prusament</span>
+          <span class="chip">创想三维</span><span class="chip">纵维立方</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="points">
+      <div class="point"><b>✅</b>官方 TDS 多源交叉验证</div>
+      <div class="point"><b>✅</b>每次更新矫正留痕（19 条）</div>
+      <div class="point"><b>✅</b>雷达/条形对比工具 · 永久免费</div>
+    </div>
+
+    <div class="footer">
+      <div>
+        <div class="dh-badge">🤖 由 DeepSeek Harness 创建</div>
+        <div class="footer-text" style="margin-top:10px">
+          <div class="url">z1824365519-prog.github.io/filament-compare</div>
+          <div class="open">开源 · 献给每一位 3D 打印爱好者 🧡</div>
+        </div>
+      </div>
+      <div class="qr"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAXIAAAFyCAIAAABnRsZeAAAHmklEQVR4nO3cPZIjuRlF0S7F2DRkaf+rG0sGN5ByZaWTF4MPWee4HWTxr2/AeIGf67r+AHT+FT4XgKwAPVkBYrICxGQFiMkKEJMVICYrQExWgJisADFZAWKyAsRkBYjJChCTFSAmK0BMVoCYrAAxWQFifz158Off//nzLt///n3zr97vhGfe5X3v6Mn7vee0AsRkBYjJChCTFSAmK0BMVoCYrAAxWQFisgJMWtmuW+mt87415Lpv4clj7z/nmevedb/Y7y/7v+C0AsRkBYjJChCTFSAmK0BMVoCYrAAxWQFisgKcs7LdtfDbtZVct+DctQ39bWvXEz/nmetepxUgJitATFaAmKwAMVkBYrICxGQFiMkKEJMV4C0r2xOtW0OeuNDd9dh7u5ay/D+nFSAmK0BMVoCYrAAxWQFisgLEZAWIyQoQkxUgZmX7D92Eum6hu86Jd/fa0U7gtALEZAWIyQoQkxUgJitATFaAmKwAMVkBYrICvGVl+9vWkOtWpyd68o6ePHbmr+478lU94bQCxGQFiMkKEJMVICYrQExWgJisADFZAWKyApyzsv1t29BdN78++bsz3++6x+7yGfmq1nFaAWKyAsRkBYjJChCTFSAmK0BMVoCYrAAxWQFiP9d11c/5Wu+7RfV9m+N1e9b3fYPrOK0AMVkBYrICxGQFiMkKEJMVICYrQExWgJisAJPust115+iu20x33Rp7b+a9sO+7j/bert3wd9P/sntOK0BMVoCYrAAxWQFisgLEZAWIyQoQkxUgJivApJXtuts9T3zme7uWo7s+yfv3e+LG+onP6za495xWgJisADFZAWKyAsRkBYjJChCTFSAmK0BMVoDYz3VdL1v47TLzVtGZ+84ndt1VfOKK+uMuW+AdZAWIyQoQkxUgJitATFaAmKwAMVkBYrICTFrZ7jLzJtQTV8W2sNUzr/u7n02v+QmnFSAmK0BMVoCYrAAxWQFisgLEZAWIyQoQkxUg9teTB++6y3bXnaNP/u7MJeXMBeeuHe2Jv8mZ377TChCTFSAmK0BMVoCYrAAxWQFisgLEZAWIyQow6S7bXfeVztyGvu++0l2L1Xszb2+991n2/e5aBt9zWgFisgLEZAWIyQoQkxUgJitATFaAmKwAMVkBJq1s37dKnHnX6Ylb2F0skid8Gk4rQExWgJisADFZAWKyAsRkBYjJChCTFSAmK0DsrycP3nUD67q168zV6W+7M/i3fQvv+8U6rQAxWQFisgLEZAWIyQoQkxUgJitATFaAmKwAk1a2u25+ffLM6+4cnflp7Fph7lro3pu5SX3fa3ZaAWKyAsRkBYjJChCTFSAmK0BMVoCYrAAxWQEmrWxPvINz1+2tuz6NXbvh931W9078Pa/7NJxWgJisADFZAWKyAsRkBYjJChCTFSAmK0BMVoDYz3Vdf3aYedPtzGd+3/rz3szN8S7fkTvae04rQExWgJisADFZAWKyAsRkBYjJChCTFSAmK8Cku2x33Wb6xPvWrjN3lus8+QbX3d37vqXsE04rQExWgJisADFZAWKyAsRkBYjJChCTFSAmK8Cku2xnblJ37Wjvzfy799Z9g7ue+cQ96+fA/wtOK0BMVoCYrAAxWQFisgLEZAWIyQoQkxUgJivApLts13nfCnPmYnWX993su+s7+o789p1WgJisADFZAWKyAsRkBYjJChCTFSAmK0BMVoBJK9uZt3vOvMv2xI3mule17u+u2+/uekffke/3ntMKEJMVICYrQExWgJisADFZAWKyAsRkBYjJCnDOXbbr9n+79p27nnnmMnidXd/vzF/s58BNudMKEJMVICYrQExWgJisADFZAWKyAsRkBYjJCjBpZbtr/7frrtOZe9Zd+911m9T3rYo/r/vV3XNaAWKyAsRkBYjJChCTFSAmK0BMVoCYrAAxWQFiP9d11c/5WjNvFV23dn1i5p3BM29+/bxug+u0AsRkBYjJChCTFSAmK0BMVoCYrAAxWQFisgKcc5ftiWauXd93t+suJ35H32W/yXW/HKcVICYrQExWgJisADFZAWKyAsRkBYjJChCTFWDSyvbezPXnzGXwk1c1817YJ3/33sxbgU+86faz7JN0WgFisgLEZAWIyQoQkxUgJitATFaAmKwAMVkBzlnZ7lq7rts7zlxw7trCzrxhd9dttet8H3wLuzitADFZAWKyAsRkBYjJChCTFSAmK0BMVoCYrABvWdmeaNcyeOae9d6T17zusfd2varv6759pxUgJitATFaAmKwAMVkBYrICxGQFiMkKEJMVIGZl+w/ZtaTctdFc98y7drT3ftvdzPecVoCYrAAxWQFisgLEZAWIyQoQkxUgJitATFaAt6xsZ97BOXPvuGuDO9OTz2rm+/1sWkKv+7tOK0BMVoCYrAAxWQFisgLEZAWIyQoQkxUgJivAOSvbmYvGE29RPXGRvO7bP/HW2Hvr7tC9f0fusgWOIStATFaAmKwAMVkBYrICxGQFiMkKEJMVIPZzXVf9nMCv5rQCxGQFiMkKEJMVICYrQExWgJisADFZAWKyAsRkBYjJChCTFSAmK0BMVoCYrAAxWQFisgLEZAWIyQrwp/U/WALwLQTSunMAAAAASUVORK5CYII=" alt="QR"></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
