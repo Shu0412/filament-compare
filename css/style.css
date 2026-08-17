@@ -756,3 +756,35 @@ html[data-theme="light"] .more-drawer { background:#fff; }
 
 /* ---- 鼠标光晕已停用（用户设置） ---- */
 #glowLayer, #flowLayer { display:none !important; }
+
+/* ---- 捐赠/建议 ---- */
+.donate-modal { max-width:520px; }
+.donate-head { text-align:center; margin-bottom:18px; }
+.donate-head h3 { font-size:22px; margin-bottom:6px; }
+.donate-sub { color:var(--text-dim); font-size:12.5px; margin-top:3px; }
+.donate-body h4, .donate-feedback h4 { font-size:14.5px; margin:14px 0 10px; color:var(--text-dim); }
+.donate-amounts { display:flex; flex-wrap:wrap; gap:10px; }
+.donate-amt { min-width:72px; padding:12px 14px; border-radius:12px; border:1px solid var(--border);
+  background:rgba(255,255,255,.04); color:var(--text); font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; transition:.15s; min-height:46px; }
+.donate-amt:hover { border-color:var(--primary); color:var(--primary); }
+.donate-amt.on { background:var(--primary); border-color:transparent; color:#06121f; box-shadow:0 0 22px -4px rgba(79,156,249,.6); }
+.donate-custom { display:flex; align-items:center; gap:10px; margin-top:12px; flex-wrap:wrap; }
+.donate-custom label { font-size:12.5px; color:var(--text-dim); }
+.donate-custom input { width:130px; padding:9px 12px; border-radius:9px; border:1px solid var(--border);
+  background:rgba(255,255,255,.04); color:var(--text); font-size:14px; }
+.donate-selected { margin-top:12px; font-size:14px; color:var(--accent); font-weight:700; min-height:20px; }
+.donate-qr-wrap { display:flex; align-items:center; gap:18px; margin:16px 0; background:rgba(255,255,255,.03);
+  border:1px solid var(--border); border-radius:14px; padding:16px; }
+.donate-qr-wrap .qr { width:140px; height:140px; flex-shrink:0; }
+.donate-qr-tip { font-size:13px; color:var(--text-dim); line-height:1.8; }
+.donate-tip-sm { font-size:11px; color:var(--text-faint); }
+.donate-thanks { display:none; font-size:15px; color:var(--ok); font-weight:700; text-align:center; margin-top:4px; }
+.donate-feedback { border-top:1px dashed rgba(255,255,255,.12); padding-top:14px; margin-top:16px; }
+.donate-feedback p { font-size:13px; color:var(--text-dim); margin-bottom:10px; }
+.donate-links { display:flex; gap:10px; flex-wrap:wrap; }
+.live-num { font-size:17px; color:var(--primary); font-weight:800; margin:0 2px; }
+.live-sub { color:var(--text-faint); font-size:11.5px; }
+@media (max-width:720px){
+  .donate-qr-wrap { flex-direction:column; text-align:center; }
+  .donate-qr-tip { text-align:center; }
+}
