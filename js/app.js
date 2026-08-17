@@ -784,14 +784,47 @@
       + "</div>";
     if (prices.summary) sumHtml += '<p class="price-note">📚 调研时间与数据口径等详见<a href="#" data-openmethod>数据说明 → 价格调研说明</a></p>';
     $("#priceSummary").innerHTML = sumHtml;
+    // 价格区间速览（按材料 × 品牌，有数据才显示——天然无空缺）
+    var byMat = {};
+    items.forEach(function (p) {
+      if (p.pricePerKg == null) return;
+      if (!byMat[p.material]) byMat[p.material] = [];
+      byMat[p.material].push({ brand: p.brand, kg: p.pricePerKg });
+    });
+    var matOrder = ["PLA", "PLA+", "PETG", "ABS", "ASA", "TPU 95A", "PLA-CF", "PETG-CF", "PA-CF", "ABS+", "PA"];
+    var rangeHtml = '<div class="price-ranges">';
+    matOrder.forEach(function (mat) {
+      var list = (byMat[mat] || []).slice().sort(function (a, b) { return a.kg - b.kg; });
+      if (!list.length) return;
+      var min = list[0], max = list[list.length - 1];
+      var uniq = [];
+      list.forEach(function (x) { if (!uniq.some(function (u) { return u.brand === x.brand; })) uniq.push(x); });
+      rangeHtml += '<div class="price-range-card"><div class="pr-mat">' + esc(mat) + '</div>'
+        + '<div class="pr-range">¥' + min.kg + ' – ¥' + max.kg + '<span class="pr-per">/kg</span></div>'
+        + '<div class="pr-brands">' + uniq.map(function (x) {
+          return '<span class="pr-brand' + (x === min ? " pr-low" : "") + '">' + esc(x.brand) + " ¥" + x.kg + "</span>";
+        }).join("") + "</div></div>";
+    });
+    rangeHtml += "</div>";
+    var rangeBox = document.getElementById("priceRanges");
+    if (rangeBox) rangeBox.innerHTML = rangeHtml;
+
+    // 记录时间：从 note 提取活动日期
+    function recDate(p) {
+      if (!p.note) return "";
+      var m = p.note.match(/(20\d{2})-(\d{2})-(\d{2})/);
+      return m ? m[0] : "";
+    }
     // 明细表
-    var head = "<tr><th data-pk='brand'>品牌</th><th data-pk='material'>材料</th><th data-pk='platform'>平台</th><th data-pk='listPrice'>原价 ¥</th><th data-pk='dealPrice'>到手价 ¥</th><th data-pk='pricePerKg'>每kg ¥</th><th data-pk='lowestPrice'>史低 ¥</th><th>优惠</th></tr>";
+    var head = "<tr><th data-pk='brand'>品牌</th><th data-pk='material'>材料</th><th data-pk='platform'>平台</th><th data-pk='dealPrice'>到手价 ¥</th><th data-pk='pricePerKg'>每kg ¥</th><th data-pk='listPrice'>原价 ¥</th><th data-pk='lowestPrice'>史低 ¥</th><th>记录</th><th>优惠</th></tr>";
     var body = items.map(function (p) {
+      var deal = p.dealPrice != null ? p.dealPrice : p.listPrice;
       return "<tr><td><b>" + esc(p.brand) + "</b></td><td>" + esc(p.material) + "</td><td>" + esc(p.platform) + "</td>"
-        + "<td>" + (p.listPrice != null ? p.listPrice : "—") + "</td>"
-        + "<td><b>" + (p.dealPrice != null ? p.dealPrice : "—") + "</b></td>"
+        + "<td><b>" + (p.dealPrice != null ? p.dealPrice : "<span title='官方未披露' class='na'>—</span>") + "</b></td>"
         + "<td>" + (p.pricePerKg != null ? p.pricePerKg : "—") + "</td>"
-        + "<td class='cell-best'>" + (p.lowestPrice != null ? p.lowestPrice : "—") + "</td>"
+        + "<td>" + (p.listPrice != null ? p.listPrice : "<span title='官方未披露' class='na'>—</span>") + "</td>"
+        + "<td class='cell-best'>" + (p.lowestPrice != null ? p.lowestPrice : "<span title='未记录到可靠史低' class='na'>—</span>") + "</td>"
+        + "<td>" + esc(recDate(p) || "—") + "</td>"
         + "<td>" + esc(p.discount || "—") + "</td></tr>";
     }).join("");
     $("#priceTable").innerHTML = '<table class="data-table price-table"><thead>' + head + "</thead><tbody>" + body + "</tbody></table>";
