@@ -90,12 +90,15 @@
         + '<img src="' + src + '" alt="' + label + '" loading="lazy" '
         + 'onerror="this.outerHTML=\'<span class=&quot;live-fallback&quot;>统计服务暂不可用</span>\'"></span>';
     };
+    /* 本机访问计数（localStorage，每次加载 +1） */
+    var localVisits = 0;
+    try { localVisits = parseInt(localStorage.getItem("fd-visits") || "0", 10) + 1; localStorage.setItem("fd-visits", String(localVisits)); } catch (e) { /* ignore */ }
     el.innerHTML = '<div class="live-stats-inner">'
-      + badge("shu0412-filament-lab", "📈 累计访问")
+      + badge("shu0412-filament-lab", "🧡 已帮助")
       + '<span class="live-divider" style="width:1px;height:20px;background:var(--border)"></span>'
-      + badge("shu0412-filament-lab-helpers", "🧡 已帮助")
+      + '<span class="live-stat"><span class="live-label">📈 本机浏览</span><b class="live-num">' + localVisits + '</b><span class="live-sub">次</span></span>'
       + "</div>"
-      + '<p class="live-note">实时统计 · 唯一访客计数 · 由第三方计数服务提供 · 加载失败时自动隐藏</p>';
+      + '<p class="live-note">已帮助 = 独立访客数（同 IP 只计一次）· 本机浏览 = 当前设备累计打开次数 · 由第三方计数服务提供</p>';
   }
 
   /* ---------- 分区卡片 ---------- */
@@ -1057,6 +1060,45 @@
     }, { passive: true });
     var scrollT = null;
     bt.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
+    /* ---------- 捐赠/建议 ---------- */
+    var donateAmt = null;
+    function openDonate() { $("#donateModal").style.display = "flex"; document.body.style.overflow = "hidden"; }
+    function closeDonate() { $("#donateModal").style.display = "none"; document.body.style.overflow = ""; }
+    $all("[data-opendonate]").forEach(function (b) { b.addEventListener("click", openDonate); });
+    $("#donateClose").addEventListener("click", closeDonate);
+    $("#donateModal").addEventListener("click", function (e) { if (e.target === this) closeDonate(); });
+    var sel = $("#donateSelected");
+    function showSel() {
+      if (donateAmt == null) sel.textContent = "请选择或输入金额";
+      else sel.textContent = "💖 感谢您的支持！请扫码转账 ¥" + donateAmt;
+      $("#donateThanks").style.display = donateAmt == null ? "none" : "block";
+    }
+    $all(".donate-amt").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        $all(".donate-amt").forEach(function (b) { b.classList.remove("on"); });
+        if (btn.getAttribute("data-amt") === "custom") {
+          $("#donateCustom").style.display = "block";
+          donateAmt = null; showSel();
+          return;
+        }
+        btn.classList.add("on");
+        $("#donateCustom").style.display = "none";
+        donateAmt = parseFloat(btn.getAttribute("data-amt"));
+        showSel();
+      });
+    });
+    $("#donateConfirm").addEventListener("click", function () {
+      var v = parseFloat($("#donateInput").value);
+      if (isNaN(v) || v < 0.01 || v > 9999) {
+        sel.textContent = "⚠️ 金额需在 0.01 – 9999 元之间";
+        return;
+      }
+      donateAmt = Math.round(v * 100) / 100;
+      $all(".donate-amt").forEach(function (b) { b.classList.remove("on"); });
+      $("#donateCustom").style.display = "none";
+      showSel();
+    });
+
     /* 弹窗关闭 */
     $("#matModalClose").addEventListener("click", closeModal);
     $("#matModal").addEventListener("click", function (e) { if (e.target === this) closeModal(); });
