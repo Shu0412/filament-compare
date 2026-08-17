@@ -938,7 +938,11 @@
     var bt = $("#backTop");
     window.addEventListener("scroll", function () {
       bt.style.display = window.scrollY > 600 ? "block" : "none";
+      document.body.classList.add("scrolling");
+      clearTimeout(scrollT);
+      scrollT = setTimeout(function () { document.body.classList.remove("scrolling"); }, 150);
     }, { passive: true });
+    var scrollT = null;
     bt.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
     /* 弹窗关闭 */
     $("#matModalClose").addEventListener("click", closeModal);
@@ -975,17 +979,23 @@
     /* ---------- 液态光影：lerp 平滑跟随（流体滞后感）+ 卡片局部光 ---------- */
     var tx = window.innerWidth / 2, ty = window.innerHeight / 3;
     var cx = tx, cy = ty;
-    var hasMouse = false;
-    function onMove(e) { tx = e.clientX; ty = e.clientY; hasMouse = true; }
+    var lerpRunning = false, lerpPending = false;
+    function startLerp() { if (!lerpRunning) { lerpRunning = true; requestAnimationFrame(tick); } }
+    function onMove(e) { tx = e.clientX; ty = e.clientY; lerpPending = true; startLerp(); }
     document.addEventListener("mousemove", onMove, { passive: true });
     function tick() {
       cx += (tx - cx) * 0.16;
       cy += (ty - cy) * 0.16;
       document.documentElement.style.setProperty("--mx", cx + "px");
       document.documentElement.style.setProperty("--my", cy + "px");
-      requestAnimationFrame(tick);
+      if (Math.abs(tx - cx) > 0.5 || Math.abs(ty - cy) > 0.5 || lerpPending) {
+        lerpPending = false;
+        requestAnimationFrame(tick);
+      } else {
+        lerpRunning = false; /* 已收敛：暂停 rAF，鼠标再动才恢复 */
+      }
     }
-    requestAnimationFrame(tick);
+    startLerp();
     /* 卡片局部光（事件委托，直接量坐标） */
     document.addEventListener("mousemove", function (e) {
       var t = e.target;
