@@ -283,6 +283,59 @@
     document.body.style.overflow = "";
   }
 
+  /* ---------- 性能散点图（HDT × 打印温度 × 抗冲击） ---------- */
+  function renderScatter() {
+    var el = $("#scatterChart");
+    if (!el) return;
+    var W = 860, H = 520, ml = 64, mr = 24, mt = 26, mb = 48;
+    var pw = W - ml - mr, ph = H - mt - mb;
+    var X = function (v) { return ml + (v / 280) * pw; };
+    var Y = function (v) { return mt + ph - (v / 460) * ph; };
+    var mats = allMaterials().filter(function (m) { return mid(m.hdt) != null && mid(m.printTemp) != null; });
+    var svg = '<svg viewBox="0 0 ' + W + " " + H + '" role="img" aria-label="性能散点图">';
+    for (var gx = 0; gx <= 280; gx += 70) {
+      svg += '<line x1="' + X(gx) + '" y1="' + mt + '" x2="' + X(gx) + '" y2="' + (mt + ph) + '" stroke="rgba(255,255,255,.06)"/>';
+      svg += '<text x="' + X(gx) + '" y="' + (mt + ph + 22) + '" text-anchor="middle" font-size="11.5" fill="#6b7a8f">' + gx + "°</text>";
+    }
+    for (var gy = 0; gy <= 460; gy += 100) {
+      svg += '<line x1="' + ml + '" y1="' + Y(gy) + '" x2="' + (ml + pw) + '" y2="' + Y(gy) + '" stroke="rgba(255,255,255,.06)"/>';
+      svg += '<text x="' + (ml - 8) + '" y="' + (Y(gy) + 4) + '" text-anchor="end" font-size="11.5" fill="#6b7a8f">' + gy + "°</text>";
+    }
+    svg += '<text x="' + (ml + pw / 2) + '" y="' + (H - 10) + '" text-anchor="middle" font-size="13" fill="#9aa7b8">热变形温度 HDT（℃）→ 耐热性</text>';
+    svg += '<text x="16" y="' + (mt + ph / 2) + '" text-anchor="middle" font-size="13" fill="#9aa7b8" transform="rotate(-90 16 ' + (mt + ph / 2) + ')">打印温度（℃）→ 机器门槛</text>';
+    svg += '<line x1="' + X(100) + '" y1="' + mt + '" x2="' + X(100) + '" y2="' + (mt + ph) + '" stroke="rgba(249,165,79,.28)" stroke-dasharray="5 5"/>';
+    svg += '<line x1="' + ml + '" y1="' + Y(250) + '" x2="' + (ml + pw) + '" y2="' + Y(250) + '" stroke="rgba(249,165,79,.28)" stroke-dasharray="5 5"/>';
+    mats.forEach(function (m) {
+      var x = X(mid(m.hdt)), y = Y(mid(m.printTemp));
+      var imp = mid(m.impact);
+      var r = Math.min(15, 5 + Math.sqrt(imp == null ? 0 : imp) * 1.7);
+      var c = m._zone.id === "standard" ? "#4f9cf9" : "#f9a54f";
+      var tip = esc(m.nameCn + "（" + m.nameEn + "）\nHDT " + rng(m.hdt, "℃") + " · 打印 " + rng(m.printTemp, "℃") + "\n冲击 " + (m.impact ? rng(m.impact, m.impactUnit) : "—") + " · 难度 " + m.difficulty + "/5");
+      svg += '<circle class="scatter-dot" cx="' + x + '" cy="' + y + '" r="' + r + '" fill="' + c + '" fill-opacity=".55" stroke="' + c + '" stroke-width="1.6" data-name="' + esc(m.nameCn) + '" data-info="' + tip + '"/>';
+    });
+    svg += "</svg>";
+    el.innerHTML = svg;
+    $("#scatterLegend").innerHTML =
+      '<span><i style="background:#4f9cf9"></i>常规耗材</span>'
+      + '<span><i style="background:#f9a54f"></i>工程耗材</span>'
+      + '<span><i style="display:inline-block;width:10px;height:10px;border-radius:50%;border:2px solid #9aa7b8;background:transparent"></i>气泡大小=抗冲击</span>';
+    var tipEl = document.createElement("div");
+    tipEl.className = "scatter-tip";
+    el.appendChild(tipEl);
+    $all(".scatter-dot", el).forEach(function (dot) {
+      dot.addEventListener("mouseenter", function () {
+        tipEl.innerHTML = '<b>' + dot.getAttribute("data-name") + "</b><br>" + dot.getAttribute("data-info").split("\n").slice(1).join("<br>");
+        tipEl.style.opacity = "1";
+      });
+      dot.addEventListener("mousemove", function (e) {
+        var r = el.getBoundingClientRect();
+        tipEl.style.left = (e.clientX - r.left + 16) + "px";
+        tipEl.style.top = (e.clientY - r.top - 8) + "px";
+      });
+      dot.addEventListener("mouseleave", function () { tipEl.style.opacity = "0"; });
+    });
+  }
+
   /* ---------- 对比工具 ---------- */
   var cmpState = { mats: [], metrics: ["tensile"] };
 
@@ -407,11 +460,25 @@
       var c = m.color || PALETTE[mi % PALETTE.length];
       svg += '<polygon points="' + pts.join(" ") + '" fill="' + escRgba(c) + '.22" stroke="' + c + '" stroke-width="2" stroke-linejoin="round"/>';
     });
+    if (mats.length > 1) {
+      var avgPts = [];
+      for (var a = 0; a < N; a++) {
+        var sum = 0, cnt = 0;
+        mats.forEach(function (m) {
+          var v = radarValue(m, RADAR_AXES[a]);
+          if (v > 0.001) { sum += v; cnt++; }
+        });
+        var avg = cnt ? sum / cnt : 0;
+        avgPts.push(pt(a, R * avg).join(","));
+      }
+      svg += '<polygon points="' + avgPts.join(" ") + '" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.4" stroke-dasharray="6 4"/>';
+    }
     svg += "</svg>";
     var legend = mats.map(function (m, mi) {
       var c = m.color || PALETTE[mi % PALETTE.length];
       return '<span><i style="background:' + c + '"></i>' + esc(m.nameCn) + "</span>";
     }).join("");
+    legend += '<span style="opacity:.75"><i style="background:transparent;border:1.5px dashed rgba(255,255,255,.55);width:12px;height:0"></i>选中材料平均值</span>';
     box.innerHTML = svg + '<div class="chart-legend">' + legend + "</div>";
   }
 
@@ -582,6 +649,40 @@
     });
   }
 
+  /* ---------- 品牌 × 材料族 覆盖矩阵 ---------- */
+  var FAMILY_KEYWORDS = [
+    { family: "PLA系", re: /PLA/i },
+    { family: "PET系", re: /PETG|\bPET\b|rPET/i },
+    { family: "ABS/ASA", re: /\bABS\b|\bASA\b|eABS/i },
+    { family: "柔性", re: /\bTPU\b|\bTPE\b|PEBA|\bOBC\b|Flex|柔性|eTPU|eFlex|Elastic/i },
+    { family: "支撑/精饰", re: /\bPVA\b|BVOH|\bHIPS\b|\bPVB\b|Support|Dissolve/i },
+    { family: "烯烃", re: /\bPP\b/i },
+    { family: "PC", re: /\bPC\b|PC-|聚碳酸酯|ePC/i },
+    { family: "尼龙PA", re: /PA\d|PA-|Nylon|尼龙|PAHT|ePA/i },
+    { family: "POM", re: /\bPOM\b|Acetal|赛钢/i },
+    { family: "PBT", re: /\bPBT\b/i },
+    { family: "高温PPS", re: /\bPPS\b/i },
+    { family: "高温PSU", re: /\bPSU\b|PPSU/i },
+    { family: "高温PEEK/PEKK", re: /\bPEEK\b|\bPEKK\b/i },
+    { family: "PVDF", re: /\bPVDF\b/i },
+    { family: "PPA", re: /\bPPA\b/i }
+  ];
+  function renderBrandMatrix() {
+    var el = $("#brandMatrix");
+    if (!el) return;
+    var fams = FAMILY_KEYWORDS.map(function (f) { return f.family; });
+    var head = "<tr><th>品牌</th>" + fams.map(function (f) { return '<th class="mx-col">' + f + "</th>"; }).join("") + "</tr>";
+    var rows = DATA.brands.map(function (b) {
+      var joined = b.materials.join(" ");
+      var cells = FAMILY_KEYWORDS.map(function (fk) {
+        var hit = fk.re.test(joined);
+        return '<td class="mx-cell' + (hit ? " mx-hit" : "") + '">' + (hit ? "✓" : "·") + "</td>";
+      }).join("");
+      return '<tr class="mx-row"><td class="mx-brand"><a href="' + esc(b.url) + '" target="_blank" rel="noopener">' + esc(b.nameCn) + "</a></td>" + cells + "</tr>";
+    }).join("");
+    el.innerHTML = '<table class="data-table matrix-table"><thead>' + head + "</thead><tbody>" + rows + "</tbody></table>";
+  }
+
   /* ---------- 品牌专区 ---------- */
   function renderBrands() {
     var html = DATA.brands.map(function (b) {
@@ -654,6 +755,7 @@
       if (!cmpState.metrics.length) cmpState.metrics = [METRICS[0].key];
     }
     renderHero();
+    renderScatter();
     renderZones();
     DATA.zones.forEach(function (z) { renderFilterBar(z); bindFilterEvents(z); });
     renderMaterials();
@@ -662,20 +764,35 @@
     renderCompareCharts();
     renderTable();
     renderBrands();
+    renderBrandMatrix();
     renderSafety();
     renderMethod();
-    /* 主题切换 */
+    /* 主题切换：手动选择优先，否则跟随系统 */
     var tt = $("#themeToggle");
-    function applyTheme(t2) {
+    var manualTheme = null;
+    function applyTheme(t2, save) {
       document.documentElement.setAttribute("data-theme", t2);
       tt.textContent = t2 === "light" ? "🌙" : "☀️";
-      try { localStorage.setItem("fd-theme", t2); } catch (e) { /* ignore */ }
+      if (save !== false) { try { localStorage.setItem("fd-theme", t2); } catch (e) { /* ignore */ } }
     }
     var saved = null;
     try { saved = localStorage.getItem("fd-theme"); } catch (e) { /* ignore */ }
-    applyTheme(saved === "light" ? "light" : "dark");
+    if (saved === "light" || saved === "dark") {
+      manualTheme = saved;
+      applyTheme(saved);
+    } else {
+      var sysLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+      applyTheme(sysLight ? "light" : "dark", false);
+      if (window.matchMedia) {
+        window.matchMedia("(prefers-color-scheme: light)").addEventListener("change", function (e) {
+          if (!manualTheme) applyTheme(e.matches ? "light" : "dark", false);
+        });
+      }
+    }
     tt.addEventListener("click", function () {
-      applyTheme(document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light");
+      var cur = document.documentElement.getAttribute("data-theme") === "light" ? "dark" : "light";
+      manualTheme = cur;
+      applyTheme(cur);
     });
     /* 回到顶部 */
     var bt = $("#backTop");
