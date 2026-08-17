@@ -26,6 +26,7 @@
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; scroll-padding-top:72px; }
+html, body { max-width:100%; overflow-x:hidden; }
 body { background:var(--bg); color:var(--text); font-family:var(--font); line-height:1.65; font-size:15px; }
 a { color:var(--primary); text-decoration:none; }
 a:hover { text-decoration:underline; }
@@ -197,7 +198,8 @@ tr.safety-open .safety-row-detail { display:block; }
 .method-card-wide { grid-column:1/-1; }
 .method-card h3 { font-size:16px; margin-bottom:12px; color:var(--primary-2); }
 .method-card ul { padding-left:18px; color:var(--text-dim); font-size:13.5px; }
-.method-card li { margin-bottom:8px; }
+.method-card li { margin-bottom:8px; overflow-wrap:anywhere; }
+.method-card li a { word-break:break-all; }
 .correction { border-left:3px solid var(--warn); background:rgba(242,201,76,.06); padding:10px 14px; border-radius:0 8px 8px 0; margin-bottom:10px; font-size:13px; color:var(--text-dim); }
 .correction b { color:var(--warn); }
 .correction .corr-fix { color:var(--ok); }
@@ -228,6 +230,57 @@ tr.safety-open .safety-row-detail { display:block; }
   .hero { padding:52px 0 44px; }
   .mat-grid { grid-template-columns:1fr; }
   .hero-stats { gap:22px; }
+}
+@media (max-width:720px){
+  /* 手机端整体收紧 */
+  body { font-size:14px; }
+  .section { padding:42px 0; }
+  .container { padding:0 14px; }
+  .sec-title { font-size:22px; }
+  .hero-badge { font-size:11px; padding:4px 10px; }
+  .hero h1 { font-size:27px; }
+  .hero-sub { font-size:14px; }
+  .hstat b { font-size:24px; }
+  .hstat span { font-size:11px; }
+  .hero-stats { gap:16px 20px; }
+  .live-stats-inner { padding:10px 14px; gap:10px 16px; flex-direction:column; }
+  .live-stat { font-size:13px; }
+  .zone-card, .dim-card, .mat-card { padding:18px; }
+  .mat-kv { grid-template-columns:1fr 1fr; gap:7px 10px; }
+  .filter-bar { padding:12px; }
+  .filter-search { min-width:150px; }
+  .guide-card { padding:15px; }
+  .compare-panel { padding:16px; }
+  .chips { max-height:220px; }
+  .chart-box { min-height:260px; }
+  .bar-row .bar-label { width:84px; font-size:11px; }
+  .bar-row .bar-val { width:56px; font-size:11px; }
+  .table-wrap, .chart-wrap { padding:14px; }
+  table.data-table { font-size:11.5px; }
+  .brand-grid { grid-template-columns:1fr; }
+  .brand-card { padding:18px; }
+  .modal { padding:20px 18px; }
+  .modal-head h3 { font-size:18px; }
+  .modal-table { font-size:12.5px; }
+  .method-card { padding:18px; }
+  .scatter-chart svg { max-width:100%; }
+  .scatter-tip { font-size:11px; padding:6px 9px; }
+  .safety-tips { padding:16px; }
+  .footer-credit, .footer-note { font-size:12px; }
+  .back-top { right:16px; bottom:20px; width:40px; height:40px; }
+  .guide-mats { flex-direction:column; }
+  .guide-mat { width:100%; }
+  .hero-actions .btn { padding:10px 18px; font-size:13.5px; }
+  .hero::before { width:520px; height:340px; top:-140px; }
+}
+/* 触屏设备：去掉悬停特效卡顿、点击即显示 */
+@media (hover:none){
+  .mat-card:hover { transform:none; box-shadow:none; }
+  .mat-card:hover::before { height:3px; opacity:.85; }
+  .mat-card::after, .brand-card::after { display:none; }
+  .zone-card:hover, .dim-card:hover, .brand-card:hover, .guide-card:hover { transform:none; }
+  .btn-primary::after { display:none; }
+  .back-top { display:block; }
 }
 
 /* ===== 主题切换 ===== */
@@ -317,7 +370,7 @@ td.cell-best { color:var(--accent); font-weight:700; }
 html[data-theme="light"] #glowLayer { mix-blend-mode:multiply; opacity:.35; }
 
 /* ---- hero 呼吸光晕 + 光点（柔和版） ---- */
-.hero { position:relative; }
+.hero { position:relative; overflow:hidden; }
 .hero::before { content:""; position:absolute; left:50%; top:-180px; width:680px; height:420px; transform:translateX(-50%);
   background:radial-gradient(closest-side, rgba(79,156,249,.09), transparent 70%);
   animation:heroBreath 9s ease-in-out infinite; pointer-events:none; }
