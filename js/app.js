@@ -565,7 +565,7 @@
     { id: "strong", icon: "🦾", title: "高强度结构件", desc: "无人机、机械臂、承力支架", rec: ["pa-cf", "pa12-cf", "pet-cf", "ppa-cf", "peek"], reason: "碳纤增强尼龙（PA6-CF 拉伸 100-130 MPa）是性价比首选；要求耐热+强度兼顾选 PPS-CF/PPA-CF；不计成本上 PEEK。" },
     { id: "support", icon: "🧊", title: "水溶支撑", desc: "复杂悬空结构、多材料打印", rec: ["pva", "bvoh"], reason: "PVA 通用性最广；BVOH 与更多材料兼容、溶解更快但更贵。两者都极吸湿，需密封干燥保存。" },
     { id: "food", icon: "🍽️", title: "食品接触", desc: "餐具、容器（注意打印层间卫生）", rec: ["petg", "pp", "pet"], reason: "PETG/PP/PET 树脂本身可用于食品接触；PP 耐高温可微波（需确认牌号），但 3D 打印件层间缝隙易藏菌，建议短时接触+密封涂层。" },
-    { id: "speed", icon: "🏎️", title: "高速打印", desc: "快速打样、量产原型", rec: ["pla-plus", "petg", "petg-cf"], reason: "PLA+ 高速表现最好且稳定；PETG 可选高速版（如拓竹 PETG HF）；追求高速+刚度选 PETG-CF。" }
+    { id: "speed", icon: "🏎️", title: "高速打印", desc: "快速打样、量产原型", rec: ["pla-plus", "petg"], reason: "PLA+ 高速表现最好且稳定；PETG 可选高速版（如拓竹 PETG HF）。注意：含碳纤/玻纤的 PETG-CF/GF 流动性差，不支持高速打印。" }
   ];
   var activeScene = null;
   function renderGuide() {
@@ -732,6 +732,85 @@
     el.innerHTML = '<table class="data-table matrix-table"><thead>' + head + "</thead><tbody>" + rows + "</tbody></table>";
   }
 
+  /* ---------- 价格情报 ---------- */
+  var priceState = { platform: "" };
+  function renderPrices() {
+    var prices = DATA.meta.prices;
+    var el = $("#priceTable");
+    if (!el || !prices || !prices.items || !prices.items.length) return;
+    var items = prices.items.filter(function (p) {
+      return !priceState.platform || p.platform.indexOf(priceState.platform) >= 0;
+    });
+    // 筛选条
+    var plats = [];
+    prices.items.forEach(function (p) { if (plats.indexOf(p.platform) < 0) plats.push(p.platform); });
+    var fhtml = '<div class="filter-row"><span class="filter-label">平台</span>'
+      + '<label class="chip fchip' + (!priceState.platform ? " on" : "") + '"><input type="radio" name="pf" data-pf=""' + (!priceState.platform ? " checked" : "") + '>全部</label>'
+      + plats.map(function (pl) {
+        return '<label class="chip fchip' + (priceState.platform === pl ? " on" : "") + '"><input type="radio" name="pf" data-pf="' + esc(pl) + '"' + (priceState.platform === pl ? " checked" : "") + ">" + esc(pl) + "</label>";
+      }).join("")
+      + "</div>";
+    $("#priceFilter").innerHTML = fhtml;
+    $all("#priceFilter input[name=pf]").forEach(function (inp) {
+      inp.addEventListener("change", function () {
+        priceState.platform = inp.getAttribute("data-pf");
+        renderPrices();
+      });
+    });
+    // 性价比排行：按品牌聚合每kg均价
+    var byBrand = {};
+    prices.items.forEach(function (p) {
+      if (p.pricePerKg == null) return;
+      if (!byBrand[p.brand]) byBrand[p.brand] = { sum: 0, n: 0, min: Infinity };
+      byBrand[p.brand].sum += p.pricePerKg;
+      byBrand[p.brand].n++;
+      byBrand[p.brand].min = Math.min(byBrand[p.brand].min, p.pricePerKg);
+    });
+    var ranked = Object.keys(byBrand).map(function (b) {
+      return { brand: b, avg: Math.round(byBrand[b].sum / byBrand[b].n), min: Math.round(byBrand[b].min), n: byBrand[b].n };
+    }).sort(function (a, b2) { return a.avg - b2.avg; });
+    var sumHtml = '<div class="price-sum-title">🏆 性价比品牌排行（按已收录品类每公斤均价，仅统计≥2 个品类样本）</div><div class="price-rank">'
+      + ranked.filter(function (r) { return r.n >= 2; }).slice(0, 5).map(function (r, i) {
+        return '<div class="price-rank-item"><span class="rank-no">' + (i + 1) + "</span><b>" + esc(r.brand) + "</b><span class='rank-min'>史低 ¥" + r.min + "/kg</span><span class='rank-avg'>均价 ¥" + r.avg + "/kg</span></div>";
+      }).join("")
+      + "</div>";
+    if (prices.summary) sumHtml += '<p class="price-note">💡 ' + esc(prices.summary) + "</p>";
+    $("#priceSummary").innerHTML = sumHtml;
+    // 明细表
+    var head = "<tr><th data-pk='brand'>品牌</th><th data-pk='material'>材料</th><th data-pk='platform'>平台</th><th data-pk='listPrice'>原价 ¥</th><th data-pk='dealPrice'>到手价 ¥</th><th data-pk='pricePerKg'>每kg ¥</th><th data-pk='lowestPrice'>史低 ¥</th><th>优惠</th></tr>";
+    var body = items.map(function (p) {
+      return "<tr><td><b>" + esc(p.brand) + "</b></td><td>" + esc(p.material) + "</td><td>" + esc(p.platform) + "</td>"
+        + "<td>" + (p.listPrice != null ? p.listPrice : "—") + "</td>"
+        + "<td><b>" + (p.dealPrice != null ? p.dealPrice : "—") + "</b></td>"
+        + "<td>" + (p.pricePerKg != null ? p.pricePerKg : "—") + "</td>"
+        + "<td class='cell-best'>" + (p.lowestPrice != null ? p.lowestPrice : "—") + "</td>"
+        + "<td>" + esc(p.discount || "—") + "</td></tr>";
+    }).join("");
+    $("#priceTable").innerHTML = '<table class="data-table price-table"><thead>' + head + "</thead><tbody>" + body + "</tbody></table>";
+    /* 排序：数值列按数值、文本列按拼音/字符 */
+    var pk = null, dir = 1;
+    $all("#priceTable th[data-pk]").forEach(function (th) {
+      th.addEventListener("click", function () {
+        var k = th.getAttribute("data-pk");
+        if (pk === k) dir *= -1; else { pk = k; dir = 1; }
+        var tbody = $("#priceTable tbody");
+        var rows = Array.prototype.slice.call(tbody.rows);
+        var numCols = ["listPrice", "dealPrice", "pricePerKg", "lowestPrice"];
+        rows.sort(function (a, b2) {
+          var av = a.cells[Array.prototype.indexOf.call(th.parentNode.cells, th)].textContent.trim();
+          var bv = b2.cells[Array.prototype.indexOf.call(th.parentNode.cells, th)].textContent.trim();
+          var an = numCols.indexOf(k) >= 0 ? parseFloat(av) : av;
+          var bn = numCols.indexOf(k) >= 0 ? parseFloat(bv) : bv;
+          if (isNaN(an)) an = -1; if (isNaN(bn)) bn = -1;
+          if (an < bn) return -1 * dir;
+          if (an > bn) return 1 * dir;
+          return 0;
+        });
+        rows.forEach(function (r) { tbody.appendChild(r); });
+      });
+    });
+  }
+
   /* ---------- 品牌专区 ---------- */
   function renderBrands() {
     var html = DATA.brands.map(function (b) {
@@ -815,6 +894,7 @@
     renderTable();
     renderBrands();
     renderBrandMatrix();
+    renderPrices();
     renderSafety();
     renderMethod();
     /* 主题切换：手动选择优先，否则跟随系统 */
