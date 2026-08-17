@@ -378,19 +378,22 @@ td.cell-best { color:var(--accent); font-weight:700; }
 @keyframes blobC { from{transform:translate(0,0) scale(.95);} to{transform:translate(90px,-110px) scale(1.15);} }
 html[data-theme="light"] #aurora .blob { mix-blend-mode:multiply; opacity:.55; }
 
-/* 主光晕：96px 小层 + transform 跟随（走合成器，不触发重绘） */
-#glowLayer { position:fixed; left:0; top:0; width:96px; height:96px; margin:-48px 0 0 -48px; pointer-events:none; z-index:2; mix-blend-mode:screen; opacity:.9;
+/* 鼠标跟随柔光：只移动合成层，不在每帧读取布局或执行模糊。 */
+#glowLayer, #flowLayer { position:fixed; left:0; top:0; pointer-events:none; z-index:0; contain:layout paint; will-change:transform; }
+#glowLayer { width:360px; height:360px; margin:-180px 0 0 -180px; mix-blend-mode:screen; opacity:.82;
   background:
-    radial-gradient(42px circle, rgba(110,175,255,.24), transparent 66%),
-    radial-gradient(26px circle, rgba(175,220,255,.15), transparent 68%);
-  transform:translate(var(--mx,50vw), var(--my,40vh)); will-change:transform; }
-html[data-theme="light"] #glowLayer { mix-blend-mode:multiply; opacity:.4; }
+    radial-gradient(circle at 42% 40%, rgba(192,224,255,.22) 0%, rgba(110,175,255,.13) 24%, rgba(79,156,249,.055) 48%, transparent 73%),
+    radial-gradient(circle at 67% 62%, rgba(255,255,255,.08) 0%, transparent 42%);
+  transform:translate3d(var(--mx,50vw), var(--my,40vh), 0); }
+html[data-theme="light"] #glowLayer { mix-blend-mode:multiply; opacity:.42; }
 
-/* 辅助微光：48px 小层，transform 跟随 */
-#flowLayer { position:fixed; left:0; top:0; width:48px; height:48px; margin:-24px 0 0 -24px; pointer-events:none; z-index:2; mix-blend-mode:screen; opacity:.7;
-  background:radial-gradient(24px circle, rgba(110,235,200,.13), transparent 72%);
-  transform:translate(var(--mx,50vw), var(--my,40vh)); will-change:transform; }
-html[data-theme="light"] #flowLayer { mix-blend-mode:multiply; opacity:.35; }
+/* 辅助大面积流体光：更慢、更淡，制造有延迟的深浅层次。 */
+#flowLayer { width:680px; height:680px; margin:-340px 0 0 -340px; mix-blend-mode:screen; opacity:.48;
+  background:
+    radial-gradient(circle at 38% 38%, rgba(126,191,255,.12) 0%, rgba(79,156,249,.055) 34%, transparent 70%),
+    radial-gradient(circle at 66% 66%, rgba(125,232,208,.075) 0%, rgba(125,232,208,.025) 28%, transparent 68%);
+  transform:translate3d(var(--fx,50vw), var(--fy,40vh), 0); }
+html[data-theme="light"] #flowLayer { mix-blend-mode:multiply; opacity:.22; }
 
 /* 极光层之上的内容容器 */
 main { position:relative; z-index:1; }
@@ -558,7 +561,7 @@ html[data-theme="light"] table.data-table th { background:rgba(233,238,245,.75);
 /* 减少动态偏好 */
 @media (prefers-reduced-motion: reduce){
   #aurora .blob, #flowLayer, #glowLayer { animation:none !important; }
-  #flowLayer { opacity:.3; }
+  #glowLayer, #flowLayer { display:none; }
 }
 
 /* ---- 性能兜底：保留玻璃层级，但降低重复模糊与合成压力 ---- */
@@ -784,9 +787,6 @@ body.scrolling .app-card { backdrop-filter:none !important; }
 }
 html[data-theme="light"] .mobile-tabbar { background:rgba(248,250,253,.94); }
 html[data-theme="light"] .more-drawer { background:#fff; }
-
-/* ---- 鼠标光晕已停用（用户设置） ---- */
-#glowLayer, #flowLayer { display:none !important; }
 
 /* ---- 捐赠/建议 ---- */
 .donate-modal { max-width:520px; }
