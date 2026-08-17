@@ -83,14 +83,7 @@
   function renderLiveStats() {
     var el = $("#liveStats");
     if (!el) return;
-    var now = new Date();
-    var today = now.getFullYear() + "-" + ("0" + (now.getMonth() + 1)).slice(-2) + "-" + ("0" + now.getDate()).slice(-2);
-    var countedToday = false;
-    try {
-      countedToday = localStorage.getItem("fd-counter-day") === today;
-      /* 先写入当天锁，避免同一设备快速开多个标签重复请求计数器。 */
-      if (!countedToday) localStorage.setItem("fd-counter-day", today);
-    } catch (e) { /* 隐私模式或存储受限时，退化为正常计数请求 */ }
+    /* 每次访问都请求计数器：随时展示"已帮助"实时人次（服务端按独立 IP 去重） */
     var badge = function (pageId, label) {
       var src = "https://visitor-badge.laobi.icu/badge?page_id=" + pageId
         + "&labelColor=1b2434&color=4f9cf9";
@@ -98,9 +91,7 @@
         + '<img src="' + src + '" alt="' + label + '" loading="lazy" decoding="async" '
         + 'onerror="this.outerHTML=\'<span class=&quot;live-fallback&quot;>统计服务暂不可用</span>\'"></span>';
     };
-    var helpStat = countedToday
-      ? '<span class="live-stat"><span class="live-label">🧡 今日已记录</span><span class="live-sub">同一设备当天不重复计数</span></span>'
-      : badge("shu0412-filament-lab", "🧡 已帮助");
+    var helpStat = badge("shu0412-filament-lab", "🧡 已帮助");
     /* 本机访问计数（localStorage，每次加载 +1） */
     var localVisits = 0;
     try { localVisits = parseInt(localStorage.getItem("fd-visits") || "0", 10) + 1; localStorage.setItem("fd-visits", String(localVisits)); } catch (e) { /* ignore */ }
@@ -110,7 +101,7 @@
       + '<span class="live-divider" style="width:1px;height:20px;background:var(--border)"></span>'
       + '<span class="live-stat"><span class="live-label">📈 本机浏览</span><b class="live-num">' + localVisits + '</b><span class="live-sub">次</span></span>'
       + "</div>"
-      + '<p class="live-note">已帮助 = 同一设备每天最多请求一次第三方计数器（服务端可能继续按 IP 去重）· 本机浏览 = 当前设备累计打开次数</p>';
+      + '<p class="live-note">已帮助 = 独立访客人次（同 IP 只计一次）· 本机浏览 = 当前设备累计打开次数 · 由第三方计数服务提供</p>';
   }
 
   /* ---------- 分区卡片 ---------- */
