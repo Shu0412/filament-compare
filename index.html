@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>主流 3D 打印耗材对比库 · Filament DB</title>
+<meta name="description" content="主流3D打印耗材可视化对比：PLA、PETG、ABS、ASA、TPU、PA、PEEK 等全部主流耗材的物理性能、打印便利性、安全性数据，覆盖拓竹、Kexcelled、三绿、Polymaker、eSUN 等主流品牌。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header" id="top">
+  <div class="container header-inner">
+    <a class="brand" href="#top">
+      <span class="brand-logo">🧵</span>
+      <span class="brand-text">耗材对比库<small>FILAMENT DB</small></span>
+    </a>
+    <nav class="nav" id="nav">
+      <a href="#overview">总览</a>
+      <a href="#zone-standard">常规耗材</a>
+      <a href="#zone-engineering">工程耗材</a>
+      <a href="#guide">选材向导</a>
+      <a href="#compare">数据对比</a>
+      <a href="#brands">品牌专区</a>
+      <a href="#safety">安全指南</a>
+      <a href="#method">数据说明</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="菜单">☰</button>
+    <div class="header-tools">
+      <button class="theme-toggle" id="themeToggle" title="切换主题" aria-label="切换主题">🌙</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">数据驱动 · 多源交叉验证 · 持续矫正</div>
+      <h1>主流 3D 打印耗材<span class="grad">可视化对比库</span></h1>
+      <p class="hero-sub">覆盖全部主流耗材种类 · 物理性能 / 打印便利性 / 安全性三大维度<br>常规耗材与工程耗材分区呈现，主流品牌（拓竹 · Kexcelled · 三绿 · Polymaker · eSUN）一网打尽</p>
+      <div class="hero-stats" id="heroStats"><!-- JS 填充 --></div>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#compare">开始对比 ⚡</a>
+        <a class="btn btn-ghost" href="#method">查看数据口径</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 总览 -->
+  <section class="section" id="overview">
+    <div class="container">
+      <h2 class="sec-title">📊 总览</h2>
+      <p class="sec-desc">对比库把耗材划分为<strong>常规耗材</strong>（入门友好、普及度高）与<strong>工程耗材</strong>（性能优先、打印门槛高）两大分区，从<em>物理性能</em>、<em>打印便利性</em>、<em>安全性</em>三个维度给出可量化的客观数据。所有数值均取自厂商官方 TDS 与权威第三方测试的典型区间，详见<a href="#method">数据说明</a>。</p>
+      <div class="zone-cards" id="zoneCards"><!-- JS 填充 --></div>
+      <div class="dim-grid">
+        <div class="dim-card"><h3>🧪 物理性能</h3><p>玻璃化/熔化温度、热变形温度、拉伸/弯曲强度、抗冲击、断裂伸长率、密度、吸湿性。</p></div>
+        <div class="dim-card"><h3>🖨️ 打印便利性</h3><p>打印/热床温度、打印难度（1–5 分）、翘曲倾向、是否需封闭腔体、是否需预干燥。</p></div>
+        <div class="dim-card"><h3>🛡️ 安全性</h3><p>打印释放物（是否含苯乙烯、甲醛、己内酰胺等）、通风/过滤/封闭腔体要求、综合安全等级。</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 常规耗材 -->
+  <section class="section section-alt" id="zone-standard">
+    <div class="container">
+      <h2 class="sec-title">🧱 常规耗材区</h2>
+      <p class="sec-desc" id="zoneStandardDesc"></p>
+      <div class="filter-bar" id="filterBarStandard"><!-- JS 填充筛选条 --></div>
+      <div class="mat-grid" id="matGridStandard"><!-- JS 填充 --></div>
+      <p class="filter-empty" id="filterEmptyStandard" style="display:none">没有符合条件的耗材，试试放宽筛选条件 🔍</p>
+    </div>
+  </section>
+
+  <!-- 工程耗材 -->
+  <section class="section" id="zone-engineering">
+    <div class="container">
+      <h2 class="sec-title">🏗️ 工程耗材区</h2>
+      <p class="sec-desc" id="zoneEngineeringDesc"></p>
+      <div class="filter-bar" id="filterBarEngineering"><!-- JS 填充筛选条 --></div>
+      <div class="mat-grid" id="matGridEngineering"><!-- JS 填充 --></div>
+      <p class="filter-empty" id="filterEmptyEngineering" style="display:none">没有符合条件的耗材，试试放宽筛选条件 🔍</p>
+    </div>
+  </section>
+
+  <!-- 选材向导 -->
+  <section class="section section-alt" id="guide">
+    <div class="container">
+      <h2 class="sec-title">🧭 选材向导</h2>
+      <p class="sec-desc">不知道选什么？按使用场景快速匹配：点击场景卡片，查看推荐耗材与推荐理由。</p>
+      <div class="guide-grid" id="guideGrid"><!-- JS 填充 --></div>
+      <div class="guide-result" id="guideResult" style="display:none"></div>
+    </div>
+  </section>
+
+  <!-- 对比工具 -->
+  <section class="section section-alt" id="compare">
+    <div class="container">
+      <h2 class="sec-title">⚖️ 数据对比工具</h2>
+      <p class="sec-desc">勾选 2–5 种耗材，选择对比维度，实时生成雷达图与条形图；下方表格可排序查看全部原始数据。</p>
+      <div class="compare-layout">
+        <aside class="compare-panel">
+          <h3>① 选择耗材</h3>
+          <div class="chips" id="cmpChips"><!-- JS 填充 --></div>
+          <h3>② 选择维度</h3>
+          <div class="chips chips-metric" id="cmpMetrics"><!-- JS 填充 --></div>
+          <button class="btn btn-primary btn-block" id="cmpClear">清空选择</button>
+          <p class="hint">雷达图维度为归一化得分（0–100）；条形图展示原始数值。数据为典型区间中值。</p>
+        </aside>
+        <div class="compare-main">
+          <div class="chart-wrap">
+            <h3>雷达图 · 综合性能画像</h3>
+            <div class="chart-box" id="radarChart"></div>
+          </div>
+          <div class="chart-wrap">
+            <h3 id="barTitle">条形图 · 物理性能对比</h3>
+            <div class="chart-box" id="barChart"></div>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <h3>完整数据表（点击表头排序 · 🏆=该列最优）</h3>
+        <div class="table-scroll" id="fullTable"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 品牌专区 -->
+  <section class="section" id="brands">
+    <div class="container">
+      <h2 class="sec-title">🏷️ 品牌专区</h2>
+      <p class="sec-desc">主流耗材品牌及其官方在售材料线。品牌信息以各厂商官网/官方商城为准。</p>
+      <div class="brand-grid" id="brandGrid"><!-- JS 填充 --></div>
+    </div>
+  </section>
+
+  <!-- 安全指南 -->
+  <section class="section section-alt" id="safety">
+    <div class="container">
+      <h2 class="sec-title">🛡️ 打印安全指南</h2>
+      <p class="sec-desc">耗材在高温挤出时会释放微量挥发物与超细颗粒（UFP）。下表为各耗材的释放物与建议防护措施，点击行可展开详情。</p>
+      <div class="table-wrap" id="safetyTable"></div>
+      <div class="safety-tips">
+        <h3>通用安全建议</h3>
+        <ul>
+          <li>🪟 无论打印何种耗材，都应在<strong>通风良好</strong>的空间打印；长时间打印建议使用 HEPA + 活性炭过滤器。</li>
+          <li>🔥 ABS / ASA / HIPS 会释放<strong>苯乙烯</strong>，务必通风或封闭腔体 + 过滤。</li>
+          <li>⚠️ POM 高温下释放<strong>甲醛</strong>，PEEK/PEI 等高温材料释放物浓度更高，必须使用封闭腔体 + 强通风 + 过滤。</li>
+          <li>🧒 打印区域应远离儿童与孕妇，颗粒物粒径小，可深达肺部。</li>
+          <li>🏠 长期在卧室打印会显著提高室内颗粒物浓度，建议专用房间或通风柜。</li>
+          <li>🧴 高温材料（PA/PC/PEEK 等）打印时请佩戴耐高温手套防止烫伤，接触皮肤前先冷却。</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 数据说明 -->
+  <section class="section" id="method">
+    <div class="container">
+      <h2 class="sec-title">📚 数据说明与矫正记录</h2>
+      <div class="method-grid">
+        <div class="method-card">
+          <h3>数据口径</h3>
+          <ul>
+            <li>所有数值均为<strong>典型区间</strong>（min–max），来源为厂商官方 TDS、Prusa 材料库、Simplify3D 指南及权威第三方测试；同一材料不同牌号/批次实测值可能超出区间。</li>
+            <li>抗冲击强度单位以 IZOD 缺口冲击为主，个别材料标注 J/m；跨单位比较仅供参考。</li>
+            <li>打印难度 1–5：1 = 入门机轻松打印；5 = 需高温工程机 + 封闭腔体 + 干燥等专业条件。</li>
+            <li>雷达图得分为各维度归一化结果（按区间上限归一），仅用于横向比较趋势，不代表绝对优劣。</li>
+          </ul>
+        </div>
+        <div class="method-card">
+          <h3>矫正记录（每次更新前均复核上一版本）</h3>
+          <div id="correctionLog"></div>
+        </div>
+        <div class="method-card method-card-wide">
+          <h3>主要数据来源</h3>
+          <ul id="sourceList"></ul>
+          <p class="hint">数据更新时间：<span id="dataUpdated"></span></p>
+        </div>
+      </div>
+      <p class="disclaimer">⚠️ 免责声明：本页面为数据整理与可视化，仅供参考，不构成选材或安全建议的替代。工业/关键应用请以材料厂商正式 TDS 与专业测试为准。</p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>🧵 主流 3D 打印耗材对比库 · Filament DB — 数据多源交叉验证，持续矫正更新</p>
+    <p class="footer-note">开放分享给每一位 3D 打印爱好者 🔗</p>
+  </div>
+</footer>
+
+<button class="back-top" id="backTop" title="回到顶部" aria-label="回到顶部">↑</button>
+
+<!-- 材料详情弹窗 -->
+<div class="modal-mask" id="matModal" style="display:none">
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal-close" id="matModalClose" aria-label="关闭">✕</button>
+    <div id="matModalBody"></div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
