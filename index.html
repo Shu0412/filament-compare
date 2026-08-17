@@ -24,7 +24,7 @@
 <title>Filament Lab · 丝验室 · 3D 打印耗材对比库 · 内容创建：舒舒</title>
 <meta name="description" content="Filament Lab · 丝验室：主流3D打印耗材可视化对比——PLA、PETG、ABS、ASA、TPU、PA、PEEK 等 41 种主流耗材的物理性能、打印便利性、安全性数据，覆盖拓竹、Kexcelled、三绿、Polymaker、eSUN 等 10 大品牌。内容创建：舒舒，开源免费。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>">
-<link rel="stylesheet" href="css/style.css?v=20260815c">
+<link rel="stylesheet" href="css/style.css?v=20260815d">
 </head>
 <body>
 
@@ -44,11 +44,11 @@
       <span class="brand-text">Filament Lab<small>丝验室 · 3D打印耗材对比库</small></span>
     </a>
     <nav class="nav" id="nav">
-      <a href="#overview">总览</a>
+      <a href="#overview">总览 · 选材</a>
       <a href="#zone-standard">常规耗材</a>
       <a href="#zone-engineering">工程耗材</a>
-      <a href="#guide">选材向导</a>
       <a href="#compare">数据对比</a>
+      <a href="#insights">性能洞察</a>
       <a href="#brands">品牌专区</a>
       <a href="#safety">安全指南</a>
       <a href="#method">数据说明</a>
@@ -87,6 +87,11 @@
         <div class="dim-card"><h3>🖨️ 打印便利性</h3><p>打印/热床温度、打印难度（1–5 分）、翘曲倾向、是否需封闭腔体、是否需预干燥。</p></div>
         <div class="dim-card"><h3>🛡️ 安全性</h3><p>打印释放物（是否含苯乙烯、甲醛、己内酰胺等）、通风/过滤/封闭腔体要求、综合安全等级。</p></div>
       </div>
+      <div class="guide-block">
+        <h3 class="guide-block-title">🧭 选材向导<span class="guide-block-sub">不知道选什么？按使用场景一键匹配</span></h3>
+        <div class="guide-grid" id="guideGrid"><!-- JS 填充 --></div>
+        <div class="guide-result" id="guideResult" style="display:none"></div>
+      </div>
     </div>
   </section>
 
@@ -98,6 +103,7 @@
       <div class="filter-bar" id="filterBarStandard"><!-- JS 填充筛选条 --></div>
       <div class="mat-grid" id="matGridStandard"><!-- JS 填充 --></div>
       <p class="filter-empty" id="filterEmptyStandard" style="display:none">没有符合条件的耗材，试试放宽筛选条件 🔍</p>
+      <div class="collapse-bar" id="collapseStandard" style="display:none"><button class="btn btn-ghost btn-sm" data-collapse="standard">＋ 展开全部</button></div>
     </div>
   </section>
 
@@ -109,32 +115,11 @@
       <div class="filter-bar" id="filterBarEngineering"><!-- JS 填充筛选条 --></div>
       <div class="mat-grid" id="matGridEngineering"><!-- JS 填充 --></div>
       <p class="filter-empty" id="filterEmptyEngineering" style="display:none">没有符合条件的耗材，试试放宽筛选条件 🔍</p>
+      <div class="collapse-bar" id="collapseEngineering" style="display:none"><button class="btn btn-ghost btn-sm" data-collapse="engineering">＋ 展开全部</button></div>
     </div>
   </section>
 
-  <!-- 选材向导 -->
-  <section class="section section-alt" id="guide">
-    <div class="container">
-      <h2 class="sec-title">🧭 选材向导</h2>
-      <p class="sec-desc">不知道选什么？按使用场景快速匹配：点击场景卡片，查看推荐耗材与推荐理由。</p>
-      <div class="guide-grid" id="guideGrid"><!-- JS 填充 --></div>
-      <div class="guide-result" id="guideResult" style="display:none"></div>
-    </div>
-  </section>
 
-  <!-- 性能洞察 -->
-  <section class="section" id="insights">
-    <div class="container">
-      <h2 class="sec-title">🔬 性能洞察 · 散点图</h2>
-      <p class="sec-desc">横轴=热变形温度（耐热），纵轴=打印温度（机器门槛），气泡大小=抗冲击韧性，颜色=分区。
-        <strong>左下角</strong>好打但耐热有限，<strong>右上角</strong>性能强悍但需要高温工程机——悬停气泡查看详情。</p>
-      <div class="chart-wrap scatter-wrap">
-        <div class="scatter-chart" id="scatterChart"></div>
-        <div class="scatter-legend" id="scatterLegend"></div>
-        <p class="scatter-hint">💡 挑选思路：先在左下角找"够用且好打"的，再沿耐热轴向右移动按需升级。</p>
-      </div>
-    </div>
-  </section>
 
   <!-- 对比工具 -->
   <section class="section section-alt" id="compare">
@@ -164,6 +149,20 @@
       <div class="table-wrap">
         <h3>完整数据表（点击表头排序 · 🏆=该列最优）</h3>
         <div class="table-scroll" id="fullTable"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 性能洞察 -->
+  <section class="section" id="insights">
+    <div class="container">
+      <h2 class="sec-title">🔬 性能洞察 · 散点图</h2>
+      <p class="sec-desc">横轴=热变形温度（耐热），纵轴=打印温度（机器门槛），气泡大小=抗冲击韧性，颜色=分区。
+        <strong>左下角</strong>好打但耐热有限，<strong>右上角</strong>性能强悍但需要高温工程机——点击气泡查看详情。</p>
+      <div class="chart-wrap scatter-wrap">
+        <div class="scatter-chart" id="scatterChart"></div>
+        <div class="scatter-legend" id="scatterLegend"></div>
+        <p class="scatter-hint">💡 挑选思路：先在左下角找"够用且好打"的，再沿耐热轴向右移动按需升级。</p>
       </div>
     </div>
   </section>
@@ -258,6 +257,6 @@
 </div>
 
 <script src="js/data.js?v=20260815b"></script>
-<script src="js/app.js?v=20260815c"></script>
+<script src="js/app.js?v=20260815d"></script>
 </body>
 </html>
