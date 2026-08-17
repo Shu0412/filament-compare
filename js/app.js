@@ -967,8 +967,8 @@
     function onMove(e) { tx = e.clientX; ty = e.clientY; hasMouse = true; }
     document.addEventListener("mousemove", onMove, { passive: true });
     function tick() {
-      cx += (tx - cx) * 0.09;
-      cy += (ty - cy) * 0.09;
+      cx += (tx - cx) * 0.16;
+      cy += (ty - cy) * 0.16;
       document.documentElement.style.setProperty("--mx", cx + "px");
       document.documentElement.style.setProperty("--my", cy + "px");
       requestAnimationFrame(tick);
