@@ -369,14 +369,14 @@ td.cell-best { color:var(--accent); font-weight:700; }
  * ============================================================ */
 #aurora { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
 /* 渐变自带柔和衰减，替代 filter:blur（避免大尺寸模糊每帧重绘） */
-#aurora .blob { position:absolute; border-radius:50%; mix-blend-mode:screen; will-change:transform; }
+#aurora .blob { position:absolute; border-radius:50%; will-change:transform; }
 #aurora .b1 { width:480px; height:480px; left:-140px; top:-120px; background:radial-gradient(circle, rgba(79,156,249,.17) 0%, rgba(79,156,249,.06) 48%, transparent 72%); animation:blobA 40s ease-in-out infinite alternate; }
 #aurora .b2 { width:420px; height:420px; right:-120px; top:22%; background:radial-gradient(circle, rgba(34,195,166,.13) 0%, rgba(34,195,166,.04) 48%, transparent 72%); animation:blobB 48s ease-in-out infinite alternate; }
 #aurora .b3 { width:360px; height:360px; left:22%; bottom:-160px; background:radial-gradient(circle, rgba(249,165,79,.10) 0%, rgba(249,165,79,.03) 48%, transparent 72%); animation:blobC 56s ease-in-out infinite alternate; }
 @keyframes blobA { from{transform:translate(0,0) scale(1);} to{transform:translate(120px,90px) scale(1.18);} }
 @keyframes blobB { from{transform:translate(0,0) scale(1.05);} to{transform:translate(-110px,-70px) scale(.92);} }
 @keyframes blobC { from{transform:translate(0,0) scale(.95);} to{transform:translate(90px,-110px) scale(1.15);} }
-html[data-theme="light"] #aurora .blob { mix-blend-mode:multiply; opacity:.55; }
+html[data-theme="light"] #aurora .blob { opacity:.55; }
 
 /* 鼠标跟随柔光（单层聚焦版）：
    1) 默认淡出（opacity:0），鼠标移动时加 .on 平滑淡入，静止 1.2s 后自动淡出；
@@ -578,6 +578,10 @@ html[data-theme="light"] table.data-table th { background:rgba(233,238,245,.75);
 }
 .mat-grid, .brand-grid, .app-grid, .guide-grid, .table-wrap { content-visibility:auto; contain-intrinsic-size: 1px 720px; }
 body.perf-lite #aurora .blob, body.perf-lite #glowLayer, body.perf-lite #flowLayer { display:none; }
+/* ---- 中端设备（≤8 核/8GB）：保留玻璃质感，停用背景动画与鼠标光晕 ---- */
+body.perf-mid #aurora .blob { animation-play-state:paused; }
+body.perf-mid #glowLayer { display:none; }
+
 body.perf-lite .mat-card, body.perf-lite .brand-card, body.perf-lite .zone-card,
 body.perf-lite .dim-card, body.perf-lite .guide-card, body.perf-lite .chart-wrap,
 body.perf-lite .compare-panel, body.perf-lite .table-wrap, body.perf-lite .method-card,
@@ -666,6 +670,7 @@ body.perf-lite .filter-bar {
 }
 
 /* ---- 滚动期间降级：关闭 backdrop-filter，滚动停止 150ms 后恢复（性能优化，视觉基本不变） ---- */
+body.scrolling #aurora .blob { animation-play-state:paused; }
 body.scrolling .mat-card, body.scrolling .brand-card, body.scrolling .zone-card, body.scrolling .dim-card,
 body.scrolling .guide-card, body.scrolling .chart-wrap, body.scrolling .compare-panel,
 body.scrolling .table-wrap, body.scrolling .method-card, body.scrolling .modal, body.scrolling .safety-tips,
