@@ -24,7 +24,7 @@
 <title>Filament Lab · 丝验室 · 3D 打印耗材对比库 · 内容创建：舒舒</title>
 <meta name="description" content="Filament Lab · 丝验室：主流3D打印耗材可视化对比——PLA、PETG、ABS、ASA、TPU、PA、PEEK 等 41 种主流耗材的物理性能、打印便利性、安全性数据，覆盖拓竹、Kexcelled、三绿、Polymaker、eSUN 等 10 大品牌。内容创建：舒舒，开源免费。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>">
-<link rel="stylesheet" href="css/style.css?v=20260822">
+<link rel="stylesheet" href="css/style.css?v=20260823">
 </head>
 <body>
 
@@ -323,8 +323,14 @@
       </div>
       <p class="donate-selected" id="donateSelected">请选择或输入金额</p>
       <div class="donate-qr-wrap">
-        <div class="qr" id="donateQr"><img src="share/qr.png" alt="收款码"></div>
-        <div class="donate-qr-tip">📱 打开支付宝 / 微信扫一扫<br>转账所选金额<br><span class="donate-tip-sm">（收款码图片待补充，当前为示例）</span></div>
+        <div class="donate-qr-left">
+          <div class="donate-pay-tabs">
+            <button class="pay-tab on" data-pay="wechat">💚 微信</button>
+            <button class="pay-tab" data-pay="alipay">💙 支付宝</button>
+          </div>
+          <div class="qr" id="donateQr"><img id="donateQrImg" src="share/donate-wechat.jpg" alt="微信收款码"></div>
+        </div>
+        <div class="donate-qr-tip">📱 打开<span class="pay-name">微信</span>扫一扫<br>转账所选金额<br><span class="donate-tip-sm">感谢支持 Filament Lab 🧡</span></div>
       </div>
       <p class="donate-thanks" id="donateThanks">💖 感谢支持！</p>
     </div>
