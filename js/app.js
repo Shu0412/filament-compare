@@ -1279,6 +1279,11 @@
       || (navigator.deviceMemory && navigator.deviceMemory <= 4)
       || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
     if (lowPower) document.body.classList.add("perf-lite");
+    else if ((navigator.deviceMemory && navigator.deviceMemory <= 8)
+      || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 8)) {
+      /* 中端设备：保留玻璃视觉，仅停背景动画与鼠标光晕（perf-mid） */
+      document.body.classList.add("perf-mid");
+    }
     bindCursorLight();
     /* 卡片局部光：光斑跟随鼠标在卡片内移动（事件委托，只在悬停卡片时量一次坐标） */
     document.addEventListener("mousemove", function (e) {
