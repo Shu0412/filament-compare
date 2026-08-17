@@ -1091,25 +1091,8 @@
     if (mv) mv.textContent = (DATA.meta.corrections || []).length;
 
     /* ---------- 液态光影：lerp 平滑跟随（流体滞后感）+ 卡片局部光 ---------- */
-    var tx = window.innerWidth / 2, ty = window.innerHeight / 3;
-    var cx = tx, cy = ty;
-    var lerpRunning = false, lerpPending = false;
-    function startLerp() { if (!lerpRunning) { lerpRunning = true; requestAnimationFrame(tick); } }
-    function onMove(e) { tx = e.clientX; ty = e.clientY; lerpPending = true; startLerp(); }
-    document.addEventListener("mousemove", onMove, { passive: true });
-    function tick() {
-      cx += (tx - cx) * 0.16;
-      cy += (ty - cy) * 0.16;
-      document.documentElement.style.setProperty("--mx", cx + "px");
-      document.documentElement.style.setProperty("--my", cy + "px");
-      if (Math.abs(tx - cx) > 0.5 || Math.abs(ty - cy) > 0.5 || lerpPending) {
-        lerpPending = false;
-        requestAnimationFrame(tick);
-      } else {
-        lerpRunning = false; /* 已收敛：暂停 rAF，鼠标再动才恢复 */
-      }
-    }
-    startLerp();
+    /* 鼠标光晕已停用（用户设置）：不再启动 lerp 循环与 mousemove 监听 */
+    void 0;
     /* 卡片局部光（事件委托，直接量坐标） */
     document.addEventListener("mousemove", function (e) {
       var t = e.target;
