@@ -24,7 +24,7 @@
 <title>Filament Lab · 丝验室 · 3D 打印耗材对比库 · 内容创建：舒舒</title>
 <meta name="description" content="Filament Lab · 丝验室：主流3D打印耗材可视化对比——PLA、PETG、ABS、ASA、TPU、PA、PEEK 等 41 种主流耗材的物理性能、打印便利性、安全性数据，覆盖拓竹、Kexcelled、三绿、Polymaker、eSUN 等 10 大品牌。内容创建：舒舒，开源免费。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>">
-<link rel="stylesheet" href="css/style.css?v=20260821">
+<link rel="stylesheet" href="css/style.css?v=20260822">
 </head>
 <body>
 
@@ -73,6 +73,7 @@
       <div class="hero-actions">
         <a class="btn btn-primary" href="#/compare">开始对比 ⚡</a>
         <a class="btn btn-ghost" href="#overview">选材向导 🧭</a>
+        <button class="btn btn-ghost" data-opendonate>🧡 支持我们</button>
       </div>
     </div>
   </section>
@@ -295,11 +296,54 @@
   </div>
 </div>
 
+
+<!-- 捐赠/建议 弹窗 -->
+<div class="modal-mask" id="donateModal" style="display:none">
+  <div class="modal donate-modal">
+    <button class="modal-close" id="donateClose" aria-label="关闭">✕</button>
+    <div class="donate-head">
+      <h3>🧡 支持 Filament Lab</h3>
+      <p class="donate-sub">内容创建：舒舒 · 基于 DeepSeek Harness 构建 · 开源免费</p>
+      <p class="donate-sub">您的每一份支持都是继续做数据矫正与更新的动力 🙏</p>
+    </div>
+    <div class="donate-body">
+      <h4>选择金额</h4>
+      <div class="donate-amounts">
+        <button class="donate-amt" data-amt="1">¥1</button>
+        <button class="donate-amt" data-amt="3">¥3</button>
+        <button class="donate-amt" data-amt="5">¥5</button>
+        <button class="donate-amt" data-amt="10">¥10</button>
+        <button class="donate-amt" data-amt="20">¥20</button>
+        <button class="donate-amt" data-amt="custom">自定义</button>
+      </div>
+      <div class="donate-custom" id="donateCustom" style="display:none">
+        <label>自定义金额（0.01 – 9999 元）：</label>
+        <input type="number" id="donateInput" min="0.01" max="9999" step="0.01" placeholder="如 6.66">
+        <button class="btn btn-ghost btn-sm" id="donateConfirm">确认金额</button>
+      </div>
+      <p class="donate-selected" id="donateSelected">请选择或输入金额</p>
+      <div class="donate-qr-wrap">
+        <div class="qr" id="donateQr"><img src="share/qr.png" alt="收款码"></div>
+        <div class="donate-qr-tip">📱 打开支付宝 / 微信扫一扫<br>转账所选金额<br><span class="donate-tip-sm">（收款码图片待补充，当前为示例）</span></div>
+      </div>
+      <p class="donate-thanks" id="donateThanks">💖 感谢支持！</p>
+    </div>
+    <div class="donate-feedback">
+      <h4>💬 提供建议</h4>
+      <p>发现数据问题或有改进想法？欢迎反馈：</p>
+      <div class="donate-links">
+        <a class="btn btn-ghost btn-sm" href="https://github.com/Shu0412/filament-compare/issues" target="_blank" rel="noopener">🐙 GitHub Issues</a>
+        <a class="btn btn-ghost btn-sm" href="mailto:filamentlab.feedback@gmail.com?subject=Filament%20Lab%20建议">📧 邮件反馈</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <footer class="site-footer">
   <div class="container">
     <p>🧪 Filament Lab · 丝验室 — 3D 打印耗材对比库，数据多源交叉验证，持续矫正更新</p>
     <p class="footer-credit">内容创建：<b>舒舒</b> 🧡 · 基于 DeepSeek Harness 构建 · 开源免费分享给每一位 3D 打印爱好者</p>
-    <p class="footer-note">🔗 shu0412.github.io/filament-compare</p>
+    <p class="footer-note">🔗 shu0412.github.io/filament-compare · <a href="https://github.com/Shu0412/filament-compare/issues" target="_blank" rel="noopener">💬 提供建议</a> · <a href="#" data-opendonate>🧡 支持我们</a></p>
   </div>
 </footer>
 
