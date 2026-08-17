@@ -95,10 +95,11 @@
     try { localVisits = parseInt(localStorage.getItem("fd-visits") || "0", 10) + 1; localStorage.setItem("fd-visits", String(localVisits)); } catch (e) { /* ignore */ }
     el.innerHTML = '<div class="live-stats-inner">'
       + badge("shu0412-filament-lab", "🧡 已帮助")
+      + '<span class="live-unit">人次</span>'
       + '<span class="live-divider" style="width:1px;height:20px;background:var(--border)"></span>'
       + '<span class="live-stat"><span class="live-label">📈 本机浏览</span><b class="live-num">' + localVisits + '</b><span class="live-sub">次</span></span>'
       + "</div>"
-      + '<p class="live-note">已帮助 = 独立访客数（同 IP 只计一次）· 本机浏览 = 当前设备累计打开次数 · 由第三方计数服务提供</p>';
+      + '<p class="live-note">已帮助 = 独立访客人次（同 IP 只计一次）· 本机浏览 = 当前设备累计打开次数 · 由第三方计数服务提供</p>';
   }
 
   /* ---------- 分区卡片 ---------- */
