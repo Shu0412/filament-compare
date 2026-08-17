@@ -798,6 +798,62 @@ window.FILAMENT_DATA = {
       reputation: "美国高性能/工程料专业厂，主打 PEEK/PEI/碳纤及特种料，航空航天与医疗行业背书，1.75/2.85mm 规格齐全；价格高、面向专业用户",
       materials: ["ThermaX PEEK", "ThermaX PEKK-A", "ThermaX PEI 1010/9085", "ThermaX PPS", "ThermaX PPSU", "ThermaX PSU/PES", "ThermaX PPE/PS", "ThermaX HTS1/HTS2/MTS1", "CarbonX PA6-CF", "CarbonX PA12-CF", "CarbonX HTN-CF", "CarbonX PC-CF", "CarbonX PETG-CF", "CarbonX ABS-CF", "CarbonX ASA-CF", "CarbonX PLA-CF", "CarbonX PP-CF", "CarbonX PEEK-CF10", "CarbonX PEKK-A CF15", "CarbonX PEI-CF15", "CarbonX Obsidian Nylon 6-CF", "FluorX PVDF", "3DXLabs PVDF-GF", "3DXSTAT ESD 系列", "常规 ABS/ASA/PLA/PETG/TPU/PC/HIPS"],
       sourceUrls: ["https://www.3dxtech.com/collections", "https://www.3dxtech.com/search?q=carbonx"]
+    },
+    {
+      id: "elegoo", nameCn: "爱乐酷", nameEn: "ELEGOO（深圳智能派）", icon: "🐙",
+      hq: "中国深圳", url: "https://us.elegoo.com/pages/elegoo-filaments",
+      flagship: "Rapid PLA Plus（高速）、Rapid PETG、PC-FR（阻燃 PC）；打印机+耗材全生态（海王星系列）",
+      reputation: "全球消费级 3D 打印头部品牌（年营收 16 亿+），耗材线与自家海王星系列深度适配，性价比与品控均衡",
+      materials: ["PLA", "PLA Basic", "PLA Plus", "PLA Pro", "Rapid PLA Plus", "PLA Matte", "PLA Silk", "PLA Glow", "PLA Wood", "PLA Marble", "PLA Galaxy", "PLA Sparkle", "PLA Metallic", "PETG", "PETG Translucent", "Rapid PETG", "PC-FR", "ABS", "ASA", "TPU", "SLA 光敏树脂系列"],
+      sourceUrls: ["https://us.elegoo.com/pages/elegoo-filaments", "https://www.elegoo.com"]
+    },
+    {
+      id: "jayo", nameCn: "Jayo", nameEn: "JAYO", icon: "🎁",
+      hq: "中国（海外电商主导）", url: "https://jayo3d.com",
+      flagship: "PLA Meta、PLA+ 多卷装（5/10 卷经济包）、大卷装 5KG 系列",
+      reputation: "主打大卷装/多卷装经济路线的国产耗材品牌，海外电商销量大，PLA 家族覆盖全、性价比突出",
+      materials: ["PLA", "PLA+", "PLA Matte", "PLA Meta", "PLA Silk", "PLA Rainbow", "PLA Galaxy", "PETG", "ABS", "5KG 大卷装系列", "10 卷装经济包", "SLA 光敏树脂"],
+      sourceUrls: ["https://jayo3d.com/collections/all"]
+    },
+    {
+      id: "fusrock", nameCn: "FusRock", nameEn: "FusRock（苏州复丝络科）", icon: "🪨",
+      hq: "中国苏州", url: "https://wiki.fusrock.com",
+      flagship: "Nex 系列工程料：NexABS-CF20/GF25、NexPA-CF25/GF25、NexPET-GF、PAHT 高温尼龙",
+      reputation: "国产工程料新锐品牌，碳纤/玻纤增强系列齐全，TDS 文档公开",
+      materials: ["NexABS-CF20", "NexABS-GF25", "NexPA-CF25", "NexPA-GF25", "NexPET-GF", "PAHT", "PLA 系列", "PETG 系列", "TPU 系列"],
+      sourceUrls: ["https://wiki.fusrock.com/zh/about/about-us", "https://en.tctasia.cn/product/productclass_239.shtml"]
+    },
+    {
+      id: "r3d", nameCn: "R3D", nameEn: "R3D（芜湖 R3D 科技）", icon: "🔩",
+      hq: "中国芜湖", url: "https://www.r3d-china.com",
+      flagship: "工程/专用线材制造（待补充）",
+      reputation: "芜湖线材制造商，代工+自有品牌并行的专业厂家",
+      materials: ["PLA", "PLA+", "PETG", "ABS", "ASA", "TPU", "PA（尼龙）", "PC", "工程定制料"],
+      sourceUrls: ["https://nanjixiong.com/thread-172945-1-20.html"]
+    },
+    {
+      id: "ailizi", nameCn: "爱丽滋", nameEn: "ALIZ（无锡爱丽兹三维科技）", icon: "💠",
+      hq: "中国无锡", url: "https://online.tctasia.cn/zh-cn/showroom-2026/institutions/681bnf",
+      flagship: "高韧性高速 PLA、丝绸 PLA、PETG（高温不翘边口碑款）",
+      reputation: "国内电商活跃品牌（天猫/淘宝），主打好打易用的 PLA/PETG 路线",
+      materials: ["PLA（高速高韧性）", "PLA Silk", "PLA+", "PETG", "ABS", "TPU"],
+      sourceUrls: ["https://online.tctasia.cn/zh-cn/showroom-2026/institutions/681bnf", "https://en.tctasia.cn/product/productclass_200.shtml"]
+    },
+    {
+      id: "caiduowu", nameCn: "彩多屋", nameEn: "CAI LAB（惠州彩多屋科技）", icon: "🎨",
+      hq: "中国惠州", url: "https://online.tctasia.cn/zh-cn/showroom-2026/institutions/23bdhh",
+      flagship: "PLA+ Bio 系列、丝绸 PIA 系列",
+      reputation: "以色彩丰富的 PLA 系列见长，把 3D 打印材料做成'生活方式'的品牌",
+      materials: ["PLA+ Bio", "丝绸 PIA", "PLA 系列", "PETG", "TPU"],
+      sourceUrls: ["https://online.tctasia.cn/zh-cn/showroom-2026/institutions/23bdhh", "https://world.taobao.com/dianpu/415090305_1.htm"]
+    },
+    {
+      id: "qipang", nameCn: "启庞", nameEn: "Kingroon（深圳启庞科技）", icon: "🖥️",
+      hq: "中国深圳", url: "https://cn.kingroon.com",
+      flagship: "KP3S 系列打印机配套耗材；高性价比入门线",
+      reputation: "以高性价比 FDM 打印机（KP3S 等）闻名，耗材为配套生态，入门玩家友好",
+      materials: ["PLA", "PLA+", "PETG", "ABS", "TPU"],
+      sourceUrls: ["https://cn.kingroon.com"]
     }
   ]
 };
