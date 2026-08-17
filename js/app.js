@@ -819,25 +819,30 @@
     $("#matModalClose").addEventListener("click", closeModal);
     $("#matModal").addEventListener("click", function (e) { if (e.target === this) closeModal(); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
-    /* ---------- 光影艺术：鼠标跟随光晕 + 卡片局部光 ---------- */
-    var raf = null;
-    function onMove(e) {
-      if (raf) return;
-      raf = requestAnimationFrame(function () {
-        raf = null;
-        var x = e.clientX, y = e.clientY;
-        document.documentElement.style.setProperty("--mx", x + "px");
-        document.documentElement.style.setProperty("--my", y + "px");
-        var t = e.target;
-        var card = t && t.closest ? t.closest(".mat-card,.zone-card,.dim-card,.brand-card,.guide-card,.col") : null;
-        if (card) {
-          var r = card.getBoundingClientRect();
-          card.style.setProperty("--cx", (x - r.left) + "px");
-          card.style.setProperty("--cy", (y - r.top) + "px");
-        }
-      });
-    }
+    /* ---------- 液态光影：lerp 平滑跟随（流体滞后感）+ 卡片局部光 ---------- */
+    var tx = window.innerWidth / 2, ty = window.innerHeight / 3;
+    var cx = tx, cy = ty;
+    var hasMouse = false;
+    function onMove(e) { tx = e.clientX; ty = e.clientY; hasMouse = true; }
     document.addEventListener("mousemove", onMove, { passive: true });
+    function tick() {
+      cx += (tx - cx) * 0.09;
+      cy += (ty - cy) * 0.09;
+      document.documentElement.style.setProperty("--mx", cx + "px");
+      document.documentElement.style.setProperty("--my", cy + "px");
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+    /* 卡片局部光（事件委托，直接量坐标） */
+    document.addEventListener("mousemove", function (e) {
+      var t = e.target;
+      var card = t && t.closest ? t.closest(".mat-card,.zone-card,.dim-card,.brand-card,.guide-card,.col") : null;
+      if (card) {
+        var r = card.getBoundingClientRect();
+        card.style.setProperty("--cx", (e.clientX - r.left) + "px");
+        card.style.setProperty("--cy", (e.clientY - r.top) + "px");
+      }
+    }, { passive: true });
     /* ---------- 滚动渐入 ---------- */
     if ("IntersectionObserver" in window) {
       var obs = new IntersectionObserver(function (entries) {
