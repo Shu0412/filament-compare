@@ -378,22 +378,24 @@ td.cell-best { color:var(--accent); font-weight:700; }
 @keyframes blobC { from{transform:translate(0,0) scale(.95);} to{transform:translate(90px,-110px) scale(1.15);} }
 html[data-theme="light"] #aurora .blob { mix-blend-mode:multiply; opacity:.55; }
 
-/* 鼠标跟随柔光：只移动合成层，不在每帧读取布局或执行模糊。 */
-#glowLayer, #flowLayer { position:fixed; left:0; top:0; pointer-events:none; z-index:0; contain:layout paint; will-change:transform; }
-#glowLayer { width:360px; height:360px; margin:-180px 0 0 -180px; mix-blend-mode:screen; opacity:.82;
+/* 鼠标跟随柔光（单层聚焦版）：
+   1) 默认淡出（opacity:0），鼠标移动时加 .on 平滑淡入，静止 1.2s 后自动淡出；
+   2) 只移动合成层（translate3d），不每帧读取布局或执行模糊；
+   3) 去掉 mix-blend-mode，改用纯 alpha 渐变叠加，避免 screen/multiply 造成"脏亮"与文字区域发白发灰。 */
+#glowLayer { position:fixed; left:0; top:0; width:300px; height:300px; margin:-150px 0 0 -150px;
+  pointer-events:none; z-index:0; contain:layout paint; will-change:transform;
+  opacity:0; transition:opacity .5s ease;
   background:
-    radial-gradient(circle at 42% 40%, rgba(192,224,255,.22) 0%, rgba(110,175,255,.13) 24%, rgba(79,156,249,.055) 48%, transparent 73%),
-    radial-gradient(circle at 67% 62%, rgba(255,255,255,.08) 0%, transparent 42%);
+    radial-gradient(circle at 50% 50%, rgba(146,194,255,.16) 0%, rgba(96,158,249,.075) 30%, rgba(79,156,249,.03) 55%, transparent 72%);
   transform:translate3d(var(--mx,50vw), var(--my,40vh), 0); }
-html[data-theme="light"] #glowLayer { mix-blend-mode:multiply; opacity:.42; }
-
-/* 辅助大面积流体光：更慢、更淡，制造有延迟的深浅层次。 */
-#flowLayer { width:680px; height:680px; margin:-340px 0 0 -340px; mix-blend-mode:screen; opacity:.48;
+#glowLayer.on { opacity:.8; }
+html[data-theme="light"] #glowLayer {
   background:
-    radial-gradient(circle at 38% 38%, rgba(126,191,255,.12) 0%, rgba(79,156,249,.055) 34%, transparent 70%),
-    radial-gradient(circle at 66% 66%, rgba(125,232,208,.075) 0%, rgba(125,232,208,.025) 28%, transparent 68%);
-  transform:translate3d(var(--fx,50vw), var(--fy,40vh), 0); }
-html[data-theme="light"] #flowLayer { mix-blend-mode:multiply; opacity:.22; }
+    radial-gradient(circle at 50% 50%, rgba(96,148,255,.10) 0%, rgba(96,148,255,.05) 32%, rgba(79,156,249,.02) 56%, transparent 72%); }
+html[data-theme="light"] #glowLayer.on { opacity:.55; }
+
+/* 辅助大面积流体层已停用：双光斑分离感差、视觉负担重，保留 DOM 兼容旧脚本。 */
+#flowLayer { display:none !important; }
 
 /* 极光层之上的内容容器 */
 main { position:relative; z-index:1; }
