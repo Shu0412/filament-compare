@@ -79,7 +79,8 @@ h1,h2,h3,h4 { line-height:1.35; }
 
 /* ===== 通用区块 ===== */
 .section { padding:64px 0; }
-.section-alt { background:var(--bg-alt); }
+.section-alt { background:rgba(17,24,35,.62); backdrop-filter:blur(2px); }
+html[data-theme="light"] .section-alt { background:rgba(238,241,246,.7); }
 .sec-title { font-size:27px; font-weight:800; margin-bottom:10px; }
 .sec-desc { color:var(--text-dim); max-width:860px; margin-bottom:34px; }
 .sec-desc strong { color:var(--text); }
@@ -363,11 +364,40 @@ td.cell-best { color:var(--accent); font-weight:700; }
  * 光影艺术层 · 高级感视觉升级
  * ============================================================ */
 
-/* ---- 全局鼠标光影随行（核心效果·柔和版） ---- */
-#glowLayer { position:fixed; inset:0; pointer-events:none; z-index:2; mix-blend-mode:screen; opacity:.65;
-  background:radial-gradient(300px circle at var(--mx,50%) var(--my,30%), rgba(79,156,249,.08), transparent 65%),
-             radial-gradient(190px circle at var(--mx,50%) var(--my,30%), rgba(34,195,166,.04), transparent 70%); }
-html[data-theme="light"] #glowLayer { mix-blend-mode:multiply; opacity:.35; }
+/* ============================================================
+ * 极光背景 + 动态流体光晕（Liquid Light）
+ * ============================================================ */
+#aurora { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
+#aurora .blob { position:absolute; border-radius:50%; filter:blur(90px); mix-blend-mode:screen; will-change:transform; }
+#aurora .b1 { width:560px; height:560px; left:-140px; top:-120px; background:radial-gradient(circle, rgba(79,156,249,.17), transparent 70%); animation:blobA 26s ease-in-out infinite alternate; }
+#aurora .b2 { width:480px; height:480px; right:-120px; top:22%; background:radial-gradient(circle, rgba(34,195,166,.13), transparent 70%); animation:blobB 32s ease-in-out infinite alternate; }
+#aurora .b3 { width:420px; height:420px; left:22%; bottom:-160px; background:radial-gradient(circle, rgba(249,165,79,.10), transparent 70%); animation:blobC 38s ease-in-out infinite alternate; }
+#aurora .b4 { width:380px; height:380px; right:14%; bottom:30%; background:radial-gradient(circle, rgba(201,139,249,.09), transparent 70%); animation:blobB 44s ease-in-out infinite alternate-reverse; }
+@keyframes blobA { from{transform:translate(0,0) scale(1);} to{transform:translate(120px,90px) scale(1.18);} }
+@keyframes blobB { from{transform:translate(0,0) scale(1.05);} to{transform:translate(-110px,-70px) scale(.92);} }
+@keyframes blobC { from{transform:translate(0,0) scale(.95);} to{transform:translate(90px,-110px) scale(1.15);} }
+html[data-theme="light"] #aurora .blob { mix-blend-mode:multiply; opacity:.55; }
+
+/* 主光晕：平滑滞后跟随（lerp），双色流体 */
+#glowLayer { position:fixed; inset:-140px; pointer-events:none; z-index:2; mix-blend-mode:screen; opacity:.8;
+  background:
+    radial-gradient(420px circle at var(--mx,50%) var(--my,40%), rgba(79,156,249,.12), transparent 58%),
+    radial-gradient(260px circle at var(--mx,50%) var(--my,40%), rgba(34,195,166,.07), transparent 62%),
+    radial-gradient(150px circle at var(--mx,50%) var(--my,40%), rgba(255,255,255,.05), transparent 60%);
+  filter:blur(14px); will-change:transform; }
+html[data-theme="light"] #glowLayer { mix-blend-mode:multiply; opacity:.4; filter:blur(10px); }
+
+/* 流体漩涡层：围绕鼠标旋转流动的光 */
+#flowLayer { position:fixed; left:0; top:0; width:0; height:0; pointer-events:none; z-index:2; mix-blend-mode:screen;
+  background:conic-gradient(from 0deg, transparent 0deg, rgba(79,156,249,.10) 80deg, transparent 160deg, rgba(34,195,166,.08) 240deg, transparent 320deg, transparent 360deg);
+  filter:blur(26px); border-radius:50%; opacity:.7;
+  transform:translate(var(--mx,50%), var(--my,40%)) scale(1);
+  animation:flowSpin 9s linear infinite; }
+@keyframes flowSpin { from{transform:translate(var(--mx,50%), var(--my,40%)) scale(.9) rotate(0deg);} to{transform:translate(var(--mx,50%), var(--my,40%)) scale(1.25) rotate(360deg);} }
+html[data-theme="light"] #flowLayer { mix-blend-mode:multiply; opacity:.45; }
+
+/* 极光层之上的内容容器 */
+main { position:relative; z-index:1; }
 
 /* ---- hero 呼吸光晕 + 光点（柔和版） ---- */
 .hero { position:relative; overflow:hidden; }
@@ -471,3 +501,66 @@ a:hover { text-shadow:0 0 14px rgba(79,156,249,.5); }
 /* ---- 对比工具面板玻璃感 ---- */
 .compare-panel { background:rgba(22,29,41,.75); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); }
 html[data-theme="light"] .compare-panel { background:rgba(255,255,255,.82); }
+
+/* ============================================================
+ * iOS 液态玻璃（Liquid Glass）
+ * ============================================================ */
+.mat-card, .brand-card, .zone-card, .dim-card, .guide-card, .chart-wrap, .compare-panel {
+  background:
+    linear-gradient(150deg, rgba(255,255,255,.11) 0%, rgba(255,255,255,.03) 38%, rgba(255,255,255,.065) 100%);
+  backdrop-filter:blur(16px) saturate(170%);
+  -webkit-backdrop-filter:blur(16px) saturate(170%);
+  border:1px solid rgba(255,255,255,.13);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.16),
+    inset 0 -1px 0 rgba(255,255,255,.05),
+    inset 0 0 0 .5px rgba(255,255,255,.05),
+    0 10px 34px rgba(0,0,0,.30),
+    0 2px 8px rgba(0,0,0,.22);
+}
+/* 大面板：模糊略低防止长文阅读干扰 */
+.table-wrap, .method-card, .modal, .safety-tips, .guide-result, .filter-bar {
+  background:linear-gradient(150deg, rgba(255,255,255,.08) 0%, rgba(255,255,255,.02) 50%, rgba(255,255,255,.05) 100%);
+  backdrop-filter:blur(10px) saturate(160%);
+  -webkit-backdrop-filter:blur(10px) saturate(160%);
+  border:1px solid rgba(255,255,255,.11);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.13), 0 8px 30px rgba(0,0,0,.26);
+}
+/* 顶部反光弧（玻璃高光） */
+.mat-card::before { background:linear-gradient(90deg, var(--mat-color,var(--primary)), transparent 78%); opacity:.9; }
+.mat-card:hover::before { height:100%; opacity:.07; }
+/* 卡片悬停：玻璃隆起 + 光晕 */
+.mat-card:hover, .brand-card:hover, .zone-card:hover, .guide-card:hover {
+  border-color:rgba(255,255,255,.22);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.2), 0 18px 50px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.08), 0 0 46px -6px var(--mat-color,var(--primary));
+}
+/* 品牌卡渐变边框与玻璃共存 */
+.brand-card { border-top:1px solid rgba(255,255,255,.13); background:linear-gradient(150deg, rgba(255,255,255,.11) 0%, rgba(255,255,255,.03) 38%, rgba(255,255,255,.065) 100%); }
+/* 表格头部玻璃 */
+table.data-table th { background:rgba(29,39,54,.6); backdrop-filter:blur(6px); }
+/* 亮色主题玻璃 */
+html[data-theme="light"] .mat-card, html[data-theme="light"] .brand-card, html[data-theme="light"] .zone-card,
+html[data-theme="light"] .dim-card, html[data-theme="light"] .guide-card, html[data-theme="light"] .chart-wrap,
+html[data-theme="light"] .compare-panel {
+  background:linear-gradient(150deg, rgba(255,255,255,.85) 0%, rgba(255,255,255,.55) 55%, rgba(255,255,255,.75) 100%);
+  border:1px solid rgba(255,255,255,.85);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.95), 0 8px 26px rgba(40,60,100,.12);
+}
+html[data-theme="light"] .table-wrap, html[data-theme="light"] .method-card, html[data-theme="light"] .modal,
+html[data-theme="light"] .safety-tips, html[data-theme="light"] .guide-result, html[data-theme="light"] .filter-bar {
+  background:linear-gradient(150deg, rgba(255,255,255,.9) 0%, rgba(255,255,255,.68) 50%, rgba(255,255,255,.8) 100%);
+  border:1px solid rgba(255,255,255,.9);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,1), 0 6px 22px rgba(40,60,100,.1);
+}
+html[data-theme="light"] table.data-table th { background:rgba(233,238,245,.75); }
+/* 移动端性能：降低模糊 */
+@media (max-width:720px){
+  .mat-card, .brand-card, .zone-card, .dim-card, .guide-card, .chart-wrap, .compare-panel { backdrop-filter:blur(8px) saturate(150%); -webkit-backdrop-filter:blur(8px) saturate(150%); }
+  .table-wrap, .method-card, .modal, .filter-bar { backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
+  #aurora .blob { filter:blur(60px); }
+}
+/* 减少动态偏好 */
+@media (prefers-reduced-motion: reduce){
+  #aurora .blob, #flowLayer, #glowLayer { animation:none !important; }
+  #flowLayer { opacity:.3; }
+}
