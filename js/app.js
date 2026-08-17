@@ -853,14 +853,26 @@
   }
 
   /* ---------- 数据说明 ---------- */
+  function corrCard(c) {
+    return '<div class="correction"><b>【' + esc(c.date) + "】" + esc(c.item) + "</b><br>问题：" + esc(c.issue)
+      + '<br><span class="corr-fix">矫正：' + esc(c.fix) + "</span></div>";
+  }
   function renderMethod() {
     var corr = DATA.meta.corrections || [];
-    $("#correctionLog").innerHTML = corr.length
-      ? corr.map(function (c) {
-        return '<div class="correction"><b>【' + esc(c.date) + "】" + esc(c.item) + "</b><br>问题：" + esc(c.issue)
-          + '<br><span class="corr-fix">矫正：' + esc(c.fix) + "</span></div>";
-      }).join("")
-      : '<p style="color:#6b7a8f;font-size:13px">暂无矫正记录</p>';
+    if (corr.length) {
+      /* 最近一条完整显示，其余折叠 */
+      var latest = corr[corr.length - 1];
+      var older = corr.slice(0, -1).slice().reverse();
+      $("#correctionLog").innerHTML =
+        '<div class="corr-latest-label">🆕 最近矫正</div>'
+        + corrCard(latest)
+        + (older.length
+          ? '<details class="corr-more"><summary>📜 历史矫正记录（' + older.length + " 条，点击展开）</summary>"
+            + older.map(corrCard).join("") + "</details>"
+          : "");
+    } else {
+      $("#correctionLog").innerHTML = '<p style="color:#6b7a8f;font-size:13px">暂无矫正记录</p>';
+    }
     $("#sourceList").innerHTML = DATA.meta.sources.map(function (s) {
       return "<li>" + esc(s.name) + " — <a href='" + esc(s.url) + "' target='_blank' rel='noopener'>" + esc(s.url) + "</a></li>";
     }).join("");
