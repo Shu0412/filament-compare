@@ -1218,6 +1218,56 @@
     if (h && h.indexOf("#/") === 0) navigateModule(h.slice(2));
   }
 
+  /* ---------- 低成本鼠标跟随柔光 ---------- */
+  function bindCursorLight() {
+    var glow = $("#glowLayer");
+    var flow = $("#flowLayer");
+    if (!glow || !flow || document.body.classList.contains("perf-lite")) return;
+    var finePointer = window.matchMedia && window.matchMedia("(hover:hover) and (pointer:fine)");
+    var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (reduced || (finePointer && !finePointer.matches)) return;
+
+    var targetX = window.innerWidth * 0.5;
+    var targetY = window.innerHeight * 0.42;
+    var glowX = targetX;
+    var glowY = targetY;
+    var flowX = targetX;
+    var flowY = targetY;
+    var frameId = 0;
+    var active = false;
+    var setPosition = function () {
+      var root = document.documentElement;
+      root.style.setProperty("--mx", glowX.toFixed(1) + "px");
+      root.style.setProperty("--my", glowY.toFixed(1) + "px");
+      root.style.setProperty("--fx", flowX.toFixed(1) + "px");
+      root.style.setProperty("--fy", flowY.toFixed(1) + "px");
+    };
+    var settle = function () {
+      frameId = 0;
+      glowX += (targetX - glowX) * 0.18;
+      glowY += (targetY - glowY) * 0.18;
+      flowX += (targetX - flowX) * 0.065;
+      flowY += (targetY - flowY) * 0.065;
+      setPosition();
+      var distance = Math.max(Math.abs(targetX - flowX), Math.abs(targetY - flowY));
+      if (distance > 0.35) frameId = window.requestAnimationFrame(settle);
+      else active = false;
+    };
+    var schedule = function () {
+      if (active) return;
+      active = true;
+      frameId = window.requestAnimationFrame(settle);
+    };
+    var onMove = function (e) {
+      if (e.pointerType && e.pointerType !== "mouse") return;
+      targetX = e.clientX;
+      targetY = e.clientY;
+      schedule();
+    };
+    setPosition();
+    window.addEventListener("pointermove", onMove, { passive: true });
+  }
+
   /* ---------- 初始化 ---------- */
   function init() {
     /* 低功耗设备自动关闭高成本玻璃层，保留结构与色彩。 */
@@ -1226,6 +1276,7 @@
       || (navigator.deviceMemory && navigator.deviceMemory <= 4)
       || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
     if (lowPower) document.body.classList.add("perf-lite");
+    bindCursorLight();
     var qs = {};
     (window.location.search || "").replace(/[?&]([^=&]+)=([^&]*)/g, function (_, k, v) { qs[k] = v; });
     if (qs.sel) {
