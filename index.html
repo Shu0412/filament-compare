@@ -24,7 +24,7 @@
 <title>Filament Lab · 丝验室 · 3D 打印耗材对比库 · 内容创建：舒舒</title>
 <meta name="description" content="Filament Lab · 丝验室：主流3D打印耗材可视化对比——PLA、PETG、ABS、ASA、TPU、PA、PEEK 等 41 种主流耗材的物理性能、打印便利性、安全性数据，覆盖拓竹、Kexcelled、三绿、Polymaker、eSUN 等 10 大品牌。内容创建：舒舒，开源免费。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>">
-<link rel="stylesheet" href="css/style.css?v=20260818">
+<link rel="stylesheet" href="css/style.css?v=20260819">
 </head>
 <body>
 
@@ -308,6 +308,29 @@
   <div class="modal" role="dialog" aria-modal="true">
     <button class="modal-close" id="matModalClose" aria-label="关闭">✕</button>
     <div id="matModalBody"></div>
+  </div>
+</div>
+
+<!-- 移动端底部导航 -->
+<nav class="mobile-tabbar" id="mobileTabbar" aria-label="移动端导航">
+  <button class="tab-item active" data-tab="home"><span class="tab-ico">🏠</span><span class="tab-txt">首页</span></button>
+  <button class="tab-item" data-tab="zone-standard"><span class="tab-ico">🧱</span><span class="tab-txt">常规</span></button>
+  <button class="tab-item" data-tab="zone-engineering"><span class="tab-ico">🏗️</span><span class="tab-txt">工程</span></button>
+  <button class="tab-item" data-tab="compare"><span class="tab-ico">⚖️</span><span class="tab-txt">对比</span></button>
+  <button class="tab-item" id="tabMore"><span class="tab-ico">☰</span><span class="tab-txt">更多</span></button>
+</nav>
+<div class="drawer-mask" id="drawerMask" style="display:none"></div>
+<div class="more-drawer" id="moreDrawer" style="display:none">
+  <div class="more-drawer-head">🧭 全部功能<button class="modal-close" id="drawerClose" aria-label="关闭">✕</button></div>
+  <div class="more-drawer-grid">
+    <button class="app-card app-card-sm" data-mod="zone-standard"><span class="app-icon">🧱</span><b>常规耗材</b><small>17 种</small></button>
+    <button class="app-card app-card-sm" data-mod="zone-engineering"><span class="app-icon">🏗️</span><b>工程耗材</b><small>25 种</small></button>
+    <button class="app-card app-card-sm" data-mod="compare"><span class="app-icon">⚖️</span><b>数据对比</b><small>雷达·表格</small></button>
+    <button class="app-card app-card-sm" data-mod="insights"><span class="app-icon">🔬</span><b>性能洞察</b><small>散点图</small></button>
+    <button class="app-card app-card-sm" data-mod="brands"><span class="app-icon">🏷️</span><b>品牌专区</b><small>17 品牌</small></button>
+    <button class="app-card app-card-sm" data-mod="prices"><span class="app-icon">💰</span><b>价格情报</b><small>75 条</small></button>
+    <button class="app-card app-card-sm" data-mod="safety"><span class="app-icon">🛡️</span><b>安全指南</b><small>防护</small></button>
+    <button class="app-card app-card-sm" data-openmethod><span class="app-icon">📚</span><b>数据说明</b><small>口径</small></button>
   </div>
 </div>
 
