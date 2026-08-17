@@ -378,23 +378,19 @@ td.cell-best { color:var(--accent); font-weight:700; }
 @keyframes blobC { from{transform:translate(0,0) scale(.95);} to{transform:translate(90px,-110px) scale(1.15);} }
 html[data-theme="light"] #aurora .blob { mix-blend-mode:multiply; opacity:.55; }
 
-/* 主光晕：平滑滞后跟随（lerp），双色流体 */
-#glowLayer { position:fixed; inset:-140px; pointer-events:none; z-index:2; mix-blend-mode:screen; opacity:.8;
+/* 主光晕：精致小范围跟随（直径 ≈ 鼠标 4 倍内） */
+#glowLayer { position:fixed; inset:0; pointer-events:none; z-index:2; mix-blend-mode:screen; opacity:.9;
   background:
-    radial-gradient(420px circle at var(--mx,50%) var(--my,40%), rgba(79,156,249,.12), transparent 58%),
-    radial-gradient(260px circle at var(--mx,50%) var(--my,40%), rgba(34,195,166,.07), transparent 62%),
-    radial-gradient(150px circle at var(--mx,50%) var(--my,40%), rgba(255,255,255,.05), transparent 60%);
-  filter:blur(14px); will-change:transform; }
-html[data-theme="light"] #glowLayer { mix-blend-mode:multiply; opacity:.4; filter:blur(10px); }
+    radial-gradient(42px circle at var(--mx,50%) var(--my,40%), rgba(110,175,255,.24), transparent 66%),
+    radial-gradient(26px circle at var(--mx,50%) var(--my,40%), rgba(175,220,255,.15), transparent 68%);
+  filter:blur(3px); will-change:transform; }
+html[data-theme="light"] #glowLayer { mix-blend-mode:multiply; opacity:.4; filter:blur(2px); }
 
-/* 流体漩涡层：围绕鼠标旋转流动的光 */
-#flowLayer { position:fixed; left:0; top:0; width:0; height:0; pointer-events:none; z-index:2; mix-blend-mode:screen;
-  background:conic-gradient(from 0deg, transparent 0deg, rgba(79,156,249,.10) 80deg, transparent 160deg, rgba(34,195,166,.08) 240deg, transparent 320deg, transparent 360deg);
-  filter:blur(26px); border-radius:50%; opacity:.7;
-  transform:translate(var(--mx,50%), var(--my,40%)) scale(1);
-  animation:flowSpin 9s linear infinite; }
-@keyframes flowSpin { from{transform:translate(var(--mx,50%), var(--my,40%)) scale(.9) rotate(0deg);} to{transform:translate(var(--mx,50%), var(--my,40%)) scale(1.25) rotate(360deg);} }
-html[data-theme="light"] #flowLayer { mix-blend-mode:multiply; opacity:.45; }
+/* 辅助微光：青绿小光斑，与主光晕错位形成层次（不旋转） */
+#flowLayer { position:fixed; inset:0; pointer-events:none; z-index:2; mix-blend-mode:screen; opacity:.7;
+  background:radial-gradient(24px circle at var(--mx,50%) var(--my,40%), rgba(110,235,200,.13), transparent 72%);
+  filter:blur(2px); }
+html[data-theme="light"] #flowLayer { mix-blend-mode:multiply; opacity:.35; }
 
 /* 极光层之上的内容容器 */
 main { position:relative; z-index:1; }
