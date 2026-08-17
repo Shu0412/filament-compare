@@ -24,7 +24,7 @@
 <title>Filament Lab · 丝验室 · 3D 打印耗材对比库 · 内容创建：舒舒</title>
 <meta name="description" content="Filament Lab · 丝验室：主流3D打印耗材可视化对比——PLA、PETG、ABS、ASA、TPU、PA、PEEK 等 41 种主流耗材的物理性能、打印便利性、安全性数据，覆盖拓竹、Kexcelled、三绿、Polymaker、eSUN 等 10 大品牌。内容创建：舒舒，开源免费。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>">
-<link rel="stylesheet" href="css/style.css?v=20260815h">
+<link rel="stylesheet" href="css/style.css?v=20260815i">
 </head>
 <body>
 
@@ -236,15 +236,21 @@
       <button class="modal-close" id="methodModalClose" aria-label="关闭">✕</button>
     </div>
     <div class="method-modal-body">
-      <h3>数据口径</h3>
-      <ul class="method-ul">
-        <li>所有数值均为<strong>典型区间</strong>（min–max），来源为厂商官方 TDS、Prusa 材料库、Simplify3D 指南及权威第三方测试；同一材料不同牌号/批次实测值可能超出区间。</li>
-        <li>抗冲击强度单位以 IZOD 缺口冲击为主，个别材料标注 J/m；跨单位比较仅供参考。</li>
-        <li>打印难度 1–5：1 = 入门机轻松打印；5 = 需高温工程机 + 封闭腔体 + 干燥等专业条件。</li>
-        <li>雷达图得分为各维度归一化结果（按区间上限归一），仅用于横向比较趋势，不代表绝对优劣。</li>
-      </ul>
-      <h3>矫正记录（每次更新前均复核上一版本）</h3>
-      <div id="correctionLog"></div>
+      <div class="method-duo">
+        <div class="method-box">
+          <h3>📏 数据口径</h3>
+          <ul class="method-ul">
+            <li>所有数值均为<strong>典型区间</strong>（min–max），来源为厂商官方 TDS、Prusa 材料库、Simplify3D 指南及权威第三方测试；同一材料不同牌号/批次实测值可能超出区间。</li>
+            <li>抗冲击强度单位以 IZOD 缺口冲击为主，个别材料标注 J/m；跨单位比较仅供参考。</li>
+            <li>打印难度 1–5：1 = 入门机轻松打印；5 = 需高温工程机 + 封闭腔体 + 干燥等专业条件。</li>
+            <li>雷达图得分为各维度归一化结果（按区间上限归一），仅用于横向比较趋势，不代表绝对优劣。</li>
+          </ul>
+        </div>
+        <div class="method-box">
+          <h3>🔧 矫正记录<span class="method-box-sub">每次更新前均复核上一版本</span></h3>
+          <div id="correctionLog"></div>
+        </div>
+      </div>
       <h3>主要数据来源</h3>
       <ul id="sourceList" class="method-ul"></ul>
       <h3>免责协议</h3>
@@ -279,6 +285,6 @@
 </div>
 
 <script src="js/data.js?v=20260815e"></script>
-<script src="js/app.js?v=20260815h"></script>
+<script src="js/app.js?v=20260815i"></script>
 </body>
 </html>
