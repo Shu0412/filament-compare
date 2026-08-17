@@ -10,6 +10,17 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="舒舒">
 <meta name="generator" content="DeepSeek Harness">
+<meta property="og:title" content="Filament Lab · 丝验室 — 3D 打印耗材对比库（37 种耗材 · 17 大品牌）">
+<meta property="og:description" content="物理性能 × 打印便利性 × 安全性全维度对比，官方 TDS 多源交叉验证，每次更新矫正留痕。内容创建：舒舒，开源免费。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://shu0412.github.io/filament-compare/">
+<meta property="og:image" content="https://shu0412.github.io/filament-compare/share/poster-16x9.png">
+<meta property="og:image:width" content="3840">
+<meta property="og:image:height" content="2160">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Filament Lab · 丝验室 — 3D 打印耗材对比库">
+<meta name="twitter:description" content="37 种主流耗材 · 17 大品牌 · 官方 TDS 交叉验证 · 开源免费">
+<meta name="twitter:image" content="https://shu0412.github.io/filament-compare/share/poster-16x9.png">
 <title>Filament Lab · 丝验室 · 3D 打印耗材对比库 · 内容创建：舒舒</title>
 <meta name="description" content="Filament Lab · 丝验室：主流3D打印耗材可视化对比——PLA、PETG、ABS、ASA、TPU、PA、PEEK 等 37 种主流耗材的物理性能、打印便利性、安全性数据，覆盖拓竹、Kexcelled、三绿、Polymaker、eSUN 等 10 大品牌。内容创建：舒舒，开源免费。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>">
@@ -104,6 +115,20 @@
     </div>
   </section>
 
+  <!-- 性能洞察 -->
+  <section class="section" id="insights">
+    <div class="container">
+      <h2 class="sec-title">🔬 性能洞察 · 散点图</h2>
+      <p class="sec-desc">横轴=热变形温度（耐热），纵轴=打印温度（机器门槛），气泡大小=抗冲击韧性，颜色=分区。
+        <strong>左下角</strong>好打但耐热有限，<strong>右上角</strong>性能强悍但需要高温工程机——悬停气泡查看详情。</p>
+      <div class="chart-wrap scatter-wrap">
+        <div class="scatter-chart" id="scatterChart"></div>
+        <div class="scatter-legend" id="scatterLegend"></div>
+        <p class="scatter-hint">💡 挑选思路：先在左下角找"够用且好打"的，再沿耐热轴向右移动按需升级。</p>
+      </div>
+    </div>
+  </section>
+
   <!-- 对比工具 -->
   <section class="section section-alt" id="compare">
     <div class="container">
@@ -142,6 +167,11 @@
       <h2 class="sec-title">🏷️ 品牌专区</h2>
       <p class="sec-desc">主流耗材品牌及其官方在售材料线。品牌信息以各厂商官网/官方商城为准。</p>
       <div class="brand-grid" id="brandGrid"><!-- JS 填充 --></div>
+      <div class="table-wrap" style="margin-top:26px">
+        <h3>🗺️ 品牌 × 材料族 覆盖矩阵（悬停查看）</h3>
+        <p class="hint" style="margin-top:6px">✓ = 该品牌官方在售此材料族产品；数据来源于各品牌官方产品线（点击行可跳转品牌官网）。</p>
+        <div class="table-scroll" id="brandMatrix"></div>
+      </div>
     </div>
   </section>
 
