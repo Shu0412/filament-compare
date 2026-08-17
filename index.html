@@ -1,10 +1,17 @@
 <!DOCTYPE html>
+<!-- ============================================================
+  Filament Lab · 丝验室 · 3D 打印耗材对比库
+  内容创建：舒舒（基于 DeepSeek Harness 构建）
+  开源免费，仅供学习交流；转载数据请注明出处
+============================================================ -->
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>主流 3D 打印耗材对比库 · Filament DB</title>
-<meta name="description" content="主流3D打印耗材可视化对比：PLA、PETG、ABS、ASA、TPU、PA、PEEK 等全部主流耗材的物理性能、打印便利性、安全性数据，覆盖拓竹、Kexcelled、三绿、Polymaker、eSUN 等主流品牌。">
+<meta name="author" content="舒舒">
+<meta name="generator" content="DeepSeek Harness">
+<title>Filament Lab · 丝验室 · 3D 打印耗材对比库 · 内容创建：舒舒</title>
+<meta name="description" content="Filament Lab · 丝验室：主流3D打印耗材可视化对比——PLA、PETG、ABS、ASA、TPU、PA、PEEK 等 37 种主流耗材的物理性能、打印便利性、安全性数据，覆盖拓竹、Kexcelled、三绿、Polymaker、eSUN 等 10 大品牌。内容创建：舒舒，开源免费。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>">
 <link rel="stylesheet" href="css/style.css">
 </head>
@@ -13,8 +20,8 @@
 <header class="site-header" id="top">
   <div class="container header-inner">
     <a class="brand" href="#top">
-      <span class="brand-logo">🧵</span>
-      <span class="brand-text">耗材对比库<small>FILAMENT DB</small></span>
+      <span class="brand-logo">🧪</span>
+      <span class="brand-text">Filament Lab<small>丝验室 · 3D打印耗材对比库</small></span>
     </a>
     <nav class="nav" id="nav">
       <a href="#overview">总览</a>
@@ -37,9 +44,9 @@
   <!-- HERO -->
   <section class="hero">
     <div class="container">
-      <div class="hero-badge">数据驱动 · 多源交叉验证 · 持续矫正</div>
-      <h1>主流 3D 打印耗材<span class="grad">可视化对比库</span></h1>
-      <p class="hero-sub">覆盖全部主流耗材种类 · 物理性能 / 打印便利性 / 安全性三大维度<br>常规耗材与工程耗材分区呈现，主流品牌（拓竹 · Kexcelled · 三绿 · Polymaker · eSUN）一网打尽</p>
+      <div class="hero-badge">🧡 内容创建：舒舒 · 基于 DeepSeek Harness 构建</div>
+      <h1>Filament Lab · <span class="grad">丝验室</span></h1>
+      <p class="hero-sub">实验精神 · 数据说话：37 种主流耗材 · 物理性能 / 打印便利性 / 安全性三大维度，官方 TDS 逐项验过<br>常规耗材与工程耗材分区呈现，主流品牌（拓竹 · Kexcelled · 三绿 · Polymaker · eSUN）一网打尽</p>
       <div class="hero-stats" id="heroStats"><!-- JS 填充 --></div>
       <div class="hero-actions">
         <a class="btn btn-primary" href="#compare">开始对比 ⚡</a>
@@ -179,15 +186,24 @@
           <p class="hint">数据更新时间：<span id="dataUpdated"></span></p>
         </div>
       </div>
-      <p class="disclaimer">⚠️ 免责声明：本页面为数据整理与可视化，仅供参考，不构成选材或安全建议的替代。工业/关键应用请以材料厂商正式 TDS 与专业测试为准。</p>
+      <h3>免责协议（请阅读）</h3>
+      <div class="legal">
+        <p><b>1. 数据仅供参考。</b>本站所有数值均为典型区间，来源于厂商官方 TDS、官方 Wiki 及公开第三方测试；同一材料因牌号、批次、打印参数与测试方法不同，实测值可能存在显著差异。本站数据不构成选材、采购、工程设计或安全决策的专业建议，工业及关键应用请以材料厂商正式 TDS 与专业机构测试为准。</p>
+        <p><b>2. 安全责任由使用者自行承担。</b>3D 打印涉及高温、电气设备与化学释放物（含苯乙烯、甲醛、己内酰胺、氟化氢等，详见本站「打印安全指南」）。使用者应自行采取通风、过滤、封闭腔体、防护装备等必要安全措施，并遵守设备与材料厂商的操作指引。本站不对因使用本站信息（含数据、建议、参数）而导致的任何直接或间接损失、人身伤害承担任何责任。</p>
+        <p><b>3. 品牌与商标声明。</b>页面中出现的品牌名称、产品型号、商标（如 Bambu Lab、Polymaker、eSUN、SUNLU、KEXCELLED、Prusament、Creality、Anycubic、Overture、3DXTech 等）均为其各自权利人的财产。本站仅作信息整理与客观对比，与上述品牌不存在隶属、代言、授权或合作关系；品牌信息以各厂商官方发布为准。</p>
+        <p><b>4. 知识产权与署名。</b>「Filament Lab · 丝验室」站点内容（数据整理、可视化、界面设计）由「舒舒」创建，基于 DeepSeek Harness 构建，开源免费供 3D 打印爱好者学习与交流。转载、引用本站数据或图表请注明出处（本站网址）。禁止将本站内容用于任何形式的虚假宣传或商业欺诈。</p>
+        <p><b>5. 时效性。</b>本站数据持续矫正更新（矫正记录见上），以页面当前版本为准；外部链接指向的第三方页面内容与可用性由第三方负责，与本站无关。</p>
+      </div>
+      <p class="disclaimer">⚠️ 简短版：本站为公益性的数据整理与可视化项目，仅供参考与学习交流，不构成专业建议；打印安全与选材责任由使用者自行承担。如有数据勘误，欢迎反馈，我们将记录并矫正。</p>
     </div>
   </section>
 </main>
 
 <footer class="site-footer">
   <div class="container">
-    <p>🧵 主流 3D 打印耗材对比库 · Filament DB — 数据多源交叉验证，持续矫正更新</p>
-    <p class="footer-note">开放分享给每一位 3D 打印爱好者 🔗</p>
+    <p>🧪 Filament Lab · 丝验室 — 3D 打印耗材对比库，数据多源交叉验证，持续矫正更新</p>
+    <p class="footer-credit">内容创建：<b>舒舒</b> 🧡 · 基于 DeepSeek Harness 构建 · 开源免费分享给每一位 3D 打印爱好者</p>
+    <p class="footer-note">🔗 z1824365519-prog.github.io/filament-compare</p>
   </div>
 </footer>
 
