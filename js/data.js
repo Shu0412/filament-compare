@@ -824,12 +824,12 @@ window.FILAMENT_DATA = {
       sourceUrls: ["https://wiki.fusrock.com/zh/about/about-us", "https://en.tctasia.cn/product/productclass_239.shtml"]
     },
     {
-      id: "r3d", nameCn: "R3D", nameEn: "R3D（芜湖 R3D 科技）", icon: "🔩",
-      hq: "中国芜湖", url: "https://www.r3d-china.com",
-      flagship: "工程/专用线材制造（待补充）",
-      reputation: "芜湖线材制造商，代工+自有品牌并行的专业厂家",
-      materials: ["PLA", "PLA+", "PETG", "ABS", "ASA", "TPU", "PA（尼龙）", "PC", "工程定制料"],
-      sourceUrls: ["https://nanjixiong.com/thread-172945-1-20.html"]
+      id: "r3d", nameCn: "R3D", nameEn: "R3D（Wuhu R3D Technology）", icon: "🔩",
+      hq: "中国芜湖", url: "https://r3d.en.alibaba.com",
+      flagship: "PLA 家族（Matte/Silk/PLA+）与 PA6 尼龙线；以国际站与海外经销渠道为主",
+      reputation: "芜湖线材制造商，主攻海外市场（Alibaba 国际站+欧洲经销），PLA/PA6 等常规与尼龙线齐全",
+      materials: ["PLA", "PLA+", "PLA Matte", "PLA Silk", "PETG", "ABS", "TPU", "PA6（尼龙）"],
+      sourceUrls: ["https://r3d.en.alibaba.com/zh_CN/company_profile.html", "https://nanjixiong.com/thread-172945-1-20.html"]
     },
     {
       id: "ailizi", nameCn: "爱丽滋", nameEn: "ALIZ（无锡爱丽兹三维科技）", icon: "💠",
