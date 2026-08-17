@@ -310,27 +310,27 @@ td.cell-best { color:var(--accent); font-weight:700; }
  * 光影艺术层 · 高级感视觉升级
  * ============================================================ */
 
-/* ---- 全局鼠标光影随行（核心效果） ---- */
-#glowLayer { position:fixed; inset:0; pointer-events:none; z-index:2; mix-blend-mode:screen; opacity:.9;
-  background:radial-gradient(560px circle at var(--mx,50%) var(--my,30%), rgba(79,156,249,.14), transparent 65%),
-             radial-gradient(340px circle at var(--mx,50%) var(--my,30%), rgba(34,195,166,.07), transparent 70%); }
-html[data-theme="light"] #glowLayer { mix-blend-mode:multiply; opacity:.5; }
+/* ---- 全局鼠标光影随行（核心效果·柔和版） ---- */
+#glowLayer { position:fixed; inset:0; pointer-events:none; z-index:2; mix-blend-mode:screen; opacity:.65;
+  background:radial-gradient(300px circle at var(--mx,50%) var(--my,30%), rgba(79,156,249,.08), transparent 65%),
+             radial-gradient(190px circle at var(--mx,50%) var(--my,30%), rgba(34,195,166,.04), transparent 70%); }
+html[data-theme="light"] #glowLayer { mix-blend-mode:multiply; opacity:.35; }
 
-/* ---- hero 呼吸光晕 + 光点 ---- */
+/* ---- hero 呼吸光晕 + 光点（柔和版） ---- */
 .hero { position:relative; }
-.hero::before { content:""; position:absolute; left:50%; top:-220px; width:900px; height:520px; transform:translateX(-50%);
-  background:radial-gradient(closest-side, rgba(79,156,249,.16), transparent 70%);
+.hero::before { content:""; position:absolute; left:50%; top:-180px; width:680px; height:420px; transform:translateX(-50%);
+  background:radial-gradient(closest-side, rgba(79,156,249,.09), transparent 70%);
   animation:heroBreath 9s ease-in-out infinite; pointer-events:none; }
-@keyframes heroBreath { 0%,100%{opacity:.7; transform:translateX(-50%) scale(1);} 50%{opacity:1; transform:translateX(-50%) scale(1.12);} }
+@keyframes heroBreath { 0%,100%{opacity:.6; transform:translateX(-50%) scale(1);} 50%{opacity:1; transform:translateX(-50%) scale(1.08);} }
 .hero::after { content:""; position:absolute; inset:0; pointer-events:none;
-  background-image:radial-gradient(2px 2px at 22% 30%, rgba(159,200,255,.55) 40%, transparent 50%),
-                   radial-gradient(1.5px 1.5px at 70% 18%, rgba(122,232,208,.5) 40%, transparent 50%),
-                   radial-gradient(2px 2px at 85% 55%, rgba(249,165,79,.4) 40%, transparent 50%),
-                   radial-gradient(1.5px 1.5px at 12% 68%, rgba(159,200,255,.4) 40%, transparent 50%),
-                   radial-gradient(2px 2px at 45% 82%, rgba(201,139,249,.35) 40%, transparent 50%),
-                   radial-gradient(1.5px 1.5px at 92% 82%, rgba(159,200,255,.35) 40%, transparent 50%);
+  background-image:radial-gradient(1.5px 1.5px at 22% 30%, rgba(159,200,255,.4) 40%, transparent 50%),
+                   radial-gradient(1px 1px at 70% 18%, rgba(122,232,208,.35) 40%, transparent 50%),
+                   radial-gradient(1.5px 1.5px at 85% 55%, rgba(249,165,79,.28) 40%, transparent 50%),
+                   radial-gradient(1px 1px at 12% 68%, rgba(159,200,255,.3) 40%, transparent 50%),
+                   radial-gradient(1.5px 1.5px at 45% 82%, rgba(201,139,249,.25) 40%, transparent 50%),
+                   radial-gradient(1px 1px at 92% 82%, rgba(159,200,255,.25) 40%, transparent 50%);
   animation:starTwinkle 6s ease-in-out infinite; }
-@keyframes starTwinkle { 0%,100%{opacity:.5;} 50%{opacity:1;} }
+@keyframes starTwinkle { 0%,100%{opacity:.35;} 50%{opacity:.7;} }
 
 /* ---- 玻璃拟态 ---- */
 .site-header { background:rgba(13,17,23,.6); backdrop-filter:blur(18px) saturate(1.5); -webkit-backdrop-filter:blur(18px) saturate(1.5); }
@@ -340,9 +340,34 @@ html[data-theme="light"] .site-header { background:rgba(245,247,250,.7); }
 .mat-card, .zone-card, .dim-card, .brand-card, .guide-card, .col { position:relative; overflow:hidden; }
 .mat-card::after, .zone-card::after, .dim-card::after, .brand-card::after, .guide-card::after, .col::after {
   content:""; position:absolute; inset:0; pointer-events:none; opacity:0; transition:opacity .35s ease;
-  background:radial-gradient(420px circle at var(--cx,50%) var(--cy,50%), rgba(255,255,255,.07), transparent 65%); }
+  background:radial-gradient(260px circle at var(--cx,50%) var(--cy,50%), rgba(255,255,255,.045), transparent 65%); }
 .mat-card:hover::after, .zone-card:hover::after, .dim-card:hover::after, .brand-card:hover::after, .guide-card:hover::after, .col:hover::after { opacity:1; }
-html[data-theme="light"] .mat-card::after, html[data-theme="light"] .brand-card::after { background:radial-gradient(420px circle at var(--cx,50%) var(--cy,50%), rgba(79,156,249,.08), transparent 65%); }
+html[data-theme="light"] .mat-card::after, html[data-theme="light"] .brand-card::after { background:radial-gradient(260px circle at var(--cx,50%) var(--cy,50%), rgba(79,156,249,.06), transparent 65%); }
+
+/* ---- 品牌×材料族矩阵 ---- */
+.matrix-table { min-width:820px; }
+.matrix-table th.mx-col { font-size:11.5px; padding:7px 6px; white-space:nowrap; }
+.matrix-table td.mx-cell { font-size:12px; padding:6px 4px; color:var(--text-faint); }
+.matrix-table td.mx-hit { color:var(--primary-2); font-weight:800; text-shadow:0 0 10px rgba(34,195,166,.45); }
+.matrix-table tr.mx-row:hover td { background:rgba(79,156,249,.07); }
+.matrix-table td.mx-brand { text-align:left; white-space:nowrap; font-weight:600; }
+.matrix-table td.mx-brand a { color:var(--text); }
+.matrix-table td.mx-brand a:hover { color:var(--primary); }
+.matrix-table th:first-child { position:sticky; left:0; z-index:2; }
+
+/* ---- 散点图 ---- */
+.scatter-wrap { display:flex; flex-direction:column; gap:14px; }
+.scatter-chart { position:relative; }
+.scatter-chart svg { width:100%; max-width:860px; height:auto; margin:0 auto; display:block; }
+.scatter-dot { cursor:pointer; transition:r .15s, filter .15s; }
+.scatter-dot:hover { filter:brightness(1.35); }
+.scatter-legend { display:flex; flex-wrap:wrap; gap:16px; justify-content:center; font-size:12.5px; color:var(--text-dim); }
+.scatter-legend i { display:inline-block; width:11px; height:11px; border-radius:50%; margin-right:5px; vertical-align:-1px; }
+.scatter-tip { position:absolute; pointer-events:none; background:var(--bg-card); border:1px solid var(--border);
+  border-radius:10px; padding:8px 12px; font-size:12px; color:var(--text-dim); box-shadow:var(--shadow);
+  opacity:0; transition:opacity .15s; z-index:50; white-space:nowrap; }
+.scatter-tip b { color:var(--text); }
+.scatter-hint { text-align:center; color:var(--text-faint); font-size:12px; }
 
 /* ---- 品牌卡顶部流光 ---- */
 .brand-card { border-top:2px solid transparent; background:linear-gradient(var(--bg-card),var(--bg-card)) padding-box, linear-gradient(120deg, rgba(79,156,249,.5), rgba(34,195,166,.35), rgba(249,165,79,.3)) border-box; }
