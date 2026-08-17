@@ -83,23 +83,34 @@
   function renderLiveStats() {
     var el = $("#liveStats");
     if (!el) return;
+    var now = new Date();
+    var today = now.getFullYear() + "-" + ("0" + (now.getMonth() + 1)).slice(-2) + "-" + ("0" + now.getDate()).slice(-2);
+    var countedToday = false;
+    try {
+      countedToday = localStorage.getItem("fd-counter-day") === today;
+      /* 先写入当天锁，避免同一设备快速开多个标签重复请求计数器。 */
+      if (!countedToday) localStorage.setItem("fd-counter-day", today);
+    } catch (e) { /* 隐私模式或存储受限时，退化为正常计数请求 */ }
     var badge = function (pageId, label) {
       var src = "https://visitor-badge.laobi.icu/badge?page_id=" + pageId
         + "&labelColor=1b2434&color=4f9cf9";
       return '<span class="live-stat"><span class="live-label">' + label + '</span>'
-        + '<img src="' + src + '" alt="' + label + '" loading="lazy" '
+        + '<img src="' + src + '" alt="' + label + '" loading="lazy" decoding="async" '
         + 'onerror="this.outerHTML=\'<span class=&quot;live-fallback&quot;>统计服务暂不可用</span>\'"></span>';
     };
+    var helpStat = countedToday
+      ? '<span class="live-stat"><span class="live-label">🧡 今日已记录</span><span class="live-sub">同一设备当天不重复计数</span></span>'
+      : badge("shu0412-filament-lab", "🧡 已帮助");
     /* 本机访问计数（localStorage，每次加载 +1） */
     var localVisits = 0;
     try { localVisits = parseInt(localStorage.getItem("fd-visits") || "0", 10) + 1; localStorage.setItem("fd-visits", String(localVisits)); } catch (e) { /* ignore */ }
     el.innerHTML = '<div class="live-stats-inner">'
-      + badge("shu0412-filament-lab", "🧡 已帮助")
+      + helpStat
       + '<span class="live-unit">人次</span>'
       + '<span class="live-divider" style="width:1px;height:20px;background:var(--border)"></span>'
       + '<span class="live-stat"><span class="live-label">📈 本机浏览</span><b class="live-num">' + localVisits + '</b><span class="live-sub">次</span></span>'
       + "</div>"
-      + '<p class="live-note">已帮助 = 独立访客人次（同 IP 只计一次）· 本机浏览 = 当前设备累计打开次数 · 由第三方计数服务提供</p>';
+      + '<p class="live-note">已帮助 = 同一设备每天最多请求一次第三方计数器（服务端可能继续按 IP 去重）· 本机浏览 = 当前设备累计打开次数</p>';
   }
 
   /* ---------- 分区卡片 ---------- */
@@ -107,7 +118,7 @@
     var html = "";
     DATA.zones.forEach(function (z) {
       var n = z.materials.length;
-      html += '<div class="zone-card"><span class="zone-tag" style="background:' + escRgba(ZONE_COLORS[z.id]) + '.18;color:' + ZONE_COLORS[z.id] + '">' + esc(z.name) + "</span>"
+      html += '<div class="zone-card" data-goto="' + esc("zone-" + z.id) + '" role="button" tabindex="0"><span class="zone-tag" style="background:' + escRgba(ZONE_COLORS[z.id]) + '.18;color:' + ZONE_COLORS[z.id] + '">' + esc(z.name) + "</span>"
         + "<h3>" + esc(z.nameCn) + "</h3><p>" + esc(z.desc) + "</p>"
         + '<div class="zone-count">共 ' + n + " 种： " + esc(z.materials.map(function (m) { return m.nameCn; }).join("、")) + "</div></div>";
     });
@@ -216,8 +227,10 @@
     });
   }
   var collapseState = { standard: false, engineering: false };
+  var lastPerRow = null;
   function perRow() { return window.innerWidth < 720 ? 1 : 3; }
   function renderMaterials() {
+    lastPerRow = perRow();
     DATA.zones.forEach(function (z) {
       var id = z.id === "standard" ? "Standard" : "Engineering";
       var grid = $("#matGrid" + id);
@@ -241,6 +254,8 @@
     bindCardClicks();
   }
   function bindCollapse() {
+    if (bindCollapse.bound) return;
+    bindCollapse.bound = true;
     $all("[data-collapse]").forEach(function (btn) {
       btn.addEventListener("click", function () {
         var key = btn.getAttribute("data-collapse");
@@ -252,8 +267,23 @@
         }
       });
     });
+    var lastMobile = window.innerWidth <= 720;
+    var resizeFrame = 0;
     window.addEventListener("resize", function () {
-      renderMaterials();
+      if (resizeFrame) return;
+      resizeFrame = requestAnimationFrame(function () {
+        resizeFrame = 0;
+        var mobile = window.innerWidth <= 720;
+        var rows = perRow();
+        if (mobile !== lastMobile || rows !== lastPerRow) {
+          lastMobile = mobile;
+          DATA.zones.forEach(function (z) {
+            var bar = $("#filterBar" + (z.id === "standard" ? "Standard" : "Engineering"));
+            if (bar && bar.innerHTML) { renderFilterBar(z); bindFilterEvents(z); }
+          });
+          renderMaterials();
+        }
+      });
     }, { passive: true });
   }
   function bindCardClicks() {
@@ -741,28 +771,28 @@
   }
 
   /* ---------- 价格情报 ---------- */
-  var priceState = { platform: "" };
-  function renderPrices() {
+  var legacyPriceState = { platform: "" };
+  function renderPricesLegacy() {
     var prices = DATA.meta.prices;
     var el = $("#priceTable");
     if (!el || !prices || !prices.items || !prices.items.length) return;
     var items = prices.items.filter(function (p) {
-      return !priceState.platform || p.platform.indexOf(priceState.platform) >= 0;
+      return !legacyPriceState.platform || p.platform.indexOf(legacyPriceState.platform) >= 0;
     });
     // 筛选条
     var plats = [];
     prices.items.forEach(function (p) { if (plats.indexOf(p.platform) < 0) plats.push(p.platform); });
     var fhtml = '<div class="filter-row"><span class="filter-label">平台</span>'
-      + '<label class="chip fchip' + (!priceState.platform ? " on" : "") + '"><input type="radio" name="pf" data-pf=""' + (!priceState.platform ? " checked" : "") + '>全部</label>'
+      + '<label class="chip fchip' + (!legacyPriceState.platform ? " on" : "") + '"><input type="radio" name="pf" data-pf=""' + (!legacyPriceState.platform ? " checked" : "") + '>全部</label>'
       + plats.map(function (pl) {
-        return '<label class="chip fchip' + (priceState.platform === pl ? " on" : "") + '"><input type="radio" name="pf" data-pf="' + esc(pl) + '"' + (priceState.platform === pl ? " checked" : "") + ">" + esc(pl) + "</label>";
+        return '<label class="chip fchip' + (legacyPriceState.platform === pl ? " on" : "") + '"><input type="radio" name="pf" data-pf="' + esc(pl) + '"' + (legacyPriceState.platform === pl ? " checked" : "") + ">" + esc(pl) + "</label>";
       }).join("")
       + "</div>";
     $("#priceFilter").innerHTML = fhtml;
     $all("#priceFilter input[name=pf]").forEach(function (inp) {
       inp.addEventListener("change", function () {
-        priceState.platform = inp.getAttribute("data-pf");
-        renderPrices();
+        legacyPriceState.platform = inp.getAttribute("data-pf");
+        renderPricesLegacy();
       });
     });
     // 性价比排行：按品牌聚合每kg均价
@@ -852,6 +882,153 @@
     });
   }
 
+  /* ---------- 价格情报（数值化、可追溯、缺失状态明确） ---------- */
+  var priceState = { platform: "", officialOnly: false };
+  function priceNumber(v) {
+    if (v == null || v === "") return null;
+    var n = typeof v === "number" ? v : parseFloat(String(v).replace(/,/g, ""));
+    return isFinite(n) ? n : null;
+  }
+  function money(v) {
+    var n = priceNumber(v);
+    return n == null ? "" : (Math.round(n * 100) / 100).toFixed(2).replace(/\.00$/, "");
+  }
+  function itemWeightKg(p) {
+    var m = String(p.productName || "").match(/(\d+(?:\.\d+)?)\s*(kg|千克|g|克)\b/i);
+    if (!m) return null;
+    var n = parseFloat(m[1]);
+    if (!isFinite(n) || n <= 0) return null;
+    if (/^(g|克)$/i.test(m[2])) n /= 1000;
+    return n <= 10 ? n : null;
+  }
+  function effectiveKgPrice(p) {
+    var direct = priceNumber(p.pricePerKg);
+    if (direct != null) return { value: direct, derived: false };
+    var amount = priceNumber(p.dealPrice != null ? p.dealPrice : p.listPrice);
+    var kg = itemWeightKg(p);
+    return amount != null && kg ? { value: amount / kg, derived: true } : null;
+  }
+  function officialPrice(p) {
+    return p.sourceType === "官方店铺" || /官方|直营/.test(String(p.platform || ""));
+  }
+  function missingPrice(label) {
+    return '<span class="na" title="' + esc(label) + '">未披露</span>';
+  }
+  function renderPrices() {
+    var prices = DATA.meta.prices, el = $("#priceTable");
+    if (!el || !prices || !prices.items || !prices.items.length) return;
+    var items = prices.items.filter(function (p) {
+      return (!priceState.platform || p.platform.indexOf(priceState.platform) >= 0)
+        && (!priceState.officialOnly || officialPrice(p));
+    });
+    var plats = [];
+    prices.items.forEach(function (p) { if (plats.indexOf(p.platform) < 0) plats.push(p.platform); });
+    var fhtml = '<div class="filter-row"><span class="filter-label">平台</span>'
+      + '<label class="chip fchip' + (!priceState.platform ? " on" : "") + '"><input type="radio" name="pf" data-pf=""' + (!priceState.platform ? " checked" : "") + '>全部</label>'
+      + plats.map(function (pl) {
+        return '<label class="chip fchip' + (priceState.platform === pl ? " on" : "") + '"><input type="radio" name="pf" data-pf="' + esc(pl) + '"' + (priceState.platform === pl ? " checked" : "") + '>' + esc(pl) + "</label>";
+      }).join("")
+      + '<label class="chip fchip' + (priceState.officialOnly ? " on" : "") + '"><input type="checkbox" data-pofficial' + (priceState.officialOnly ? " checked" : "") + '>只看官方店/直营</label></div>';
+    $("#priceFilter").innerHTML = fhtml;
+    $all("#priceFilter input[name=pf]").forEach(function (inp) {
+      inp.addEventListener("change", function () { priceState.platform = inp.getAttribute("data-pf"); renderPrices(); });
+    });
+    var po = $("#priceFilter input[data-pofficial]");
+    if (po) po.addEventListener("change", function () { priceState.officialOnly = po.checked; renderPrices(); });
+
+    var allKg = prices.items.map(effectiveKgPrice).filter(Boolean);
+    var officialCount = prices.items.filter(officialPrice).length;
+    var checkedToday = prices.items.filter(function (p) { return p.checkedAt === prices.updatedAt; }).length;
+    var sumHtml = '<div class="price-coverage"><div><b>' + prices.items.length + '</b><span>今年记录</span></div><div><b>' + officialCount + '</b><span>官方/直营</span></div><div><b>' + checkedToday + '</b><span>今日官网复核</span></div><div><b>' + allKg.length + '</b><span>可比每kg价</span></div></div>';
+    var byBrand = {};
+    prices.items.forEach(function (p) {
+      var kg = effectiveKgPrice(p);
+      if (!kg) return;
+      if (!byBrand[p.brand]) byBrand[p.brand] = { sum: 0, n: 0, min: Infinity };
+      byBrand[p.brand].sum += kg.value;
+      byBrand[p.brand].n++;
+      byBrand[p.brand].min = Math.min(byBrand[p.brand].min, kg.value);
+    });
+    var ranked = Object.keys(byBrand).map(function (b) {
+      return { brand: b, avg: byBrand[b].sum / byBrand[b].n, min: byBrand[b].min, n: byBrand[b].n };
+    }).sort(function (a, b) { return a.avg - b.avg; });
+    sumHtml += '<div class="price-sum-title">🏆 性价比品牌排行（每kg价已数值化，仅统计≥2 个可比样本）</div><div class="price-rank">'
+      + ranked.filter(function (r) { return r.n >= 2; }).slice(0, 5).map(function (r, i) {
+        return '<div class="price-rank-item"><span class="rank-no">' + (i + 1) + "</span><b>" + esc(r.brand) + "</b><span class='rank-min'>最低 ¥" + money(r.min) + "/kg</span><span class='rank-avg'>均价 ¥" + money(r.avg) + "/kg</span></div>";
+      }).join("")
+      + "</div>";
+    if (prices.summary) sumHtml += '<p class="price-note">📚 调研时间与数据口径等详见<a href="#" data-openmethod>数据说明 → 价格调研说明</a></p>';
+    $("#priceSummary").innerHTML = sumHtml;
+
+    var byMat = {};
+    items.forEach(function (p) {
+      var kg = effectiveKgPrice(p);
+      if (!kg) return;
+      if (!byMat[p.material]) byMat[p.material] = [];
+      byMat[p.material].push({ brand: p.brand, kg: kg.value, derived: kg.derived });
+    });
+    var matOrder = ["PLA", "PLA+", "PETG", "ABS", "ASA", "TPU 95A", "PLA-CF", "PETG-CF", "PA-CF", "ABS+", "PA", "PPA-CF", "PC-CF", "PC-GF", "PA-GF"];
+    var rangeHtml = '<div class="price-ranges">';
+    matOrder.forEach(function (mat) {
+      var list = (byMat[mat] || []).slice().sort(function (a, b) { return a.kg - b.kg; });
+      if (!list.length) return;
+      var min = list[0], max = list[list.length - 1], uniq = [];
+      list.forEach(function (x) { if (!uniq.some(function (u) { return u.brand === x.brand; })) uniq.push(x); });
+      rangeHtml += '<div class="price-range-card"><div class="pr-mat">' + esc(mat) + '</div>'
+        + '<div class="pr-range">¥' + money(min.kg) + ' – ¥' + money(max.kg) + '<span class="pr-per">/kg</span></div>'
+        + '<div class="pr-brands">' + uniq.map(function (x) {
+          return '<span class="pr-brand' + (x === min ? " pr-low" : "") + (x.derived ? " pr-derived" : "") + '">' + esc(x.brand) + " ¥" + money(x.kg) + (x.derived ? "*" : "") + "</span>";
+        }).join("") + "</div></div>";
+    });
+    rangeHtml += "</div>";
+    var rangeBox = document.getElementById("priceRanges");
+    if (rangeBox) rangeBox.innerHTML = rangeHtml || '<p class="hint">当前筛选没有可比较的每kg价格。</p>';
+
+    function recDate(p) {
+      if (p.recordedAt) return p.recordedAt;
+      if (!p.note) return "";
+      var m = p.note.match(/(20\d{2})[-年](\d{1,2})[-月](\d{1,2})/);
+      return m ? m[1] + "-" + ("0" + m[2]).slice(-2) + "-" + ("0" + m[3]).slice(-2) : "";
+    }
+    var head = "<tr><th data-pk='brand'>品牌</th><th data-pk='material'>材料</th><th data-pk='platform'>平台</th><th data-pk='dealPrice'>到手价 ¥</th><th data-pk='pricePerKg'>每kg ¥</th><th data-pk='listPrice'>原价 ¥</th><th data-pk='lowestPrice'>史低 ¥</th><th>记录</th><th>优惠</th><th>来源</th></tr>";
+    var body = items.map(function (p) {
+      var deal = priceNumber(p.dealPrice), list = priceNumber(p.listPrice), low = priceNumber(p.lowestPrice), kg = effectiveKgPrice(p);
+      var dealCell = deal != null ? money(deal) : list != null ? '<span class="price-fallback" title="未记录活动价，使用官方挂牌价">挂牌 ' + money(list) + "</span>" : missingPrice("官方未披露到手价");
+      var kgCell = kg ? (kg.derived ? '<span class="price-derived" title="按商品标题中的明确克重折算">' + money(kg.value) + "*</span>" : money(kg.value)) : missingPrice("商品规格或每kg价格未核实");
+      var source = p.url ? '<a href="' + esc(p.url) + '" target="_blank" rel="noopener" title="' + esc(p.productName || "打开来源") + '">查看</a>' : '<span class="na">无链接</span>';
+      var date = recDate(p) || "—";
+      var dateCell = '<span class="price-date">' + esc(date) + '</span>' + (p.checkedAt ? ' <span class="price-verified" title="官方页面复核日期：' + esc(p.checkedAt) + '">✓</span>' : '');
+      return '<tr><td><b>' + esc(p.brand) + "</b></td><td>" + esc(p.material) + "</td><td>" + esc(p.platform) + "</td>"
+        + "<td><b>" + dealCell + "</b></td><td>" + kgCell + "</td>"
+        + "<td>" + (list != null ? money(list) : missingPrice("官方未披露原价")) + "</td>"
+        + '<td class="cell-best">' + (low != null ? money(low) : missingPrice("未记录到可靠史低")) + "</td>"
+        + "<td>" + dateCell + "</td><td>" + esc(p.discount || "—") + "</td><td>" + source + "</td></tr>";
+    }).join("");
+    $("#priceTable").innerHTML = '<table class="data-table price-table"><thead>' + head + "</thead><tbody>" + (body || '<tr><td colspan="10" class="price-empty">当前筛选没有价格记录。</td></tr>') + "</tbody></table>";
+    var pk = null, dir = 1;
+    $all("#priceTable th[data-pk]").forEach(function (th) {
+      th.addEventListener("click", function () {
+        var k = th.getAttribute("data-pk"), tbody = $("#priceTable tbody"), rows = Array.prototype.slice.call(tbody.rows);
+        if (pk === k) dir *= -1; else { pk = k; dir = 1; }
+        var idx = Array.prototype.indexOf.call(th.parentNode.cells, th), numeric = ["listPrice", "dealPrice", "pricePerKg", "lowestPrice"].indexOf(k) >= 0;
+        rows.sort(function (a, b) {
+          var av = a.cells[idx].textContent.trim(), bv = b.cells[idx].textContent.trim();
+          if (numeric) {
+            var an = parseFloat(av.replace(/[^0-9.-]/g, "")), bn = parseFloat(bv.replace(/[^0-9.-]/g, ""));
+            if (isNaN(an)) return 1;
+            if (isNaN(bn)) return -1;
+            return (an - bn) * dir;
+          }
+          return av.localeCompare(bv, "zh") * dir;
+        });
+        rows.forEach(function (r) { tbody.appendChild(r); });
+      });
+    });
+    if (rangeBox && items.some(function (p) { var x = effectiveKgPrice(p); return x && x.derived; })) {
+      rangeBox.insertAdjacentHTML("afterend", '<p class="hint price-derived-note">* 每kg价由商品标题中明确标注的克重折算，未明确规格的商品仍保留“未披露”。</p>');
+    }
+  }
+
   /* ---------- 品牌专区 ---------- */
   function renderBrands() {
     var html = DATA.brands.map(function (b) {
@@ -939,7 +1116,7 @@
       renderFilterBar(DATA.zones[0]); bindFilterEvents(DATA.zones[0]); renderMaterials(); bindCollapse();
     } },
     "zone-engineering": { title: "🏗️ 工程耗材", init: function () {
-      renderFilterBar(DATA.zones[1]); bindFilterEvents(DATA.zones[1]); renderMaterials();
+      renderFilterBar(DATA.zones[1]); bindFilterEvents(DATA.zones[1]); renderMaterials(); bindCollapse();
     } },
     "compare": { title: "⚖️ 数据对比", init: function () {
       renderCmpChips(); renderCompareCharts(); renderTable();
@@ -964,6 +1141,9 @@
   function navigateModule(id) {
     var mod = MODULES[id];
     if (!mod) { goHome(); return; }
+    if (location.hash !== "#/" + id) {
+      try { history.replaceState(null, "", location.pathname + location.search + "#/" + id); } catch (e) { location.hash = "/" + id; }
+    }
     if (!modInited[id]) { mod.init(); modInited[id] = true; }
     $all(".hero, #overview, #appgrid").forEach(function (el) { el.style.display = "none"; });
     $("#moduleViews").style.display = "block";
@@ -1040,6 +1220,12 @@
 
   /* ---------- 初始化 ---------- */
   function init() {
+    /* 低功耗设备自动关闭高成本玻璃层，保留结构与色彩。 */
+    var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    var lowPower = !!(conn && conn.saveData)
+      || (navigator.deviceMemory && navigator.deviceMemory <= 4)
+      || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
+    if (lowPower) document.body.classList.add("perf-lite");
     var qs = {};
     (window.location.search || "").replace(/[?&]([^=&]+)=([^&]*)/g, function (_, k, v) { qs[k] = v; });
     if (qs.sel) {
@@ -1086,11 +1272,16 @@
     });
     /* 回到顶部 */
     var bt = $("#backTop");
+    var scrollFrame = 0;
     window.addEventListener("scroll", function () {
-      bt.style.display = window.scrollY > 600 ? "block" : "none";
-      document.body.classList.add("scrolling");
-      clearTimeout(scrollT);
-      scrollT = setTimeout(function () { document.body.classList.remove("scrolling"); }, 150);
+      if (scrollFrame) return;
+      scrollFrame = requestAnimationFrame(function () {
+        scrollFrame = 0;
+        bt.style.display = window.scrollY > 600 ? "block" : "none";
+        document.body.classList.add("scrolling");
+        clearTimeout(scrollT);
+        scrollT = setTimeout(function () { document.body.classList.remove("scrolling"); }, 150);
+      });
     }, { passive: true });
     var scrollT = null;
     bt.addEventListener("click", function () { window.scrollTo({ top: 0, behavior: "smooth" }); });
@@ -1154,12 +1345,18 @@
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
     /* ---------- 精简交互：卡片跳转 + 数据说明二级页 ---------- */
     $all("[data-goto]").forEach(function (card) {
-      card.addEventListener("click", function () {
+      function activate() {
         var id = card.getAttribute("data-goto").split(",")[0];
         if (MODULES[id]) navigateModule(id);
         else if (id === "safety") navigateModule("safety");
         else if (id === "method") openMethod();
-      });
+      }
+      card.addEventListener("click", activate);
+      if (card.getAttribute("role") === "button" || card.tabIndex >= 0) {
+        card.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activate(); }
+        });
+      }
       card.style.cursor = "pointer";
     });
     function openMethod() {
@@ -1181,19 +1378,7 @@
     var mv = document.getElementById("dataVersion");
     if (mv) mv.textContent = (DATA.meta.corrections || []).length;
 
-    /* ---------- 液态光影：lerp 平滑跟随（流体滞后感）+ 卡片局部光 ---------- */
-    /* 鼠标光晕已停用（用户设置）：不再启动 lerp 循环与 mousemove 监听 */
-    void 0;
-    /* 卡片局部光（事件委托，直接量坐标） */
-    document.addEventListener("mousemove", function (e) {
-      var t = e.target;
-      var card = t && t.closest ? t.closest(".mat-card,.zone-card,.dim-card,.brand-card,.guide-card,.col") : null;
-      if (card) {
-        var r = card.getBoundingClientRect();
-        card.style.setProperty("--cx", (e.clientX - r.left) + "px");
-        card.style.setProperty("--cy", (e.clientY - r.top) + "px");
-      }
-    }, { passive: true });
+    /* 装饰光影使用纯 CSS :hover，避免鼠标移动时反复触发布局读取。 */
     /* ---------- 滚动渐入 ---------- */
     if ("IntersectionObserver" in window) {
       var obs = new IntersectionObserver(function (entries) {
