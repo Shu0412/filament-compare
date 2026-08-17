@@ -137,6 +137,12 @@ window.FILAMENT_DATA = {
         item: "新材料交叉核验（第四轮矫正，官方 TDS 逐项比对）",
         issue: "新增 12 种材料的初稿值部分为经验估计，需与官方 TDS 逐项比对",
         fix: "按官方 TDS 矫正 30+ 项：PA12-CF 打印温度 280–300℃（原 250–290）、热床 40–60℃（原 80–110，Fiberon 低翘曲设计）；PPS-CF HDT 133–252.5℃（标注 0.45/1.8MPa 载荷差异）；PPA-CF 拉伸 120–170 MPa（拓竹官方 168±4）、Tm 255–265℃；PET-CF 热床 70–80℃、伸长率 2.4%；PC-ABS 打印温度 250–270℃、伸长率 4.2%、翘曲高；BVOH 密度 1.10–1.20、拉伸 20–45 MPa（Verbatim 参考）；PLA Silk 拉伸 30–45/冲击 3–14（eSUN 2.93 vs Polymaker 13.8 方法差异）；木质 PLA 冲击 4–16/吸湿高；PETG-CF 拉伸 50–63/冲击取缺口口径；TPE 打印 220–250℃/密度 1.10–1.20；PEBA 伸长率 400–900%、干燥 60℃/8h；ASA-CF 采用 Polymaker 官方（43.5/103/5.5）"
+      },
+      {
+        date: "2026-08-15",
+        item: "第五轮扩充：新增 7 个国产耗材品牌（10 → 17）",
+        issue: "用户反馈需要更多国内品牌",
+        fix: "新增爱乐酷 ELEGOO（深圳智能派）、Jayo（捷优，注册地香港）、FusRock（苏州复丝络科）、R3D（芜湖爱3迪科技）、爱丽滋 ALIZ（无锡，母公司江阴龙山）、彩多屋（惠州）、启庞 Kingroon（深圳）；品牌身份/官网/产品线经官方渠道核实：R3D 官网确认为 r3dprinter.com，爱丽滋官网为母公司 longshanplas.com/ALIZ/，Jayo 与创想三维无官方隶属关系、按独立品牌记录"
       }
     ]
   },
@@ -800,60 +806,60 @@ window.FILAMENT_DATA = {
       sourceUrls: ["https://www.3dxtech.com/collections", "https://www.3dxtech.com/search?q=carbonx"]
     },
     {
-      id: "elegoo", nameCn: "爱乐酷", nameEn: "ELEGOO（深圳智能派）", icon: "🐙",
+      id: "elegoo", nameCn: "爱乐酷", nameEn: "ELEGOO（深圳智能派科技）", icon: "🐙",
       hq: "中国深圳", url: "https://us.elegoo.com/pages/elegoo-filaments",
-      flagship: "Rapid PLA Plus（高速）、Rapid PETG、PC-FR（阻燃 PC）；打印机+耗材全生态（海王星系列）",
+      flagship: "Rapid PLA Plus（高速）、Rapid PETG、PAHT-CF、PC-FR（阻燃 PC）；打印机+耗材全生态（海王星系列）",
       reputation: "全球消费级 3D 打印头部品牌（年营收 16 亿+），耗材线与自家海王星系列深度适配，性价比与品控均衡",
-      materials: ["PLA", "PLA Basic", "PLA Plus", "PLA Pro", "Rapid PLA Plus", "PLA Matte", "PLA Silk", "PLA Glow", "PLA Wood", "PLA Marble", "PLA Galaxy", "PLA Sparkle", "PLA Metallic", "PETG", "PETG Translucent", "Rapid PETG", "PC-FR", "ABS", "ASA", "TPU", "SLA 光敏树脂系列"],
+      materials: ["PLA", "PLA Basic", "PLA Plus", "PLA Pro", "Rapid PLA Plus", "PLA Matte", "PLA Silk", "PLA Glow", "PLA Wood", "PLA Marble", "PLA Galaxy", "PLA Sparkle", "PLA Metallic", "PLA-CF", "PETG", "PETG Pro", "PETG Translucent", "Rapid PETG", "PETG-CF", "PETG-GF", "ABS", "ASA", "TPU 95A", "Rapid TPU 95A", "PAHT-CF", "PC", "PC-FR", "SLA 光敏树脂系列"],
       sourceUrls: ["https://us.elegoo.com/pages/elegoo-filaments", "https://www.elegoo.com"]
     },
     {
-      id: "jayo", nameCn: "Jayo", nameEn: "JAYO", icon: "🎁",
-      hq: "中国（海外电商主导）", url: "https://jayo3d.com",
-      flagship: "PLA Meta、PLA+ 多卷装（5/10 卷经济包）、大卷装 5KG 系列",
-      reputation: "主打大卷装/多卷装经济路线的国产耗材品牌，海外电商销量大，PLA 家族覆盖全、性价比突出",
-      materials: ["PLA", "PLA+", "PLA Matte", "PLA Meta", "PLA Silk", "PLA Rainbow", "PLA Galaxy", "PETG", "ABS", "5KG 大卷装系列", "10 卷装经济包", "SLA 光敏树脂"],
+      id: "jayo", nameCn: "Jayo（捷优）", nameEn: "JAYO", icon: "🎁",
+      hq: "中国香港（注册地，海外电商主导）", url: "https://jayo3d.com",
+      flagship: "PLA Meta、PLA+ 多卷装（5/10 卷经济包）、5KG 大卷装系列",
+      reputation: "独立品牌（与创想三维无官方隶属确认），主打大卷装/多卷装经济路线，海外电商销量大，PLA 家族覆盖全",
+      materials: ["PLA", "PLA+", "PLA Matte", "PLA Meta", "PLA Silk", "PLA Rainbow", "PLA Galaxy", "PLA Wood", "PETG", "PETG HF", "ABS", "5KG 大卷装系列", "10 卷装经济包", "SLA 光敏树脂"],
       sourceUrls: ["https://jayo3d.com/collections/all"]
     },
     {
-      id: "fusrock", nameCn: "FusRock", nameEn: "FusRock（苏州复丝络科）", icon: "🪨",
-      hq: "中国苏州", url: "https://wiki.fusrock.com",
-      flagship: "Nex 系列工程料：NexABS-CF20/GF25、NexPA-CF25/GF25、NexPET-GF、PAHT 高温尼龙",
-      reputation: "国产工程料新锐品牌，碳纤/玻纤增强系列齐全，TDS 文档公开",
-      materials: ["NexABS-CF20", "NexABS-GF25", "NexPA-CF25", "NexPA-GF25", "NexPET-GF", "PAHT", "PLA 系列", "PETG 系列", "TPU 系列"],
-      sourceUrls: ["https://wiki.fusrock.com/zh/about/about-us", "https://en.tctasia.cn/product/productclass_239.shtml"]
+      id: "fusrock", nameCn: "FusRock", nameEn: "FusRock（苏州复丝络科新材料）", icon: "🪨",
+      hq: "中国苏州", url: "https://www.fusrock.com",
+      flagship: "Nex 工程料：NexPA-CF25、PAHT-CF/GF、PPA-CF、ABS-CF、PETG-CF HF、PEBA-95A",
+      reputation: "国产工程料新锐品牌，碳纤/玻纤增强与高温尼龙系列齐全，TDS 文档公开",
+      materials: ["NexPA-CF25", "NexPA-GF25", "NexABS-CF20", "NexABS-GF25", "NexPET-GF", "PAHT-CF", "PAHT-GF", "PPA-CF", "ABS-CF", "PETG-CF HF", "低气味 ABS", "PC/ABS", "PEBA-95A", "PLA 系列", "PETG 系列", "TPU 系列"],
+      sourceUrls: ["https://www.fusrock.com", "https://wiki.fusrock.com/zh/about/about-us"]
     },
     {
-      id: "r3d", nameCn: "R3D", nameEn: "R3D（Wuhu R3D Technology）", icon: "🔩",
-      hq: "中国芜湖", url: "https://r3d.en.alibaba.com",
-      flagship: "PLA 家族（Matte/Silk/PLA+）与 PA6 尼龙线；以国际站与海外经销渠道为主",
-      reputation: "芜湖线材制造商，主攻海外市场（Alibaba 国际站+欧洲经销），PLA/PA6 等常规与尼龙线齐全",
-      materials: ["PLA", "PLA+", "PLA Matte", "PLA Silk", "PETG", "ABS", "TPU", "PA6（尼龙）"],
-      sourceUrls: ["https://r3d.en.alibaba.com/zh_CN/company_profile.html", "https://nanjixiong.com/thread-172945-1-20.html"]
+      id: "r3d", nameCn: "R3D", nameEn: "R3D（芜湖爱3迪科技）", icon: "🔩",
+      hq: "中国芜湖", url: "https://r3dprinter.com",
+      flagship: "PLA 全系（丝绸/哑光/彩虹/热变色/夜光）、Rapid PLA、高速 PLA Pro、高速碳纤 PETG",
+      reputation: "2014 年成立的专业线材厂，12 条产线日产耗材 8000+kg，出口与电商并行，色彩与高速料齐全",
+      materials: ["PLA 全系（丝绸/哑光/彩虹/热变色/夜光）", "Rapid PLA", "PLA+", "高速 PLA Pro", "eSilk Magic/Mystic（幻彩丝绸）", "PETG", "高速碳纤 PETG", "ABS", "TPU", "PA6（尼龙）"],
+      sourceUrls: ["https://r3dprinter.com", "https://r3d.en.alibaba.com/zh_CN/company_profile.html"]
     },
     {
       id: "ailizi", nameCn: "爱丽滋", nameEn: "ALIZ（无锡爱丽兹三维科技）", icon: "💠",
-      hq: "中国无锡", url: "https://online.tctasia.cn/zh-cn/showroom-2026/institutions/681bnf",
-      flagship: "高韧性高速 PLA、丝绸 PLA、PETG（高温不翘边口碑款）",
-      reputation: "国内电商活跃品牌（天猫/淘宝），主打好打易用的 PLA/PETG 路线",
-      materials: ["PLA（高速高韧性）", "PLA Silk", "PLA+", "PETG", "ABS", "TPU"],
-      sourceUrls: ["https://online.tctasia.cn/zh-cn/showroom-2026/institutions/681bnf", "https://en.tctasia.cn/product/productclass_200.shtml"]
+      hq: "中国无锡（母公司：江阴龙山合成材料）", url: "http://www.longshanplas.com/ALIZ/",
+      flagship: "PLA+ Pro、PETG/PETG-HF、哑光系列；背靠 25 年改性材料经验的母公司（专精特新小巨人+CNAS 实验室）",
+      reputation: "2022 年独立品牌，母公司江阴龙山合成材料改性经验 25 年+，工业级工程料与民用耗材并重",
+      materials: ["PLA+ Pro", "PLA（高速高韧性）", "PLA Silk", "PETG", "PETG HF", "哑光系列", "ABS", "TPU", "工业级工程料"],
+      sourceUrls: ["https://www.longshanplas.com", "https://online.tctasia.cn/zh-cn/showroom-2026/institutions/681bnf"]
     },
     {
-      id: "caiduowu", nameCn: "彩多屋", nameEn: "CAI LAB（惠州彩多屋科技）", icon: "🎨",
-      hq: "中国惠州", url: "https://online.tctasia.cn/zh-cn/showroom-2026/institutions/23bdhh",
+      id: "caiduowu", nameCn: "彩多屋", nameEn: "CAILAB（惠州彩多屋科技）", icon: "🎨",
+      hq: "中国惠州（仲恺）", url: "https://online.tctasia.cn/zh-cn/showroom-2026/institutions/23bdhh",
       flagship: "PLA+ Bio 系列、丝绸 PIA 系列",
-      reputation: "以色彩丰富的 PLA 系列见长，把 3D 打印材料做成'生活方式'的品牌",
+      reputation: "以色彩丰富的 PLA 系列见长，把 3D 打印材料做成'生活方式'的品牌（无独立官网，天猫/淘宝旗舰店运营）",
       materials: ["PLA+ Bio", "丝绸 PIA", "PLA 系列", "PETG", "TPU"],
       sourceUrls: ["https://online.tctasia.cn/zh-cn/showroom-2026/institutions/23bdhh", "https://world.taobao.com/dianpu/415090305_1.htm"]
     },
     {
       id: "qipang", nameCn: "启庞", nameEn: "Kingroon（深圳启庞科技）", icon: "🖥️",
       hq: "中国深圳", url: "https://cn.kingroon.com",
-      flagship: "KP3S 系列打印机配套耗材；高性价比入门线",
+      flagship: "KP3S 系列打印机配套耗材；PLA+/PETG 碳纤线，入门性价比路线",
       reputation: "以高性价比 FDM 打印机（KP3S 等）闻名，耗材为配套生态，入门玩家友好",
-      materials: ["PLA", "PLA+", "PETG", "ABS", "TPU"],
-      sourceUrls: ["https://cn.kingroon.com"]
+      materials: ["PLA+", "PLA Basic", "PETG", "哑光系列", "彩虹系列", "丝绸双色/三色", "PLA-CF", "PETG-CF", "ABS", "TPU"],
+      sourceUrls: ["https://cn.kingroon.com", "https://www.kingroon.com"]
     }
   ]
 };
