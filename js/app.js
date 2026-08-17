@@ -879,6 +879,66 @@
     $("#dataUpdated").textContent = DATA.meta.updatedAt;
   }
 
+
+  /* ============================================================
+   * SPA 路由：主页 + 二级模块（进入才渲染，返回不销毁）
+   * ============================================================ */
+  var modInited = {};
+  var MODULES = {
+    "zone-standard": { title: "🧱 常规耗材", init: function () {
+      renderFilterBar(DATA.zones[0]); bindFilterEvents(DATA.zones[0]); renderMaterials(); bindCollapse();
+    } },
+    "zone-engineering": { title: "🏗️ 工程耗材", init: function () {
+      renderFilterBar(DATA.zones[1]); bindFilterEvents(DATA.zones[1]); renderMaterials();
+    } },
+    "compare": { title: "⚖️ 数据对比", init: function () {
+      renderCmpChips(); renderCompareCharts(); renderTable();
+    } },
+    "insights": { title: "🔬 性能洞察", init: function () { renderScatter(); } },
+    "brands": { title: "🏷️ 品牌专区", init: function () { renderBrands(); renderBrandMatrix(); } },
+    "prices": { title: "💰 价格情报", init: function () { renderPrices(); } },
+    "safety": { title: "🛡️ 安全指南", init: function () { renderSafety(); } }
+  };
+  var currentModule = null;
+  function goHome() {
+    currentModule = null;
+    $("#moduleViews").style.display = "none";
+    $("#moduleTopbar").style.display = "none";
+    $all(".module").forEach(function (m) { m.style.display = "none"; });
+    $all(".hero, #overview, #appgrid").forEach(function (el) { el.style.display = ""; });
+    if (location.hash && location.hash.indexOf("#/") === 0) {
+      try { history.replaceState(null, "", location.pathname + location.search); } catch (e) { location.hash = ""; }
+    }
+    window.scrollTo(0, 0);
+  }
+  function navigateModule(id) {
+    var mod = MODULES[id];
+    if (!mod) { goHome(); return; }
+    if (!modInited[id]) { mod.init(); modInited[id] = true; }
+    $all(".hero, #overview, #appgrid").forEach(function (el) { el.style.display = "none"; });
+    $("#moduleViews").style.display = "block";
+    $("#moduleTopbar").style.display = "block";
+    $("#moduleCrumb").textContent = "首页 / " + mod.title;
+    $all(".module").forEach(function (m) { m.style.display = m.getAttribute("data-module") === id ? "block" : "none"; });
+    currentModule = id;
+    window.scrollTo(0, 0);
+  }
+  function bindRouter() {
+    $all("[data-mod]").forEach(function (btn) {
+      btn.addEventListener("click", function () { navigateModule(btn.getAttribute("data-mod")); });
+    });
+    $all("[data-home]").forEach(function (btn) {
+      btn.addEventListener("click", function (e) { e.preventDefault(); goHome(); });
+    });
+    window.addEventListener("hashchange", function () {
+      var h = location.hash;
+      if (h && h.indexOf("#/") === 0) navigateModule(h.slice(2));
+      else goHome();
+    });
+    var h = location.hash;
+    if (h && h.indexOf("#/") === 0) navigateModule(h.slice(2));
+  }
+
   /* ---------- 初始化 ---------- */
   function init() {
     var qs = {};
@@ -893,20 +953,10 @@
       if (!cmpState.metrics.length) cmpState.metrics = [METRICS[0].key];
     }
     renderHero();
-    renderScatter();
     renderZones();
-    DATA.zones.forEach(function (z) { renderFilterBar(z); bindFilterEvents(z); });
-    renderMaterials();
     renderGuide();
-    bindCollapse();
-    renderCmpChips();
-    renderCompareCharts();
-    renderTable();
-    renderBrands();
-    renderBrandMatrix();
-    renderPrices();
-    renderSafety();
     renderMethod();
+    bindRouter();
     /* 主题切换：手动选择优先，否则跟随系统 */
     var tt = $("#themeToggle");
     var manualTheme = null;
@@ -952,8 +1002,9 @@
     $all("[data-goto]").forEach(function (card) {
       card.addEventListener("click", function () {
         var id = card.getAttribute("data-goto").split(",")[0];
-        var el = document.getElementById(id);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
+        if (MODULES[id]) navigateModule(id);
+        else if (id === "safety") navigateModule("safety");
+        else if (id === "method") openMethod();
       });
       card.style.cursor = "pointer";
     });
