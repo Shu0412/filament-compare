@@ -108,8 +108,6 @@
         + '<div class="zone-count">共 ' + n + " 种： " + esc(z.materials.map(function (m) { return m.nameCn; }).join("、")) + "</div></div>";
     });
     $("#zoneCards").innerHTML = html;
-    $("#zoneStandardDesc").textContent = DATA.zones[0].desc + "（" + DATA.zones[0].materials.length + " 种）";
-    $("#zoneEngineeringDesc").textContent = DATA.zones[1].desc + "（" + DATA.zones[1].materials.length + " 种）";
   }
 
   /* ---------- 材料卡片 ---------- */
@@ -934,6 +932,34 @@
     $("#matModalClose").addEventListener("click", closeModal);
     $("#matModal").addEventListener("click", function (e) { if (e.target === this) closeModal(); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeModal(); });
+    /* ---------- 精简交互：卡片跳转 + 数据说明二级页 ---------- */
+    $all("[data-goto]").forEach(function (card) {
+      card.addEventListener("click", function () {
+        var id = card.getAttribute("data-goto").split(",")[0];
+        var el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      });
+      card.style.cursor = "pointer";
+    });
+    function openMethod() {
+      $("#methodModal").style.display = "flex";
+      document.body.style.overflow = "hidden";
+      renderMethod();
+    }
+    function closeMethod() {
+      $("#methodModal").style.display = "none";
+      document.body.style.overflow = "";
+    }
+    $all("[data-openmethod]").forEach(function (b) {
+      b.addEventListener("click", function (e) { e.preventDefault(); openMethod(); });
+    });
+    var mmc = document.getElementById("methodModalClose");
+    if (mmc) mmc.addEventListener("click", closeMethod);
+    var mm = document.getElementById("methodModal");
+    if (mm) mm.addEventListener("click", function (e) { if (e.target === this) closeMethod(); });
+    var mv = document.getElementById("dataVersion");
+    if (mv) mv.textContent = (DATA.meta.corrections || []).length;
+
     /* ---------- 液态光影：lerp 平滑跟随（流体滞后感）+ 卡片局部光 ---------- */
     var tx = window.innerWidth / 2, ty = window.innerHeight / 3;
     var cx = tx, cy = ty;
@@ -973,6 +999,9 @@
     var t = $("#navToggle");
     t.addEventListener("click", function () { $("#nav").classList.toggle("open"); });
     $all("#nav a").forEach(function (a) {
+      if (a.getAttribute("href") === "#method") {
+        a.addEventListener("click", function (e) { e.preventDefault(); openMethod(); });
+      }
       a.addEventListener("click", function () { $("#nav").classList.remove("open"); });
     });
   }
