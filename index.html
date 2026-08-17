@@ -22,9 +22,9 @@
 <meta name="twitter:description" content="42 种主流耗材 · 22 大品牌 · 官方 TDS 交叉验证 · 开源免费">
 <meta name="twitter:image" content="https://shu0412.github.io/filament-compare/share/poster-16x9.png">
 <title>Filament Lab · 丝验室 · 3D 打印耗材对比库 · 内容创建：舒舒</title>
-<meta name="description" content="Filament Lab · 丝验室：主流3D打印耗材可视化对比——PLA、PETG、ABS、ASA、TPU、PA、PEEK 等 41 种主流耗材的物理性能、打印便利性、安全性数据，覆盖拓竹、Kexcelled、三绿、Polymaker、eSUN 等 10 大品牌。内容创建：舒舒，开源免费。">
+<meta name="description" content="Filament Lab · 丝验室：主流3D打印耗材可视化对比——PLA、PETG、ABS、ASA、TPU、PA、PEEK 等 42 种主流耗材的物理性能、打印便利性、安全性数据，覆盖 22 个品牌。内容创建：舒舒，开源免费。">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧵</text></svg>">
-<link rel="stylesheet" href="css/style.css?v=20260826">
+<link rel="stylesheet" href="css/style.css?v=20260817.3">
 </head>
 <body>
 
@@ -83,7 +83,7 @@
     <div class="container">
       <h2 class="sec-title">📊 总览</h2>
       <p class="sec-desc">两大分区 × 三维度对比：<a href="#/zone-standard">常规耗材</a> · <a href="#/zone-engineering">工程耗材</a> ｜ <a href="#/compare">物理性能</a> · <a href="#/zone-standard">打印便利性</a> · <a href="#/safety">安全性</a>。数值口径见<a href="#" data-openmethod>数据说明</a>。</p>
-      <div class="zone-cards" id="zoneCards" data-goto="zone-standard,zone-engineering"><!-- JS 填充 --></div>
+      <div class="zone-cards" id="zoneCards"><!-- JS 填充 --></div>
       <div class="dim-grid">
         <div class="dim-card" data-goto="compare" data-goto-type="module"><h3>🧪 物理性能</h3><p>点击进入数据对比 →</p></div>
         <div class="dim-card" data-goto="zone-standard" data-goto-type="module"><h3>🖨️ 打印便利性</h3><p>点击查看常规耗材参数 →</p></div>
@@ -116,8 +116,8 @@
       <h2 class="sec-title">🧭 功能入口</h2>
       <p class="sec-desc">点击进入对应模块（按需加载，返回首页不占资源）</p>
       <div class="app-grid">
-        <button class="app-card" data-mod="zone-standard"><span class="app-icon">🧱</span><b>常规耗材</b><small>17 种 · 入门友好</small></button>
-        <button class="app-card" data-mod="zone-engineering"><span class="app-icon">🏗️</span><b>工程耗材</b><small>25 种 · 工业级</small></button>
+        <button class="app-card" data-mod="zone-standard"><span class="app-icon">🧱</span><b>常规耗材</b><small>18 种 · 入门友好</small></button>
+        <button class="app-card" data-mod="zone-engineering"><span class="app-icon">🏗️</span><b>工程耗材</b><small>24 种 · 工业级</small></button>
         <button class="app-card" data-mod="compare"><span class="app-icon">⚖️</span><b>数据对比</b><small>雷达 · 条形 · 数据表</small></button>
         <button class="app-card" data-mod="insights"><span class="app-icon">🔬</span><b>性能洞察</b><small>散点图 · 一图看懂</small></button>
         <button class="app-card" data-mod="brands"><span class="app-icon">🏷️</span><b>品牌专区</b><small>22 大品牌 · 覆盖矩阵</small></button>
@@ -128,7 +128,7 @@
     </div>
   </section>
 
-  <section class="module" data-module="zone-standard" class="section section-alt" id="zone-standard">
+  <section class="module section section-alt" data-module="zone-standard" id="zone-standard">
     <div class="container">
       <h2 class="sec-title">🧱 常规耗材区</h2>
       <div class="filter-bar" id="filterBarStandard"><!-- JS 填充筛选条 --></div>
@@ -139,7 +139,7 @@
   </section>
 
   <!-- 工程耗材 -->
-  <section class="module" data-module="zone-engineering" class="section" id="zone-engineering">
+  <section class="module section" data-module="zone-engineering" id="zone-engineering">
     <div class="container">
       <h2 class="sec-title">🏗️ 工程耗材区</h2>
       <div class="filter-bar" id="filterBarEngineering"><!-- JS 填充筛选条 --></div>
@@ -150,7 +150,7 @@
   </section>
 
   <!-- 对比工具 -->
-  <section class="module" data-module="compare" class="section section-alt" id="compare">
+  <section class="module section section-alt" data-module="compare" id="compare">
     <div class="container">
       <h2 class="sec-title">⚖️ 数据对比工具</h2>
       <div class="compare-layout">
@@ -181,7 +181,7 @@
   </section>
 
   <!-- 性能洞察 -->
-  <section class="module" data-module="insights" class="section" id="insights">
+  <section class="module section" data-module="insights" id="insights">
     <div class="container">
       <h2 class="sec-title">🔬 性能洞察 · 散点图</h2>
       <p class="sec-desc">横轴=耐热 HDT · 纵轴=打印温度（机器门槛）· 气泡=抗冲击 · 点击气泡查看详情。💡 先在左下找"够用且好打"的，再沿耐热轴升级。</p>
@@ -194,7 +194,7 @@
   </section>
 
   <!-- 品牌专区 -->
-  <section class="module" data-module="brands" class="section" id="brands">
+  <section class="module section" data-module="brands" id="brands">
     <div class="container">
       <h2 class="sec-title">🏷️ 品牌专区</h2>
       <div class="brand-grid" id="brandGrid"><!-- JS 填充 --></div>
@@ -207,7 +207,7 @@
   </section>
 
   <!-- 价格情报 -->
-  <section class="module" data-module="prices" class="section section-alt" id="prices">
+  <section class="module section section-alt" data-module="prices" id="prices">
     <div class="container">
       <h2 class="sec-title">💰 价格情报</h2>
       <p class="sec-desc" id="priceDesc">品牌 × 耗材电商价格对比（京东/天猫官方旗舰店）：原价 · 到手价 · 每kg价 · 史低 · 优惠。📚 调研方法详见<a href="#" data-openmethod>数据说明</a>。</p>
@@ -220,14 +220,14 @@
       <div class="table-wrap">
         <h3>品牌 × 耗材 价格明细（点击表头排序）</h3>
         <div class="table-scroll" id="priceTable"></div>
-        <p class="hint" style="margin-top:10px">📌 数据口径：所有价格为各品牌官方渠道公开售价记录（京东/天猫官方旗舰店、淘宝直营店、抖音商城、拼多多、1688 等），聚合自逛丢/什么值得买/慢慢买及媒体报道，非旗舰店条目已在「平台」列与说明中如实标注；「—」表示官方未披露该字段；部分活动已结束，以商品页实时价为准。详见<a href="#" data-openmethod>数据说明 → 价格调研说明</a>。</p>
+        <p class="hint" style="margin-top:10px">📌 数据口径：优先收录京东/天猫官方旗舰店、淘宝直营店及品牌官方商城，辅以逛丢/什么值得买/慢慢买和媒体公开记录；可用“只看官方店/直营”筛选。列表中的“未披露”表示来源没有公开该字段，带 * 的每kg价按商品标题中明确克重折算，活动价以商品页实时价为准。详见<a href="#" data-openmethod>数据说明 → 价格调研说明</a>。</p>
       </div>
 
     </div>
   </section>
 
   <!-- 安全指南 -->
-  <section class="module" data-module="safety" class="section section-alt" id="safety">
+  <section class="module section section-alt" data-module="safety" id="safety">
     <div class="container">
       <h2 class="sec-title">🛡️ 打印安全指南</h2>
       <div class="table-wrap" id="safetyTable"></div>
@@ -380,8 +380,8 @@
 <div class="more-drawer" id="moreDrawer" style="display:none">
   <div class="more-drawer-head">🧭 全部功能<button class="modal-close" id="drawerClose" aria-label="关闭">✕</button></div>
   <div class="more-drawer-grid">
-    <button class="app-card app-card-sm" data-mod="zone-standard"><span class="app-icon">🧱</span><b>常规耗材</b><small>17 种</small></button>
-    <button class="app-card app-card-sm" data-mod="zone-engineering"><span class="app-icon">🏗️</span><b>工程耗材</b><small>25 种</small></button>
+    <button class="app-card app-card-sm" data-mod="zone-standard"><span class="app-icon">🧱</span><b>常规耗材</b><small>18 种</small></button>
+    <button class="app-card app-card-sm" data-mod="zone-engineering"><span class="app-icon">🏗️</span><b>工程耗材</b><small>24 种</small></button>
     <button class="app-card app-card-sm" data-mod="compare"><span class="app-icon">⚖️</span><b>数据对比</b><small>雷达·表格</small></button>
     <button class="app-card app-card-sm" data-mod="insights"><span class="app-icon">🔬</span><b>性能洞察</b><small>散点图</small></button>
     <button class="app-card app-card-sm" data-mod="brands"><span class="app-icon">🏷️</span><b>品牌专区</b><small>22 品牌</small></button>
@@ -391,7 +391,7 @@
   </div>
 </div>
 
-<script src="js/data.js?v=20260826"></script>
-<script src="js/app.js?v=20260826"></script>
+<script src="js/data.js?v=20260817.3"></script>
+<script src="js/app.js?v=20260817.3"></script>
 </body>
 </html>
