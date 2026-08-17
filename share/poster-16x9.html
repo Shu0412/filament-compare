@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Filament Lab · 丝验室 宣传图 16:9</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { background:#0d1117; font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif; color:#e6edf3; }
+  .poster { width:1920px; height:1080px; position:relative; overflow:hidden;
+    background:
+      radial-gradient(1100px 480px at 12% -8%, rgba(79,156,249,.20), transparent 62%),
+      radial-gradient(900px 420px at 92% 108%, rgba(34,195,166,.14), transparent 60%),
+      radial-gradient(700px 380px at 85% -10%, rgba(249,165,79,.10), transparent 55%),
+      #0d1117;
+  }
+  .grid-bg { position:absolute; inset:0; opacity:.55;
+    background-image:linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+                     linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+    background-size:64px 64px; }
+  .glow { position:absolute; inset:0;
+    background:radial-gradient(1400px 800px at 50% 50%, rgba(79,156,249,.07), transparent 70%); }
+  .content { position:relative; padding:64px 88px; height:100%; display:flex; flex-direction:column; }
+
+  .topbar { display:flex; justify-content:space-between; align-items:center; }
+  .logo { display:flex; align-items:center; gap:16px; }
+  .logo-icon { width:64px; height:64px; border-radius:18px; display:flex; align-items:center; justify-content:center;
+    font-size:34px; background:linear-gradient(135deg, rgba(79,156,249,.28), rgba(34,195,166,.22));
+    border:1px solid rgba(79,156,249,.45); }
+  .logo h1 { font-size:34px; letter-spacing:1px; }
+  .logo h1 small { display:block; font-size:15px; color:#6b7a8f; letter-spacing:4px; font-weight:600; margin-top:2px; }
+  .badge { font-size:16px; color:#22c3a6; border:1.5px solid rgba(34,195,166,.5); background:rgba(34,195,166,.09);
+    padding:9px 22px; border-radius:999px; font-weight:600; letter-spacing:1px; }
+
+  .hero { margin-top:38px; text-align:center; }
+  .hero h2 { font-size:64px; font-weight:800; letter-spacing:2px; line-height:1.25; }
+  .hero h2 .g { background:linear-gradient(90deg,#4f9cf9,#22c3a6); -webkit-background-clip:text; background-clip:text; color:transparent; }
+  .hero p { margin-top:14px; font-size:25px; color:#9aa7b8; letter-spacing:1px; }
+  .hero p b { color:#f9a54f; font-weight:700; }
+
+  .mid { flex:1; display:flex; gap:56px; align-items:center; margin-top:34px; min-height:0; }
+  .radar-wrap { width:430px; flex-shrink:0; display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .radar-wrap svg { width:100%; }
+  .radar-cap { font-size:15px; color:#6b7a8f; letter-spacing:2px; }
+  .cols { flex:1; display:grid; grid-template-columns:1fr 1fr 1fr; gap:26px; }
+  .col { background:rgba(255,255,255,.028); border:1px solid #263041; border-radius:20px; padding:26px 26px 22px; }
+  .col h3 { font-size:22px; margin-bottom:6px; }
+  .col .sub { font-size:14px; color:#6b7a8f; margin-bottom:16px; }
+  .chip-row { display:flex; flex-wrap:wrap; gap:9px; }
+  .chip { font-size:15.5px; padding:7px 14px; border-radius:9px; background:rgba(255,255,255,.05); border:1px solid #2c3748; color:#c6d2e0; }
+  .chip.hl { background:rgba(79,156,249,.16); border-color:rgba(79,156,249,.5); color:#9cc3ff; font-weight:600; }
+  .chip.hl2 { background:rgba(249,165,79,.12); border-color:rgba(249,165,79,.45); color:#ffd9a3; font-weight:600; }
+  .chip.hl3 { background:rgba(34,195,166,.12); border-color:rgba(34,195,166,.45); color:#9df0dd; font-weight:600; }
+  .brand-line { margin-top:14px; font-size:14.5px; color:#8b9dc3; line-height:1.7; }
+
+  .points { display:flex; gap:24px; margin-top:30px; }
+  .point { flex:1; text-align:center; font-size:19px; color:#dbe6f2; background:rgba(255,255,255,.03);
+    border:1px solid #263041; border-radius:14px; padding:15px 10px; }
+  .point b { color:#3ddc84; margin-right:8px; }
+
+  .footer { margin-top:34px; display:flex; justify-content:space-between; align-items:center;
+    background:rgba(255,255,255,.03); border:1px solid #263041; border-radius:18px; padding:20px 30px; }
+  .footer-left { display:flex; align-items:center; gap:22px; }
+  .dh-badge { font-size:15px; padding:8px 18px; border-radius:10px; background:rgba(79,156,249,.14);
+    border:1px solid rgba(79,156,249,.5); color:#9cc3ff; font-weight:600; white-space:nowrap; }
+  .footer-text { font-size:18px; }
+  .footer-text .url { color:#22c3a6; font-weight:700; letter-spacing:.5px; font-size:20px; }
+  .footer-text .open { color:#9aa7b8; font-size:14.5px; margin-top:2px; }
+  .qr { width:112px; height:112px; background:#fff; border-radius:12px; padding:6px; }
+  .qr img { width:100%; height:100%; display:block; }
+</style>
+</head>
+<body>
+<div class="poster">
+  <div class="grid-bg"></div>
+  <div class="glow"></div>
+  <div class="content">
+    <div class="topbar">
+      <div class="logo">
+        <div class="logo-icon">🧪</div>
+        <h1>Filament Lab · 丝验室<small>3D 打印耗材对比库</small></h1>
+      </div>
+      <div class="badge">📊 数据多源交叉验证 · 持续矫正</div>
+    </div>
+
+    <div class="hero">
+      <h2>37 种主流耗材 · 一图看懂<span class="g">怎么选</span></h2>
+      <p><b>物理性能</b> × <b>打印便利性</b> × <b>安全性</b> — 三大维度客观对比，官方 TDS 逐项核验</p>
+    </div>
+
+    <div class="mid">
+      <div class="radar-wrap">
+        <svg viewBox="0 0 400 340">
+          <g fill="none" stroke="rgba(255,255,255,.08)">
+            <polygon points="200,22 338,118 296,290 104,290 62,118"/>
+            <polygon points="200,58 303,130 272,252 128,252 97,130"/>
+            <polygon points="200,94 269,142 248,214 152,214 131,142"/>
+            <polygon points="200,130 234,154 224,176 176,176 166,154"/>
+            <line x1="200" y1="22" x2="200" y2="290"/><line x1="62" y1="118" x2="338" y2="118"/>
+            <line x1="104" y1="290" x2="296" y2="290"/>
+          </g>
+          <polygon points="200,60 300,128 270,238 140,238 110,128" fill="rgba(79,156,249,.22)" stroke="#4f9cf9" stroke-width="2.5"/>
+          <polygon points="200,80 285,135 255,220 155,220 125,135" fill="rgba(34,195,166,.18)" stroke="#22c3a6" stroke-width="2.5"/>
+          <polygon points="200,100 260,145 240,195 160,195 140,145" fill="rgba(249,165,79,.18)" stroke="#f9a54f" stroke-width="2.5"/>
+          <g font-size="13" fill="#6b7a8f" text-anchor="middle">
+            <text x="200" y="12">耐热</text><text x="352" y="121">强度</text><text x="305" y="310">韧性</text>
+            <text x="95" y="310">打印易度</text><text x="48" y="121">安全</text>
+          </g>
+        </svg>
+        <div class="radar-cap">性能画像 · PLA / PETG / ABS / PA-CF</div>
+      </div>
+
+      <div class="cols">
+        <div class="col">
+          <h3>🧱 常规耗材</h3>
+          <div class="sub">日常打印 · 入门友好</div>
+          <div class="chip-row">
+            <span class="chip hl">PLA</span><span class="chip hl">PLA+</span><span class="chip hl">PLA Silk</span>
+            <span class="chip hl2">PETG</span><span class="chip hl2">ABS</span><span class="chip hl2">ASA</span>
+            <span class="chip hl3">TPU</span><span class="chip">木质 PLA</span><span class="chip">PETG-CF</span>
+            <span class="chip">PP</span><span class="chip">HIPS</span><span class="chip">PVA</span>
+          </div>
+          <div class="brand-line">共 17 种 · 含丝绸/木质/碳纤等特色料</div>
+        </div>
+        <div class="col">
+          <h3>🏗️ 工程耗材</h3>
+          <div class="sub">高性能 · 工业级应用</div>
+          <div class="chip-row">
+            <span class="chip hl">PA-CF</span><span class="chip hl">PPA-CF</span><span class="chip hl2">PEEK</span>
+            <span class="chip hl2">PEI</span><span class="chip hl3">PC</span><span class="chip">POM</span>
+            <span class="chip">PPS-CF</span><span class="chip">PET-CF</span><span class="chip">PA12-CF</span>
+            <span class="chip">PC-ABS</span><span class="chip">PEBA</span>
+          </div>
+          <div class="brand-line">共 20 种 · 含高温/碳纤增强全家族</div>
+        </div>
+        <div class="col">
+          <h3>🏷️ 10 大主流品牌</h3>
+          <div class="sub">官方产品线收录</div>
+          <div class="chip-row">
+            <span class="chip hl">拓竹</span><span class="chip">Polymaker</span><span class="chip">eSUN</span>
+            <span class="chip">三绿 SUNLU</span><span class="chip">Kexcelled</span><span class="chip">Prusament</span>
+            <span class="chip">创想三维</span><span class="chip">纵维立方</span><span class="chip">Overture</span>
+            <span class="chip">3DXTech</span>
+          </div>
+          <div class="brand-line">型号逐一经官方渠道核实 · 支持雷达/条形图对比</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="points">
+      <div class="point"><b>✅</b>官方 TDS 多源交叉验证</div>
+      <div class="point"><b>✅</b>每次更新矫正留痕（19 条）</div>
+      <div class="point"><b>✅</b>在线对比工具 · 永久免费</div>
+    </div>
+
+    <div class="footer">
+      <div class="footer-left">
+        <div class="dh-badge">🤖 由 DeepSeek Harness 创建</div>
+        <div class="footer-text">
+          <div class="url">z1824365519-prog.github.io/filament-compare</div>
+          <div class="open">开源 · 献给每一位 3D 打印爱好者 🧡</div>
+        </div>
+      </div>
+      <div class="qr"><img src="data:image/png;base64,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" alt="QR"></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
