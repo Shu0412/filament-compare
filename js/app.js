@@ -207,15 +207,46 @@
       renderFilterBar(z); bindFilterEvents(z); renderMaterials();
     });
   }
+  var collapseState = { standard: false, engineering: false };
+  function perRow() { return window.innerWidth < 720 ? 1 : 3; }
   function renderMaterials() {
     DATA.zones.forEach(function (z) {
       var id = z.id === "standard" ? "Standard" : "Engineering";
       var grid = $("#matGrid" + id);
       var vis = z.materials.filter(function (m) { return matVisible(m, z); });
-      grid.innerHTML = vis.map(materialCard).join("");
+      var limit = collapseState[z.id] ? vis.length : Math.min(vis.length, perRow());
+      grid.innerHTML = vis.slice(0, limit).map(materialCard).join("");
       $("#filterEmpty" + id).style.display = vis.length ? "none" : "block";
+      var bar = $("#collapse" + id);
+      if (bar) {
+        if (vis.length > perRow() && !collapseState[z.id]) {
+          bar.style.display = "block";
+          bar.querySelector("button").textContent = "＋ 展开全部 " + vis.length + " 种";
+        } else if (collapseState[z.id]) {
+          bar.style.display = "block";
+          bar.querySelector("button").textContent = "－ 收起";
+        } else {
+          bar.style.display = "none";
+        }
+      }
     });
     bindCardClicks();
+  }
+  function bindCollapse() {
+    $all("[data-collapse]").forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var key = btn.getAttribute("data-collapse");
+        collapseState[key] = !collapseState[key];
+        renderMaterials();
+        if (collapseState[key]) {
+          var grid = $("#matGrid" + (key === "standard" ? "Standard" : "Engineering"));
+          if (grid) grid.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    });
+    window.addEventListener("resize", function () {
+      renderMaterials();
+    }, { passive: true });
   }
   function bindCardClicks() {
     $all(".mat-card").forEach(function (card) {
@@ -536,14 +567,17 @@
     { id: "food", icon: "🍽️", title: "食品接触", desc: "餐具、容器（注意打印层间卫生）", rec: ["petg", "pp", "pet"], reason: "PETG/PP/PET 树脂本身可用于食品接触；PP 耐高温可微波（需确认牌号），但 3D 打印件层间缝隙易藏菌，建议短时接触+密封涂层。" },
     { id: "speed", icon: "🏎️", title: "高速打印", desc: "快速打样、量产原型", rec: ["pla-plus", "petg", "petg-cf"], reason: "PLA+ 高速表现最好且稳定；PETG 可选高速版（如拓竹 PETG HF）；追求高速+刚度选 PETG-CF。" }
   ];
+  var activeScene = null;
   function renderGuide() {
     var html = SCENES.map(function (s) {
-      return '<button class="guide-card" data-scene="' + s.id + '"><div class="guide-icon">' + s.icon + "</div>"
+      return '<button class="guide-card' + (activeScene === s.id ? " active" : "") + '" data-scene="' + s.id + '"><div class="guide-icon">' + s.icon + "</div>"
         + "<h3>" + s.title + "</h3><p>" + s.desc + "</p><span class='guide-tip'>查看推荐 →</span></button>";
     }).join("");
     $("#guideGrid").innerHTML = html;
     $all("#guideGrid .guide-card").forEach(function (btn) {
       btn.addEventListener("click", function () {
+        activeScene = btn.getAttribute("data-scene");
+        renderGuide();
         var sc = SCENES.filter(function (x) { return x.id === btn.getAttribute("data-scene"); })[0];
         if (!sc) return;
         var mats = sc.rec.map(matById).filter(Boolean);
@@ -775,6 +809,7 @@
     DATA.zones.forEach(function (z) { renderFilterBar(z); bindFilterEvents(z); });
     renderMaterials();
     renderGuide();
+    bindCollapse();
     renderCmpChips();
     renderCompareCharts();
     renderTable();
