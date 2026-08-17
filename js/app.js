@@ -158,15 +158,21 @@
       return '<label class="chip fchip' + (on ? " on" : "") + '"><input type="checkbox" data-f="' + z.id + '" data-type="' + type + '" data-val="' + val + '"' + (on ? " checked" : "") + ">" + label + "</label>";
     };
     var html = '<div class="filter-row"><input type="text" class="filter-search" data-f="' + z.id + '" placeholder="🔍 搜索材料名称 / 英文名…" value="' + esc(f.q) + '">'
-      + '<button class="btn btn-ghost btn-sm" data-fclear="' + z.id + '">清空筛选</button></div>'
-      + '<div class="filter-row"><span class="filter-label">难度</span>'
+      + '<button class="btn btn-ghost btn-sm" data-fclear="' + z.id + '">清空</button>'
+      + '<button class="filter-toggle" type="button" aria-label="筛选">⚙ 筛选</button></div>'
+      + '<div class="filter-row filters"><span class="filter-label">难度</span>'
       + [1, 2, 3, 4, 5].map(function (d) { return chip(d, f.diff.indexOf(d) >= 0, "diff", d + "★"); }).join("")
       + '<span class="filter-label">安全</span>'
       + [0, 1, 2, 3].map(function (s) { return chip(s, f.safety.indexOf(s) >= 0, "safety", SAFETY_LABEL[s]); }).join("")
       + '<span class="filter-label">家族</span>'
       + fams.map(function (fm) { return chip(esc(fm), f.family.indexOf(fm) >= 0, "family", esc(fm)); }).join("")
       + "</div>";
+    /* 手机默认折叠筛选行 */
+    var isMobile = window.innerWidth <= 720;
     $("#filterBar" + (z.id === "standard" ? "Standard" : "Engineering")).innerHTML = html;
+    var fr = $("#filterBar" + (z.id === "standard" ? "Standard" : "Engineering")).querySelector(".filter-row.filters");
+    if (fr && isMobile) fr.classList.remove("open");
+    else if (fr) fr.classList.add("open");
   }
   function matVisible(m, z) {
     var f = zoneFilters(z);
@@ -923,6 +929,55 @@
     currentModule = id;
     window.scrollTo(0, 0);
   }
+  /* ---------- 移动端交互：Tab / 抽屉 / 筛选面板 ---------- */
+  function setTab(id) {
+    $all("#mobileTabbar .tab-item").forEach(function (b) {
+      var t = b.getAttribute("data-tab");
+      b.classList.toggle("active", t === id);
+    });
+  }
+  function closeDrawer() {
+    $("#moreDrawer").style.display = "none";
+    $("#drawerMask").style.display = "none";
+  }
+  function openDrawer() {
+    $("#moreDrawer").style.display = "block";
+    $("#drawerMask").style.display = "block";
+  }
+  function bindMobileUI() {
+    var tb = $("#mobileTabbar");
+    if (!tb) return;
+    $all(".tab-item", tb).forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var t = btn.getAttribute("data-tab");
+        if (t === "home") { goHome(); setTab("home"); }
+        else if (t) { navigateModule(t); setTab(t); }
+        else if (btn.id === "tabMore") { openDrawer(); }
+      });
+    });
+    $("#drawerClose").addEventListener("click", closeDrawer);
+    $("#drawerMask").addEventListener("click", closeDrawer);
+    /* 抽屉内模块按钮（data-mod 已由 bindRouter 绑定，这里补 drawer 关闭） */
+    $all("#moreDrawer [data-mod], #moreDrawer [data-openmethod]").forEach(function (b) {
+      b.addEventListener("click", closeDrawer);
+    });
+    /* 筛选折叠（手机）：filter-bar 加筛选按钮 */
+    document.addEventListener("click", function (e) {
+      var tg = e.target.closest ? e.target.closest(".filter-toggle") : null;
+      if (tg) {
+        var row = tg.parentNode && tg.parentNode.nextElementSibling;
+        if (row) {
+          row.classList.toggle("open");
+          tg.classList.toggle("on");
+        }
+      }
+    });
+    /* Tab 与路由同步 */
+    var origGo = goHome, origNav = navigateModule;
+    goHome = function () { origGo(); setTab("home"); };
+    navigateModule = function (id) { origNav(id); setTab(id); };
+  }
+
   function bindRouter() {
     $all("[data-mod]").forEach(function (btn) {
       btn.addEventListener("click", function () { navigateModule(btn.getAttribute("data-mod")); });
@@ -957,6 +1012,7 @@
     renderGuide();
     renderMethod();
     bindRouter();
+    bindMobileUI();
     /* 主题切换：手动选择优先，否则跟随系统 */
     var tt = $("#themeToggle");
     var manualTheme = null;
