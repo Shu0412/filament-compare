@@ -368,28 +368,28 @@ td.cell-best { color:var(--accent); font-weight:700; }
  * 极光背景 + 动态流体光晕（Liquid Light）
  * ============================================================ */
 #aurora { position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden; }
-#aurora .blob { position:absolute; border-radius:50%; filter:blur(90px); mix-blend-mode:screen; will-change:transform; }
-#aurora .b1 { width:560px; height:560px; left:-140px; top:-120px; background:radial-gradient(circle, rgba(79,156,249,.17), transparent 70%); animation:blobA 26s ease-in-out infinite alternate; }
-#aurora .b2 { width:480px; height:480px; right:-120px; top:22%; background:radial-gradient(circle, rgba(34,195,166,.13), transparent 70%); animation:blobB 32s ease-in-out infinite alternate; }
-#aurora .b3 { width:420px; height:420px; left:22%; bottom:-160px; background:radial-gradient(circle, rgba(249,165,79,.10), transparent 70%); animation:blobC 38s ease-in-out infinite alternate; }
-#aurora .b4 { width:380px; height:380px; right:14%; bottom:30%; background:radial-gradient(circle, rgba(201,139,249,.09), transparent 70%); animation:blobB 44s ease-in-out infinite alternate-reverse; }
+/* 渐变自带柔和衰减，替代 filter:blur（避免大尺寸模糊每帧重绘） */
+#aurora .blob { position:absolute; border-radius:50%; mix-blend-mode:screen; will-change:transform; }
+#aurora .b1 { width:480px; height:480px; left:-140px; top:-120px; background:radial-gradient(circle, rgba(79,156,249,.17) 0%, rgba(79,156,249,.06) 48%, transparent 72%); animation:blobA 40s ease-in-out infinite alternate; }
+#aurora .b2 { width:420px; height:420px; right:-120px; top:22%; background:radial-gradient(circle, rgba(34,195,166,.13) 0%, rgba(34,195,166,.04) 48%, transparent 72%); animation:blobB 48s ease-in-out infinite alternate; }
+#aurora .b3 { width:360px; height:360px; left:22%; bottom:-160px; background:radial-gradient(circle, rgba(249,165,79,.10) 0%, rgba(249,165,79,.03) 48%, transparent 72%); animation:blobC 56s ease-in-out infinite alternate; }
 @keyframes blobA { from{transform:translate(0,0) scale(1);} to{transform:translate(120px,90px) scale(1.18);} }
 @keyframes blobB { from{transform:translate(0,0) scale(1.05);} to{transform:translate(-110px,-70px) scale(.92);} }
 @keyframes blobC { from{transform:translate(0,0) scale(.95);} to{transform:translate(90px,-110px) scale(1.15);} }
 html[data-theme="light"] #aurora .blob { mix-blend-mode:multiply; opacity:.55; }
 
-/* 主光晕：精致小范围跟随（直径 ≈ 鼠标 4 倍内） */
-#glowLayer { position:fixed; inset:0; pointer-events:none; z-index:2; mix-blend-mode:screen; opacity:.9;
+/* 主光晕：96px 小层 + transform 跟随（走合成器，不触发重绘） */
+#glowLayer { position:fixed; left:0; top:0; width:96px; height:96px; margin:-48px 0 0 -48px; pointer-events:none; z-index:2; mix-blend-mode:screen; opacity:.9;
   background:
-    radial-gradient(42px circle at var(--mx,50%) var(--my,40%), rgba(110,175,255,.24), transparent 66%),
-    radial-gradient(26px circle at var(--mx,50%) var(--my,40%), rgba(175,220,255,.15), transparent 68%);
-  filter:blur(3px); will-change:transform; }
-html[data-theme="light"] #glowLayer { mix-blend-mode:multiply; opacity:.4; filter:blur(2px); }
+    radial-gradient(42px circle, rgba(110,175,255,.24), transparent 66%),
+    radial-gradient(26px circle, rgba(175,220,255,.15), transparent 68%);
+  transform:translate(var(--mx,50vw), var(--my,40vh)); will-change:transform; }
+html[data-theme="light"] #glowLayer { mix-blend-mode:multiply; opacity:.4; }
 
-/* 辅助微光：青绿小光斑，与主光晕错位形成层次（不旋转） */
-#flowLayer { position:fixed; inset:0; pointer-events:none; z-index:2; mix-blend-mode:screen; opacity:.7;
-  background:radial-gradient(24px circle at var(--mx,50%) var(--my,40%), rgba(110,235,200,.13), transparent 72%);
-  filter:blur(2px); }
+/* 辅助微光：48px 小层，transform 跟随 */
+#flowLayer { position:fixed; left:0; top:0; width:48px; height:48px; margin:-24px 0 0 -24px; pointer-events:none; z-index:2; mix-blend-mode:screen; opacity:.7;
+  background:radial-gradient(24px circle, rgba(110,235,200,.13), transparent 72%);
+  transform:translate(var(--mx,50vw), var(--my,40vh)); will-change:transform; }
 html[data-theme="light"] #flowLayer { mix-blend-mode:multiply; opacity:.35; }
 
 /* 极光层之上的内容容器 */
@@ -453,9 +453,9 @@ html[data-theme="light"] .mat-card::after, html[data-theme="light"] .brand-card:
 
 /* ---- 按钮流光 ---- */
 .btn-primary { position:relative; overflow:hidden; }
-.btn-primary::after { content:""; position:absolute; top:0; left:-80%; width:60%; height:100%; transform:skewX(-20deg);
-  background:linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent); animation:btnShine 3.2s ease-in-out infinite; }
-@keyframes btnShine { 0%{left:-80%;} 55%{left:130%;} 100%{left:130%;} }
+.btn-primary::after { content:""; position:absolute; top:0; left:0; width:60%; height:100%; transform:translateX(-160%) skewX(-20deg);
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent); animation:btnShine 3.2s ease-in-out infinite; will-change:transform; }
+@keyframes btnShine { 0%{transform:translateX(-160%) skewX(-20deg);} 55%{transform:translateX(320%) skewX(-20deg);} 100%{transform:translateX(320%) skewX(-20deg);} }
 html[data-theme="light"] .btn-primary::after { background:linear-gradient(90deg, transparent, rgba(255,255,255,.85), transparent); }
 
 /* ---- 分区标题渐变下划线 ---- */
@@ -627,4 +627,36 @@ html[data-theme="light"] table.data-table th { background:rgba(233,238,245,.75);
 .method-box .corr-more summary { font-size:12px; }
 @media (max-width:720px){
   .method-duo { grid-template-columns:1fr; }
+}
+
+/* ---- 滚动期间降级：关闭 backdrop-filter，滚动停止 150ms 后恢复（性能优化，视觉基本不变） ---- */
+body.scrolling .mat-card, body.scrolling .brand-card, body.scrolling .zone-card, body.scrolling .dim-card,
+body.scrolling .guide-card, body.scrolling .chart-wrap, body.scrolling .compare-panel,
+body.scrolling .table-wrap, body.scrolling .method-card, body.scrolling .modal, body.scrolling .safety-tips,
+body.scrolling .guide-result, body.scrolling .filter-bar {
+  backdrop-filter:none !important; -webkit-backdrop-filter:none !important;
+}
+body.scrolling .mat-card, body.scrolling .brand-card, body.scrolling .zone-card, body.scrolling .dim-card,
+body.scrolling .guide-card, body.scrolling .chart-wrap, body.scrolling .compare-panel {
+  background:linear-gradient(150deg, rgba(255,255,255,.14) 0%, rgba(255,255,255,.05) 55%, rgba(255,255,255,.08) 100%);
+}
+body.scrolling .table-wrap, body.scrolling .method-card, body.scrolling .modal, body.scrolling .safety-tips,
+body.scrolling .guide-result, body.scrolling .filter-bar {
+  background:rgba(20,28,40,.96);
+}
+html[data-theme="light"] body.scrolling .table-wrap, html[data-theme="light"] body.scrolling .method-card,
+html[data-theme="light"] body.scrolling .modal, html[data-theme="light"] body.scrolling .safety-tips,
+html[data-theme="light"] body.scrolling .guide-result, html[data-theme="light"] body.scrolling .filter-bar {
+  background:rgba(255,255,255,.98);
+}
+html[data-theme="light"] body.scrolling .mat-card, html[data-theme="light"] body.scrolling .brand-card,
+html[data-theme="light"] body.scrolling .zone-card, html[data-theme="light"] body.scrolling .dim-card,
+html[data-theme="light"] body.scrolling .guide-card {
+  background:linear-gradient(150deg, rgba(255,255,255,.92), rgba(255,255,255,.75) 55%, rgba(255,255,255,.85));
+}
+
+/* ---- 移动端/窄屏：无鼠标光晕（省 GPU），极光静态 ---- */
+@media (hover:none), (max-width:720px){
+  #glowLayer, #flowLayer { display:none; }
+  #aurora .blob { animation:none; }
 }
