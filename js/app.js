@@ -1218,51 +1218,54 @@
     if (h && h.indexOf("#/") === 0) navigateModule(h.slice(2));
   }
 
-  /* ---------- 低成本鼠标跟随柔光 ---------- */
+  /* ---------- 鼠标跟随柔光（单层聚焦 + 静止自动淡出） ----------
+   * 设计要点：
+   * - 只保留一个 300px 聚焦光晕，去掉双光斑分离（360px+680px 的"手电筒"感是难看主因）；
+   * - 移动时淡入、静止 1.2s 自动淡出（opacity 走 CSS transition，rAF 只改 transform）；
+   * - lerp 0.14 平滑跟手、不拖尾；reduced-motion / 触屏 / 低功耗设备自动关闭。
+   */
   function bindCursorLight() {
     var glow = $("#glowLayer");
-    var flow = $("#flowLayer");
-    if (!glow || !flow || document.body.classList.contains("perf-lite")) return;
+    if (!glow || document.body.classList.contains("perf-lite")) return;
     var finePointer = window.matchMedia && window.matchMedia("(hover:hover) and (pointer:fine)");
     var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced || (finePointer && !finePointer.matches)) return;
 
     var targetX = window.innerWidth * 0.5;
     var targetY = window.innerHeight * 0.42;
-    var glowX = targetX;
-    var glowY = targetY;
-    var flowX = targetX;
-    var flowY = targetY;
+    var curX = targetX;
+    var curY = targetY;
     var frameId = 0;
-    var active = false;
+    var moving = false;
+    var hideTimer = 0;
     var setPosition = function () {
       var root = document.documentElement;
-      root.style.setProperty("--mx", glowX.toFixed(1) + "px");
-      root.style.setProperty("--my", glowY.toFixed(1) + "px");
-      root.style.setProperty("--fx", flowX.toFixed(1) + "px");
-      root.style.setProperty("--fy", flowY.toFixed(1) + "px");
+      root.style.setProperty("--mx", curX.toFixed(1) + "px");
+      root.style.setProperty("--my", curY.toFixed(1) + "px");
     };
-    var settle = function () {
+    var step = function () {
       frameId = 0;
-      glowX += (targetX - glowX) * 0.18;
-      glowY += (targetY - glowY) * 0.18;
-      flowX += (targetX - flowX) * 0.065;
-      flowY += (targetY - flowY) * 0.065;
+      curX += (targetX - curX) * 0.14;
+      curY += (targetY - curY) * 0.14;
       setPosition();
-      var distance = Math.max(Math.abs(targetX - flowX), Math.abs(targetY - flowY));
-      if (distance > 0.35) frameId = window.requestAnimationFrame(settle);
-      else active = false;
-    };
-    var schedule = function () {
-      if (active) return;
-      active = true;
-      frameId = window.requestAnimationFrame(settle);
+      if (Math.max(Math.abs(targetX - curX), Math.abs(targetY - curY)) > 0.3) {
+        moving = true;
+        frameId = window.requestAnimationFrame(step);
+      } else {
+        moving = false;
+      }
     };
     var onMove = function (e) {
       if (e.pointerType && e.pointerType !== "mouse") return;
       targetX = e.clientX;
       targetY = e.clientY;
-      schedule();
+      if (!glow.classList.contains("on")) glow.classList.add("on");
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(function () { glow.classList.remove("on"); }, 1200);
+      if (!moving) {
+        moving = true;
+        frameId = window.requestAnimationFrame(step);
+      }
     };
     setPosition();
     window.addEventListener("pointermove", onMove, { passive: true });
@@ -1277,6 +1280,16 @@
       || (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4);
     if (lowPower) document.body.classList.add("perf-lite");
     bindCursorLight();
+    /* 卡片局部光：光斑跟随鼠标在卡片内移动（事件委托，只在悬停卡片时量一次坐标） */
+    document.addEventListener("mousemove", function (e) {
+      var t = e.target;
+      var card = t && t.closest ? t.closest(".mat-card,.zone-card,.dim-card,.brand-card,.guide-card,.col") : null;
+      if (card) {
+        var r = card.getBoundingClientRect();
+        card.style.setProperty("--cx", (e.clientX - r.left) + "px");
+        card.style.setProperty("--cy", (e.clientY - r.top) + "px");
+      }
+    }, { passive: true });
     var qs = {};
     (window.location.search || "").replace(/[?&]([^=&]+)=([^&]*)/g, function (_, k, v) { qs[k] = v; });
     if (qs.sel) {
