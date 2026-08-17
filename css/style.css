@@ -696,3 +696,60 @@ html[data-theme="light"] .app-card { background:linear-gradient(150deg, rgba(255
 }
 /* 滚动降级包含 app-card */
 body.scrolling .app-card { backdrop-filter:none !important; }
+
+/* ============================================================
+ * 移动端专属：底部 Tab 导航 + 更多抽屉 + 筛选面板
+ * ============================================================ */
+.mobile-tabbar { display:none; }
+.drawer-mask { position:fixed; inset:0; background:rgba(5,8,14,.6); z-index:500; }
+.more-drawer { position:fixed; left:0; right:0; bottom:0; z-index:501; background:var(--bg-card);
+  border-radius:18px 18px 0 0; border-top:1px solid var(--border); padding:18px 16px calc(18px + env(safe-area-inset-bottom));
+  box-shadow:0 -10px 40px rgba(0,0,0,.4); animation:drawerUp .25s ease; }
+@keyframes drawerUp { from{transform:translateY(40px); opacity:0;} to{transform:none; opacity:1;} }
+.more-drawer-head { display:flex; justify-content:space-between; align-items:center; font-size:16px; font-weight:700; margin-bottom:14px; }
+.more-drawer-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.app-card-sm { padding:13px 12px; border-radius:13px; }
+.app-card-sm .app-icon { font-size:20px; }
+.app-card-sm b { font-size:14px; }
+.app-card-sm small { font-size:11px; }
+
+@media (max-width:720px){
+  /* 底部 Tab */
+  .mobile-tabbar { display:flex; position:fixed; left:0; right:0; bottom:0; z-index:400;
+    background:rgba(15,20,30,.92); backdrop-filter:blur(14px); border-top:1px solid var(--border);
+    padding-bottom:env(safe-area-inset-bottom); }
+  .tab-item { flex:1; display:flex; flex-direction:column; align-items:center; gap:2px; padding:8px 0 7px;
+    background:none; border:none; color:var(--text-faint); font-size:10.5px; cursor:pointer; font-family:inherit; min-height:52px; }
+  .tab-ico { font-size:19px; line-height:1; }
+  .tab-item.active { color:var(--primary); }
+  .tab-item.active .tab-ico { transform:translateY(-1px) scale(1.1); }
+  .tab-item:active { opacity:.7; }
+  body { padding-bottom:64px; }
+  /* 主页入口 2 列 */
+  .app-grid { grid-template-columns:1fr 1fr; }
+  /* 模块顶栏紧凑 */
+  .module-topbar { top:62px; }
+  .module-topbar-inner { padding:8px 12px; }
+  .module-crumb { font-size:12px; }
+  /* 筛选折叠：搜索框 + 筛选按钮 */
+  .filter-row { gap:6px; }
+  .filter-search { min-width:0; flex:1; padding:9px 12px; font-size:13px; }
+  .filter-toggle { display:inline-flex; align-items:center; gap:4px; padding:9px 14px; border-radius:9px;
+    border:1px solid var(--border); background:rgba(255,255,255,.04); color:var(--text-dim); font-size:13px; font-weight:600; }
+  .filter-toggle.on { color:var(--primary); border-color:var(--primary); }
+  .filter-row.filters { display:none; }
+  .filter-row.filters.open { display:flex; }
+  .guide-grid { grid-template-columns:1fr 1fr; gap:10px; }
+  .guide-card { padding:13px; }
+  .guide-icon { font-size:22px; }
+  .guide-card h3 { font-size:14px; }
+  .guide-card p { font-size:11.5px; }
+  .zone-cards { grid-template-columns:1fr; }
+  .dim-grid { grid-template-columns:1fr; }
+  .hero-actions { flex-direction:column; align-items:stretch; }
+  .hero-actions .btn { text-align:center; }
+  .chart-wrap { padding:12px; }
+  .compare-panel .chips { max-height:180px; }
+}
+html[data-theme="light"] .mobile-tabbar { background:rgba(248,250,253,.94); }
+html[data-theme="light"] .more-drawer { background:#fff; }
