@@ -161,6 +161,12 @@ window.FILAMENT_DATA = {
         item: "第五轮扩充：新增 7 个国产耗材品牌（10 → 17）",
         issue: "用户反馈需要更多国内品牌",
         fix: "新增爱乐酷 ELEGOO（深圳智能派）、Jayo（捷优，注册地香港）、FusRock（苏州复丝络科）、R3D（芜湖爱3迪科技）、爱丽滋 ALIZ（无锡，母公司江阴龙山）、彩多屋（惠州）、启庞 Kingroon（深圳）；品牌身份/官网/产品线经官方渠道核实：R3D 官网确认为 r3dprinter.com，爱丽滋官网为母公司 longshanplas.com/ALIZ/，Jayo 与创想三维无官方隶属关系、按独立品牌记录"
+      },
+      {
+        date: "2026-08-17",
+        item: "第九轮：新增 5 个国产耗材品牌（17 → 22）+ 12 条价格记录（75 → 87）",
+        issue: "用户反馈需要更多品牌及其对应售价；新增品牌多无京东/天猫官方旗舰店，需如实标注渠道",
+        fix: "新增艾普创（苏州，淘宝直营店+抖音商城，南极熊/搜狐/网易报道新品3件85折价：TPU 95A HS 92元/kg、PLA-CF 91.8元/kg、PPA-CF 310元/卷、PC-CF 238/PC-GF 187元/kg、PA6-CF 221/PA6-GF 195.5元/kg）、魔创（河南，1688批量直供哑光PLA/PETG低至20.4元/kg，行业文章口径并注明为批量价）、犀博（拼多多彩色PETG 17.68元，ZOL导购记录）、kaaber（PLA Basic约40元/卷为测评参考价，明确标注非活动记录）、以祥（东莞，打印派商城PLA 55.5/ABS 46.5元，克重未明确未折算）；所有非旗舰店条目已在平台列与note中如实标注来源类型（媒体报道/比价站/媒体导购/测评参考/第三方商城），未编造任何价格"
       }
     ],
     prices: {
@@ -240,9 +246,22 @@ window.FILAMENT_DATA = {
       {brand: "创想三维", material: "TPU 95A", platform: "创想三维官方商城(vip.creality.com)", productName: "创想三维 CR-TPU 3D耗材 1.0kg 1.75mm(邵氏95A)", listPrice: "168.0", dealPrice: null, pricePerKg: "168.0", lowestPrice: null, discount: null, url: "http://vip.creality.com/zh/goods-detail/1788", note: "官方直营商城零售价;官方材料指南确认CR-TPU为邵氏95A", sourceType: "官方店铺"},
       {brand: "创想三维", material: "PLA-CF", platform: "创想三维官方商城(vip.creality.com)", productName: "创想三维 Hyper PLA-CF 1kg 1.75mm", listPrice: "233.6", dealPrice: null, pricePerKg: "233.6", lowestPrice: null, discount: null, url: "http://vip.creality.com/zh/goods-detail/2134", note: "官方直营商城零售价(净重1KG,碳纤维PLA)", sourceType: "官方店铺"},
       {brand: "创想三维", material: "PETG-CF", platform: "创想三维官方商城(vip.creality.com)", productName: "创想三维 Hyper PETG-CF 1kg(1.75mm)", listPrice: "239.0", dealPrice: null, pricePerKg: "239.0", lowestPrice: null, discount: null, url: "http://vip.creality.com/zh/goods-detail/2514", note: "官方直营商城零售价(净重1kg)", sourceType: "官方店铺"},
-      {brand: "创想三维", material: "PA-CF", platform: "创想三维官方商城(vip.creality.com)", productName: "创想三维 Hyper PA6-CF 1kg(1.75mm)", listPrice: "409.0", dealPrice: null, pricePerKg: "409.0", lowestPrice: null, discount: null, url: "http://vip.creality.com/zh/goods-detail/2442", note: "尼龙碳纤;同系列官方商城价:Hyper PA612-CF 469元、Hyper PAHT-CF 549元、PPA-CF 599元(均1kg)", sourceType: "官方店铺"}
+      {brand: "创想三维", material: "PA-CF", platform: "创想三维官方商城(vip.creality.com)", productName: "创想三维 Hyper PA6-CF 1kg(1.75mm)", listPrice: "409.0", dealPrice: null, pricePerKg: "409.0", lowestPrice: null, discount: null, url: "http://vip.creality.com/zh/goods-detail/2442", note: "尼龙碳纤;同系列官方商城价:Hyper PA612-CF 469元、Hyper PAHT-CF 549元、PPA-CF 599元(均1kg)", sourceType: "官方店铺"},
+      {brand: "艾普创", material: "TPU 95A", platform: "淘宝直营店", productName: "艾普创 TPU 95A HS 高速耐磨柔性线材（300mm/s）1kg/1.75mm", listPrice: null, dealPrice: "92.0", pricePerKg: "92.0", lowestPrice: null, discount: "新品3件85折大促,92元/kg一卷", url: "https://nanjixiong.com/forum.php?mod=viewthread&tid=175713", note: "南极熊报道(2025-06-19):艾普创淘宝直营店TPU 95A HS,300mm/s高速打印,8款国潮色,磨耗仅23mm3;1kg/1.75mm", sourceType: "媒体报道"},
+      {brand: "艾普创", material: "PLA-CF", platform: "淘宝直营店", productName: "艾普创 PLA-CF 碳纤维线材（10款中国传统色,高速）1kg/1.75mm", listPrice: "108.0", dealPrice: "91.8", pricePerKg: "91.8", lowestPrice: null, discount: "新品期2个月3件折后91.8元/kg(原价108元/kg)", url: "https://nanjixiong.com/forum.php?mod=viewthread&tid=176013", note: "南极熊报道(2025-07-11):官方淘宝店+抖音商城;层间强度较友商提升38%,支持300mm/s,10款中国传统色", sourceType: "媒体报道"},
+      {brand: "艾普创", material: "PPA-CF", platform: "淘宝直营店", productName: "艾普创 PPA-CF 碳纤增强聚邻苯二甲酰胺（弯曲250MPa）1kg", listPrice: null, dealPrice: "310.0", pricePerKg: "310.0", lowestPrice: null, discount: "新品3件85折,约310元/卷", url: "https://www.sohu.com/a/909293513_181700", note: "南极熊/搜狐报道(2025-06-30):PPA CF XY弯曲强度破250MPa、模量11GPa,长期耐热120℃+、短期峰值220℃,250mm/s高速打印", sourceType: "媒体报道"},
+      {brand: "艾普创", material: "PC-CF", platform: "淘宝直营店", productName: "艾普创 PC-CF 纤维增强聚碳酸酯（超低吸水0.20%）1kg", listPrice: null, dealPrice: "238.0", pricePerKg: "238.0", lowestPrice: null, discount: "新品3件85折,折后238元/kg", url: "https://www.sohu.com/a/921269509_181700", note: "南极熊/搜狐报道(2025-08-06):官方淘宝店+抖音商城;无需腔体加热,开放A1涂胶可打,6款中国传统色", sourceType: "媒体报道"},
+      {brand: "艾普创", material: "PC-GF", platform: "淘宝直营店", productName: "艾普创 PC-GF 玻纤增强聚碳酸酯 1kg", listPrice: null, dealPrice: "187.0", pricePerKg: "187.0", lowestPrice: null, discount: "新品3件85折,折后187元/kg", url: "https://www.sohu.com/a/921269509_181700", note: "南极熊/搜狐报道(2025-08-06):同系列PC GF,支持AMS/CFS自动进料", sourceType: "媒体报道"},
+      {brand: "艾普创", material: "PA-CF", platform: "淘宝直营店", productName: "艾普创 PA6-CF 碳纤增强尼龙6（HDT 197℃,300mm/s）1kg", listPrice: null, dealPrice: "221.0", pricePerKg: "221.0", lowestPrice: null, discount: "新品3件85折,折后221元/kg", url: "https://m.163.com/dy/article/KD43CB25051186GP.html", note: "南极熊报道(2025-10-30):PA6 CF热变形温度197℃,涂胶后无需腔体加热,狂暴模式300mm/s", sourceType: "媒体报道"},
+      {brand: "艾普创", material: "PA-GF", platform: "淘宝直营店", productName: "艾普创 PA6-GF 玻纤增强尼龙6（HDT 191℃）1kg", listPrice: null, dealPrice: "195.5", pricePerKg: "195.5", lowestPrice: null, discount: "新品3件85折,折后195.5元/kg", url: "https://m.163.com/dy/article/KD43CB25051186GP.html", note: "南极熊报道(2025-10-30):PA6 GF热变形温度191℃,黑/白/灰/红4色,冲击较友商倍数级提升", sourceType: "媒体报道"},
+      {brand: "魔创", material: "PLA", platform: "1688", productName: "魔创 哑光 PLA 高纯度 3D 打印耗材（1688 批量直供）", listPrice: null, dealPrice: "20.4", pricePerKg: "20.4", lowestPrice: null, discount: "1688 批量直供价,低至20.4元/千克", url: "https://wiki.1688.com/zh/3d-printing-filament/WKfmd1tlr20mio", note: "1688行业wiki文章(2026-05-18):魔创/彩多屋等品牌哑光PLA/PETG批量直供低至20.4元/千克,具体型号未注明,为批量采购口径", sourceType: "比价站"},
+      {brand: "犀博", material: "PETG", platform: "拼多多", productName: "犀博 彩色 PETG 3D 打印线材 1.75mm 韧性稳定 1kg", listPrice: "19.68", dealPrice: "17.68", pricePerKg: "17.68", lowestPrice: null, discount: "拼多多活动售价19.68元,下单1件实付低至17.68元", url: "https://oa.zol.com.cn/1083/10839374.html", note: "中关村在线导购(2025-11-18):犀博彩色PETG 1kg/1.75mm,拼多多实付17.68元", sourceType: "媒体导购"},
+      {brand: "kaaber", material: "PLA", platform: "淘宝", productName: "Kaaber PLA Basic 入门级 3D 打印耗材（1kg 装）", listPrice: "40.0", dealPrice: "40.0", pricePerKg: "40.0", lowestPrice: null, discount: null, url: "https://post.smzdm.com/talk/p/avvlo384/", note: "什么值得买测评文章提及约40元/卷(1kg装)为参考价而非活动记录(2025);渠道未核实,以店铺实际售价为准", sourceType: "测评参考"},
+      {brand: "以祥", material: "PLA", platform: "打印派商城", productName: "东莞以祥 3D 打印机 PLA 耗材 0.5/1KG 1.75/2.85/3.0mm", listPrice: null, dealPrice: "55.5", pricePerKg: null, lowestPrice: null, discount: null, url: "http://wap.dayinpai.com/product/detail/996018722166241", note: "打印派商城收录东莞以祥 PLA 0.5/1KG规格售价55.5元;克重未明确,pricePerKg未折算", sourceType: "第三方商城"},
+      {brand: "以祥", material: "ABS", platform: "打印派商城", productName: "东莞以祥 进口 ABS 3D 打印耗材 1.75/2.85/3.00mm", listPrice: null, dealPrice: "46.5", pricePerKg: null, lowestPrice: null, discount: null, url: "http://wap.dayinpai.com/product/detail/405212190118008", note: "打印派商城收录东莞以祥进口ABS售价46.5元;克重未明确,pricePerKg未折算", sourceType: "第三方商城"}
+
     ],
-      summary: "调研时间2026-08-17,覆盖14个品牌、80条价格记录,来源以逛丢/什么值得买/慢慢买等比价聚合站、官方旗舰店详情页与品牌官网自营商城为主(京东/天猫商品页反爬无法直接访问,数据为2024-2026年公开好价记录,部分活动已结束,实际以商品页为准)。【性价比排名·按PLA/PLA+/PETG/ABS日常券后价折算每kg均价,1kg基准(多件折扣已折算)】第一梯队(约23-39元/kg): Jayo(PLA 27.2/PETG 25.5/ABS 35.1,1.1kg装)、纵维立方(PLA 34.3/PETG 22.9-25)、R3D(PLA 36.8/PETG 23.6)、启庞(PLA 37.4/PETG 27.3/ABS 32.4);第二梯队(约40-50元/kg): 三绿(PLA Lite 34.9/PETG 36.6)、创想三维电商活动价(Ender-PLA 48.5/Hyper PLA 51.35/Soleyin 45.5)、eSUN(PLA Basic 37.3/ABS+ 46.3)、爱乐酷ELEGOO(PLA 20/ABS 49.5)、拓竹(单卷PLA 49-57/PETG 36.7/ABS 49.6,6kg套装29.5元/kg为最优单价)、彩多屋(PLA+ 28.1,克重未证实);第三梯队(约50-62元/kg): Polymaker(PLA 43.6-68/PETG 42-57.7/ABS 43.9)、Kexcelled(PETG 58.5/ABS 49.3);特殊: 创想三维官方商城挂牌价显著更高(CR-PLA Matte 132/PLA+ 160/PETG 109-118/ABS 108-149/ASA 200/TPU 168/PLA-CF 233.6/PETG-CF 239/PA-CF 409),约为电商活动价的2-3倍,采购应走电商旗舰店活动;FusRock国内无官方渠道。【价格区间观察】PLA/PLA+ 1kg券后20-69元(主流39-59元,低于30元/kg多为低质料,SMZDM提示);PETG 20.9-58.5元(创想三维官方商城109-118元);ABS 32.4-49.6元(官方商城108-149元);ASA 55-71元(创想三维官方商城200元);TPU 95A 100-110元(拓竹电商价;创想三维官方商城168元);PLA-CF 147元(拓竹,2023年旧价)-233.6元(创想三维官方商城);PETG-CF 67-80元/kg(启庞0.3kg/彩多屋200g小规格;创想三维官方商城239元);PA-CF 199元(eSUN)-409元(创想三维官方商城),拓竹PAHT-CF 387.36元、PA6-CF折算346.8元/kg。【优惠形式】多件折扣(满3件8折-8.7折)与立减券是主流,拓竹/Jayo/Polymaker多件价与单件价差距约20-40%;会员价(京东PLUS/88VIP)、国家补贴(9.5-9.7折)叠加常见;拓竹6kg囤货套装折算单价最低。【数据说明】lowestPrice仅以下可查: R3D(PLA 34.87/PETG 11.77)、创想三维(Ender-PLA 48.5/Hyper PLA 51.35)、纵维立方(PLA 29/PETG 38.32),其余品牌未编造史低价;eSUN PLA+、爱丽滋、Kexcelled PLA等公开搜索无售价故置null(渠道存在但价格未披露);爱丽滋/启庞/彩多屋/R3D部分条目为小规格(200g/300g/0.3kg)或克重存疑记录,pricePerKg已按标注克重折算,采购前需复核规格。"
+      summary: "调研时间2026-08-17,覆盖17个品牌、87条价格记录,来源以逛丢/什么值得买/慢慢买等比价聚合站、官方旗舰店详情页、品牌官方直营渠道(淘宝直营店/抖音商城/1688/拼多多)与媒体报道为主(京东/天猫商品页反爬无法直接访问,数据为2024-2026年公开好价记录,部分活动已结束,实际以商品页为准)。【性价比排名·按PLA/PLA+/PETG/ABS日常券后价折算每kg均价,1kg基准(多件折扣已折算)】第一梯队(约17-39元/kg): 犀博(拼多多彩色PETG 17.68)、魔创(1688批量哑光PLA 20.4,批量口径)、Jayo(PLA 27.2/PETG 25.5/ABS 35.1,1.1kg装)、纵维立方(PLA 34.3/PETG 22.9-25)、R3D(PLA 36.8/PETG 23.6)、启庞(PLA 37.4/PETG 27.3/ABS 32.4);第二梯队(约40-50元/kg): 三绿(PLA Lite 34.9/PETG 36.6)、创想三维电商活动价(Ender-PLA 48.5/Hyper PLA 51.35/Soleyin 45.5)、eSUN(PLA Basic 37.3/ABS+ 46.3)、爱乐酷ELEGOO(PLA 20/ABS 49.5)、kaaber(PLA Basic约40,测评参考价)、拓竹(单卷PLA 49-57/PETG 36.7/ABS 49.6,6kg套装29.5元/kg为最优单价)、彩多屋(PLA+ 28.1,克重未证实);第三梯队(约50-62元/kg): Polymaker(PLA 43.6-68/PETG 42-57.7/ABS 43.9)、Kexcelled(PETG 58.5/ABS 49.3)、以祥(打印派商城PLA 55.5/ABS 46.5,克重未明确);特殊: 创想三维官方商城挂牌价显著更高(CR-PLA Matte 132/PLA+ 160/PETG 109-118/ABS 108-149/ASA 200/TPU 168/PLA-CF 233.6/PETG-CF 239/PA-CF 409),约为电商活动价的2-3倍,采购应走电商旗舰店活动;艾普创走工业级路线(淘宝直营店,新品3件85折): TPU 95A HS 92/PLA-CF 91.8/PPA-CF 310/PC-CF 238/PC-GF 187/PA6-CF 221/PA6-GF 195.5元/kg;FusRock国内无官方渠道。【价格区间观察】PLA/PLA+ 1kg券后20-69元(主流39-59元,低于30元/kg多为低质料,SMZDM提示;1688批量口径20.4元除外);PETG 17.68-58.5元(犀博拼多多17.68为媒体记录;创想三维官方商城109-118元);ABS 32.4-49.6元(官方商城108-149元;以祥46.5克重未明确);ASA 55-71元(创想三维官方商城200元);TPU 95A 92-110元(艾普创92元/kg为新品促销价;拓竹电商价100-110元;创想三维官方商城168元);PLA-CF 91.8元(艾普创新品价)-233.6元(创想三维官方商城);PA-CF 199元(eSUN)-409元(创想三维官方商城),拓竹PAHT-CF 387.36元、PA6-CF折算346.8元/kg、艾普创PA6-CF 221元;PPA-CF 310元(艾普创);PETG-CF 67-80元/kg(启庞0.3kg/彩多屋200g小规格;创想三维官方商城239元)。【优惠形式】多件折扣(满3件8折-8.7折)与立减券是主流,拓竹/Jayo/Polymaker多件价与单件价差距约20-40%;会员价(京东PLUS/88VIP)、国家补贴(9.5-9.7折)叠加常见;拓竹6kg囤货套装折算单价最低;艾普创新品期3件85折为官方直营口径。【数据说明】lowestPrice仅以下可查: R3D(PLA 34.87/PETG 11.77)、创想三维(Ender-PLA 48.5/Hyper PLA 51.35)、纵维立方(PLA 29/PETG 38.32),其余品牌未编造史低价;eSUN PLA+、爱丽滋、Kexcelled PLA等公开搜索无售价故置null(渠道存在但价格未披露);爱丽滋/启庞/彩多屋/R3D部分条目为小规格(200g/300g/0.3kg)或克重存疑记录,pricePerKg已按标注克重折算;以祥克重未明确未折算;kaaber约40元为测评参考价,采购前需复核规格与实时价。"
     },
   },
 
@@ -1034,6 +1053,46 @@ window.FILAMENT_DATA = {
       reputation: "以高性价比 FDM 打印机（KP3S 等）闻名，耗材为配套生态，入门玩家友好",
       materials: ["PLA+", "PLA Basic", "PETG", "哑光系列", "彩虹系列", "丝绸双色/三色", "PLA-CF", "PETG-CF", "ABS", "TPU"],
       sourceUrls: ["https://cn.kingroon.com", "https://www.kingroon.com"]
+    },
+    {
+      id: "aipuchuang", nameCn: "艾普创", nameEn: "Aipuchuang（艾普创聚合物材料·苏州）", icon: "🧬",
+      hq: "中国苏州", url: "https://s.taobao.com/search?q=%E8%89%BE%E6%99%AE%E5%88%9B3D%E6%89%93%E5%8D%B0%E6%9D%90%E6%96%99",
+      flagship: "TPU 95A HS（300mm/s 高速耐磨）、PLA-CF（10 款中国传统色）、PPA/PPA-CF/PPA-GF、PC-CF/PC-GF、PA6-CF/PA6-GF、阻燃 PC、食品级 PLA；官方渠道为淘宝直营店 + 抖音商城（公众号：艾普创IPCON）",
+      reputation: "2025 年起密集发布新品的苏州新锐线材厂：TPU 95A HS 实测 300mm/s、PPA-CF 弯曲强度破 250MPa、PA6-CF/GF 热变形温度 191–197℃ 且无需腔体加热，走「工业性能 + 国潮配色」差异化路线",
+      materials: ["TPU 95A HS", "PLA", "PLA-CF", "PLA（食品级）", "PC", "PC-CF", "PC-GF", "PA6", "PA6-CF", "PA6-GF", "PPA", "PPA-CF", "PPA-GF", "阻燃 PC"],
+      sourceUrls: ["https://nanjixiong.com", "https://www.sohu.com", "https://m.163.com"]
+    },
+    {
+      id: "mochuang", nameCn: "魔创", nameEn: "Mochuang（河南魔创科技）", icon: "🎨",
+      hq: "中国河南", url: "https://s.1688.com/selloffer/offer_search.htm?keywords=mo-chuang-3d",
+      flagship: "哑光 PLA / 哑光 PETG（高纯度、厂家直销），1688 批量直供，价格优势明显",
+      reputation: "河南魔创科技旗下耗材品牌，主打哑光质感的 PLA/PETG，通过 1688 平台批量直供（2026-05 行业文章提及与彩多屋同属低价区间），面向农场与批量采购用户",
+      materials: ["PLA", "哑光 PLA", "PETG", "哑光 PETG"],
+      sourceUrls: ["https://wiki.1688.com/zh/3d-printing-filament/WKfmd1tlr20mio"]
+    },
+    {
+      id: "xibo", nameCn: "犀博", nameEn: "Xibo", icon: "🌈",
+      hq: "中国（平台：拼多多）", url: "https://mobile.yangkeduo.com/search_result.html?search_key=%E7%8A%80%E5%8D%9A%E6%89%93%E5%8D%B0%E6%9D%90%E6%96%99",
+      flagship: "彩色 PETG（1kg/1.75mm，韧性稳定）、3D 打印耗材批发；以拼多多超低价著称",
+      reputation: "拼多多渠道的高性价比耗材品牌，1kg 彩色 PETG 曾做到 17.68 元（2025-11 中关村在线导购记录），主打批发与低价走量",
+      materials: ["PETG", "彩色 PETG", "批发耗材"],
+      sourceUrls: ["https://oa.zol.com.cn/1083/10839374.html"]
+    },
+    {
+      id: "kaaber", nameCn: "Kaaber", nameEn: "Kaaber", icon: "🐯",
+      hq: "中国（平台：淘宝）", url: "https://world.taobao.com/item/891819328322.htm",
+      flagship: "PLA Basic（新手友好入门级，约 40 元/卷 1kg 装）",
+      reputation: "什么值得买测评推荐的新手入门品牌：PLA Basic 性价比突出（约 40 元/卷），常规 200℃ 打印稳定，适合预算有限的入门用户",
+      materials: ["PLA Basic", "PLA"],
+      sourceUrls: ["https://post.smzdm.com/talk/p/avvlo384/", "https://post.smzdm.com/talk/p/a2qldvnq/"]
+    },
+    {
+      id: "yixiang", nameCn: "以祥", nameEn: "Yixiang / YASIN（东莞以祥三维科技）", icon: "🏭",
+      hq: "中国东莞", url: "https://s.taobao.com/search?q=%E4%BB%A5%E7%A5%A5%203D%E6%89%93%E5%8D%B0%E6%9D%90%E6%96%99",
+      flagship: "PLA（0.5/1KG，1.75/2.85/3.0mm 多规格）、进口 ABS、HIPS、打印笔耗材；早期 3D 打印材料厂商",
+      reputation: "东莞市以祥三维科技有限公司（YASIN），老牌耗材厂商：覆盖 1.75/2.85/3.0mm 多线径与打印笔耗材，曾收录于打印派商城（PLA 55.5 元/ABS 46.5 元）",
+      materials: ["PLA", "ABS", "HIPS", "打印笔耗材"],
+      sourceUrls: ["http://wap.dayinpai.com", "https://world.taobao.com/item/579215673817.htm"]
     }
   ]
 };
