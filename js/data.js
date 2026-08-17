@@ -140,6 +140,12 @@ window.FILAMENT_DATA = {
       },
       {
         date: "2026-08-15",
+        item: "第六轮（计划书阶段一）：新增 4 种耗材（37 → 41）",
+        issue: "按完善计划书补全材料库：PCTG、PA-GF、PEEK-CF、PEEK-GF",
+        fix: "PA-GF 采用 Polymaker Fiberon PA6-GF25 官方打印件实测（拉伸 80.1 MPa/HDT 191℃/冲击 10 kJ/m²）；PCTG 采用 3DXTech MAX-G 官方参数（250–270℃/无定形/耐化学优于 PETG）；PEEK-CF/GF 采用 3DXTech CarbonX 系列典型窗口（360–400℃/高温腔）并标注口径；PEEK-CF/GF 力学为典型区间待子代理返回后比对"
+      },
+      {
+        date: "2026-08-15",
         item: "第五轮扩充：新增 7 个国产耗材品牌（10 → 17）",
         issue: "用户反馈需要更多国内品牌",
         fix: "新增爱乐酷 ELEGOO（深圳智能派）、Jayo（捷优，注册地香港）、FusRock（苏州复丝络科）、R3D（芜湖爱3迪科技）、爱丽滋 ALIZ（无锡，母公司江阴龙山）、彩多屋（惠州）、启庞 Kingroon（深圳）；品牌身份/官网/产品线经官方渠道核实：R3D 官网确认为 r3dprinter.com，爱丽滋官网为母公司 longshanplas.com/ALIZ/，Jayo 与创想三维无官方隶属关系、按独立品牌记录"
@@ -719,6 +725,66 @@ window.FILAMENT_DATA = {
           drawbacks: ["磨喷嘴", "韧性低于纯 ASA", "价格较高"],
           note: "官方打印件实测（Polymaker Fiberon ASA-CF08）：拉伸 43.5 MPa、HDT 103℃、缺口冲击 5.5 kJ/m²、密度 1.09。",
           sources: [{ name: "Polymaker 官方技术数据一览", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-filaments/technical-data-at-a-glance.md" }]
+        },
+        {
+          id: "pctg", nameCn: "PCTG", nameEn: "Glycol-modified PCT (透明耐化聚酯)", family: "PET系",
+          color: "#22c3a6",
+          tg: [80, 90], tm: null, hdt: [70, 80],
+          printTemp: [250, 270], bedTemp: [70, 90],
+          tensile: [40, 55], flexural: [55, 75], impact: [6, 12], impactUnit: "kJ/m²", elongation: [5, 30],
+          density: [1.22, 1.27], hygroscopic: "中",
+          difficulty: 2, warp: "低", enclosure: "否", drying: "建议 65℃/4–6h",
+          safetyLevel: 0, fumes: "低气味（打印时几乎无味）",
+          safetyNote: "PCTG 打印气味极低，释放物少；耐化学性优于 ABS/PETG，适合化工接触场景。",
+          applications: ["耐化学容器", "透明/半透明件", "医疗器械外壳", "化妆品包装"],
+          drawbacks: ["打印温度高于 PETG（250–270℃）", "价格略高", "市售品牌较少"],
+          note: "3DXTech MAX-G PCTG 官方：处理温度 250–270℃、热床 70–90℃、无定形低翘曲；官方宣称耐化学性与延展性优于 PETG。力学为典型区间。",
+          sources: [{ name: "3DXTech MAX-G PCTG 官方", url: "https://www.3dxtech.com/products/max-g-pctg" }]
+        },
+        {
+          id: "pa-gf", nameCn: "PA-GF", nameEn: "Glass Fiber Reinforced Nylon", family: "尼龙PA",
+          color: "#f2c94c",
+          tg: [40, 60], tm: [220, 225], hdt: [140, 191],
+          printTemp: [260, 290], bedTemp: [80, 100],
+          tensile: [70, 95], flexural: [100, 140], impact: [8, 12], impactUnit: "kJ/m²", elongation: [3, 8],
+          density: [1.18, 1.22], hygroscopic: "极高",
+          difficulty: 4, warp: "中", enclosure: "建议", drying: "必需 80–90℃/8h",
+          safetyLevel: 1, fumes: "酰胺类 + 玻纤粉尘",
+          safetyNote: "PA-GF 释放物与尼龙相同（需通风）；玻纤粉尘刺激皮肤呼吸道，打磨时需防护；玻纤磨蚀喷嘴（需硬化钢）。",
+          applications: ["结构件", "齿轮/传动件", "PA-CF 的经济替代", "工装夹具"],
+          drawbacks: ["磨喷嘴（玻纤比碳纤更磨）", "极吸湿", "表面较粗糙"],
+          note: "官方打印件实测（Polymaker Fiberon PA6-GF25）：拉伸 80.1 MPa、HDT 191℃（0.45MPa，1.8MPa 约 100℃）、缺口冲击 10 kJ/m²、密度 1.20、Vicat 211.7℃。",
+          sources: [{ name: "Polymaker 官方技术数据一览", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-filaments/technical-data-at-a-glance.md" }]
+        },
+        {
+          id: "peek-cf", nameCn: "PEEK-CF", nameEn: "Carbon Fiber PEEK", family: "高温PEEK/PEKK",
+          color: "#f9685f",
+          tg: [143, 150], tm: [340, 345], hdt: [200, 260],
+          printTemp: [360, 400], bedTemp: [120, 150],
+          tensile: [110, 140], flexural: [180, 220], impact: [5, 10], impactUnit: "kJ/m²", elongation: [2, 5],
+          density: [1.32, 1.38], hygroscopic: "低",
+          difficulty: 5, warp: "低", enclosure: "必需", drying: "建议 120–150℃/4–6h",
+          safetyLevel: 3, fumes: "高温芳香族挥发物 + 碳纤维粉尘",
+          safetyNote: "PEEK-CF 与 PEEK 同级安全要求：360–400℃ 打印，必须高温封闭腔体+强通风+HEPA/活性炭过滤；碳纤粉尘需防护。",
+          applications: ["航空航天结构件", "医疗植入级部件", "半导体夹具", "高性能替代金属件"],
+          drawbacks: ["价格极高", "需顶级高温机+硬化喷嘴", "偏脆"],
+          note: "3DXTech CarbonX PEEK-CF10 类产品典型：打印 360–400℃、需高温腔；碳纤提升刚度与耐热（HDT 200℃+），拉伸高于纯 PEEK。力学为典型区间。",
+          sources: [{ name: "3DXTech CarbonX 系列官方", url: "https://www.3dxtech.com/collections/carbonx" }]
+        },
+        {
+          id: "peek-gf", nameCn: "PEEK-GF", nameEn: "Glass Fiber PEEK", family: "高温PEEK/PEKK",
+          color: "#f9685f",
+          tg: [143, 150], tm: [340, 345], hdt: [180, 240],
+          printTemp: [360, 400], bedTemp: [120, 150],
+          tensile: [100, 130], flexural: [160, 200], impact: [5, 10], impactUnit: "kJ/m²", elongation: [2, 5],
+          density: [1.36, 1.42], hygroscopic: "低",
+          difficulty: 5, warp: "低", enclosure: "必需", drying: "建议 120–150℃/4–6h",
+          safetyLevel: 3, fumes: "高温芳香族挥发物 + 玻纤粉尘",
+          safetyNote: "PEEK-GF 与 PEEK-CF 同级安全要求：高温封闭腔体+强通风+过滤；玻纤粉尘与磨蚀需防护。",
+          applications: ["航空结构件", "高温电气", "耐蠕变件", "汽车高性能件"],
+          drawbacks: ["价格极高", "需高温工程机", "磨喷嘴"],
+          note: "玻纤增强 PEEK：刚度略低于碳纤版、成本相对低一档；打印窗口与 PEEK-CF 相同（360–400℃）。力学为典型区间。",
+          sources: [{ name: "3DXTech CarbonX 系列官方", url: "https://www.3dxtech.com/collections/carbonx" }]
         }
       ]
     }
