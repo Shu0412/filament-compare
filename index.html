@@ -889,6 +889,7 @@ html[data-theme="light"] .more-drawer { background:#fff; }
 .price-fallback, .price-derived { color:var(--accent); font-size:11.5px; }
 .price-date { font-variant-numeric:tabular-nums; white-space:nowrap; }
 .price-verified { display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; border-radius:50%; background:rgba(61,220,132,.16); color:var(--ok); font-size:10px; font-weight:800; vertical-align:1px; cursor:help; }
+.price-history { display:inline-flex; align-items:center; justify-content:center; min-width:28px; height:16px; padding:0 4px; border-radius:4px; background:rgba(249,165,79,.14); color:var(--accent); font-size:10px; font-weight:700; vertical-align:1px; cursor:help; }
 .price-derived-note { margin-top:8px; }
 .pr-derived { border-style:dashed; }
 .price-empty { padding:22px !important; color:var(--text-faint); text-align:center; }
@@ -910,6 +911,19 @@ html[data-theme="light"] .more-drawer { background:#fff; }
 }
 
 .na { color:var(--text-faint); cursor:help; }
+
+/* 移动端轻量渲染：保留颜色、层次和静态光感，停止非必要动画与局部光影 */
+@media (hover:none), (max-width:720px){
+  #aurora, #glowLayer, #flowLayer { display:none !important; }
+  .hero::before, .hero::after, .hero .grad, .btn-primary::after, .sec-title::after {
+    animation:none !important;
+  }
+  .mat-card::after, .zone-card::after, .dim-card::after, .brand-card::after,
+  .guide-card::after, .col::after { display:none; }
+  .reveal { opacity:1; transform:none; transition:none; }
+  .mat-card:hover, .brand-card:hover, .zone-card:hover, .guide-card:hover,
+  .app-card:hover { transform:none; }
+}
 
 </style>
 </head>
@@ -996,8 +1010,14 @@ html[data-theme="light"] .more-drawer { background:#fff; }
 
 
   <!-- ===== 二级模块容器（进入时才渲染/显示） ===== -->
-  <div id="moduleViews">
-
+  <!-- 二级页顶栏放在模块内容之前，进入模块即可看到返回和说明入口 -->
+  <div class="module-topbar" id="moduleTopbar" style="display:none">
+    <div class="container module-topbar-inner">
+      <button class="btn btn-ghost btn-sm" data-home>← 返回首页</button>
+      <span class="module-crumb" id="moduleCrumb"></span>
+      <span class="module-actions"><button class="btn btn-ghost btn-sm" data-openmethod>📚 数据说明</button></span>
+    </div>
+  </div>
   <!-- 二级菜单入口 -->
   <section class="section section-alt" id="appgrid">
     <div class="container">
@@ -1015,6 +1035,8 @@ html[data-theme="light"] .more-drawer { background:#fff; }
       </div>
     </div>
   </section>
+
+  <div id="moduleViews">
 
   <section class="module section section-alt" data-module="zone-standard" id="zone-standard">
     <div class="container">
@@ -1098,17 +1120,17 @@ html[data-theme="light"] .more-drawer { background:#fff; }
   <section class="module section section-alt" data-module="prices" id="prices">
     <div class="container">
       <h2 class="sec-title">💰 价格情报</h2>
-      <p class="sec-desc" id="priceDesc">品牌 × 耗材电商价格对比（京东/天猫官方旗舰店）：原价 · 到手价 · 每kg价 · 史低 · 优惠。📚 调研方法详见<a href="#" data-openmethod>数据说明</a>。</p>
+      <p class="sec-desc" id="priceDesc">品牌 × 耗材价格参考：原价 · 到手价 · 每kg价 · 史低 · 优惠。当前官方页复核价与历史促销快照分开标注，购买前请以来源页实时信息为准。📚 调研方法详见<a href="#" data-openmethod>数据说明</a>。</p>
       <div class="filter-bar" id="priceFilter"><!-- JS 价格筛选 --></div>
       <div class="price-summary" id="priceSummary"><!-- JS 性价比排行 --></div>
       <div class="table-wrap" style="margin-top:18px">
-        <h3>📊 价格区间速览（每公斤价 · 有官方记录才显示）</h3>
+        <h3>📊 价格区间速览（每公斤价 · 当前与历史参考价均标注）</h3>
         <div id="priceRanges"></div>
       </div>
       <div class="table-wrap">
         <h3>品牌 × 耗材 价格明细（点击表头排序）</h3>
         <div class="table-scroll" id="priceTable"></div>
-        <p class="hint" style="margin-top:10px">📌 数据口径：价格仅收录品牌官方店铺（京东/天猫官方旗舰店、品牌官方商城），店铺名均经比价站详情页核实；1688 批量价、天猫精选/工厂渠道、克重存疑与店铺未核实记录已全部清洗。可用“只看官方店/直营”筛选；带 * 的每kg价按商品标题明确克重折算，活动价以商品页实时价为准。详见<a href="#" data-openmethod>数据说明 → 价格调研说明</a>。</p>
+        <p class="hint" style="margin-top:10px">📌 数据口径：价格记录分为当前官方商品页复核价与历史促销快照；历史快照链接可能来自第三方聚合页，只用于参考，不能视为当前实时价。1688 批量价、天猫精选/工厂渠道、克重存疑与店铺未核实记录已清洗。可用“只看官方店/直营”筛选；带 * 的每kg价按商品标题明确克重折算，活动价以商品页实时价为准。详见<a href="#" data-openmethod>数据说明 → 价格调研说明</a>。</p>
       </div>
 
     </div>
@@ -1137,14 +1159,6 @@ html[data-theme="light"] .more-drawer { background:#fff; }
 
   </div>
 
-  <!-- 二级页顶栏 -->
-  <div class="module-topbar" id="moduleTopbar" style="display:none">
-    <div class="container module-topbar-inner">
-      <button class="btn btn-ghost btn-sm" data-home>← 返回首页</button>
-      <span class="module-crumb" id="moduleCrumb"></span>
-      <span class="module-actions"><button class="btn btn-ghost btn-sm" data-openmethod>📚 数据说明</button></span>
-    </div>
-  </div>
 </main>
 
 
@@ -1279,7 +1293,7 @@ html[data-theme="light"] .more-drawer { background:#fff; }
   </div>
 </div>
 
-<script src="js/data.js?v=20260817.8" defer></script>
-<script src="js/app.js?v=20260817.7" defer></script>
+<script src="js/data.js?v=20260905.2" defer></script>
+<script src="js/app.js?v=20260905.1" defer></script>
 </body>
 </html>
