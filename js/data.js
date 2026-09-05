@@ -7,15 +7,15 @@
  * ============================================================ */
 window.FILAMENT_DATA = {
   meta: {
-    updatedAt: "2026-08-17",
+    updatedAt: "2026-09-05",
     sources: [
       { name: "Prusa 材料库（官方）", url: "https://help.prusa3d.com/materials" },
-      { name: "Prusament 官方 TDS", url: "https://prusament.com/technical-data-sheets/" },
+      { name: "Prusament 官方 TDS", url: "https://prusament.com/materials/" },
       { name: "Simplify3D 耗材指南", url: "https://www.simplify3d.com/resources/materials-guide/" },
-      { name: "Polymaker 官方技术数据一览（打印件实测）", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-filaments/technical-data-at-a-glance.md" },
+      { name: "Polymaker 官方技术数据一览（打印件实测）", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-xian-cai/ji-shu-shu-ju-yi-lan.md" },
       { name: "Polymaker PolyLite PC 官方 TDS V4（打印件实测）", url: "https://www.igo3d.com/mediafiles/Sonstiges/Polymaker/PolyLite%20PC/PolyLite_PC_TDS_V4.pdf" },
       { name: "Bambu Lab 官方 Wiki（材料）", url: "https://wiki.bambulab.com/zh/general/filament-guide-material-table" },
-      { name: "eSUN 官方 TDS", url: "https://www.esun3d.com/uploads/eSUN_PLA-Filament_TDS_V4.0.pdf" },
+      { name: "eSUN 官方参数下载", url: "https://www.esun3d.com/parameters-download" },
       { name: "eSUN 官方材料页", url: "https://www.esun3d.com/filaments/" },
       { name: "Sunlu（三绿）官方", url: "https://www.sunlu.com/zh-cn/collections/all" },
       { name: "Kexcelled（诺思贝瑞）官方", url: "https://kexcelled3d.com" },
@@ -182,6 +182,24 @@ window.FILAMENT_DATA = {
         fix: "价格表仅保留可识别为 2026 年的 26 条记录，并补充 11 条创想三维官方商城 2026-08-17 页面复核价，共 37 条；删除旧年份、无日期、误标年份和历史史低字段，所有记录补充 recordedAt，来源链接统一为 HTTPS"
       },
       {
+        date: "2026-09-05",
+        item: "全量官方来源链接可用性核验",
+        issue: "全量来源检查发现 eSUN PLA TDS、eSUN 柔性材料页、Bambu Lab BVOH/PPA-CF旧路径以及3DXTech部分产品路径已返回404；Polymaker主站和All3DP自动请求受403限制，不能据此判定页面失效。",
+        fix: "eSUN PLA改用官方参数下载入口，柔性材料改用官方TPU系列入口；Bambu Lab BVOH/PPA-CF改用当前官方材料总表/产品页；3DXTech PCTG与CarbonX改用当前官方产品集合或可访问产品页；保留403来源并注明是访问限制。数值未因链接迁移擅自改变，后续以具体TDS页面为准。"
+      },
+      {
+        date: "2026-09-05",
+        item: "官方来源链接迁移修复",
+        issue: "Prusament TDS旧总入口返回404；Polymaker旧版“技术数据概览”路径已迁移，材料详情中的多个引用会打开失效页面。",
+        fix: "Prusament来源统一改为官方材料入口 https://prusament.com/materials/；Polymaker技术数据概览统一改为官方新路径 https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-xian-cai/ji-shu-shu-ju-yi-lan.md。仅修复链接，不因链接迁移擅自改写材料数值；数值仍按各条记录的原始TDS口径显示。"
+      },
+      {
+        date: "2026-09-05",
+        item: "价格来源层级与当前性重新核验",
+        issue: "价格区将第三方聚合页的历史促销快照与品牌官方商城当前页面并列展示，且总说明容易让人误解为30条价格均已在官方页面实时核验；数据更新时间也停留在2026-08-17。",
+        fix: "逐项重新核对创想三维官方商城11个商品页：CR-PLA Matte 132元、Ender-PLA+ 160元、CR-PETG 118元、Hyper PETG 109元、CR-ABS 108元、Hyper ABS 149元、HP ASA 200元、CR-TPU 168元、Hyper PLA-CF 233.6元、Hyper PETG-CF 239元、Hyper PA6-CF 409元，均与记录一致，并保留checkedAt=2026-09-05。其余19条为逛丢/聚合页历史快照，改按历史参考价理解，不再宣称为当前官方实时价；购买前必须打开来源页复核。"
+      },
+      {
         date: "2026-08-18",
         item: "第十轮：价格情报来源清洗（37 → 30 条）",
         issue: "用户要求数据来源仅限于淘宝/天猫/京东的品牌店铺，剔除离谱与不可靠数据",
@@ -189,7 +207,7 @@ window.FILAMENT_DATA = {
       }
     ],
     prices: {
-      updatedAt: "2026-08-17",
+      updatedAt: "2026-09-05",
       items: [
       {
             "brand": "拓竹",
@@ -487,10 +505,10 @@ window.FILAMENT_DATA = {
             "lowestPrice": null,
             "discount": "官方商城当前挂牌价（未计促销、运费或会员价）",
             "url": "https://vip.creality.com/zh/goods-detail/1758",
-            "note": "官方页面复核：2026-08-17；CR-PLA Matte 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
+            "note": "官方页面复核：2026-09-05；CR-PLA Matte 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
             "recordedAt": "2026-08-17",
-            "checkedAt": "2026-08-17"
+            "checkedAt": "2026-09-05"
       },
       {
             "brand": "创想三维",
@@ -503,10 +521,10 @@ window.FILAMENT_DATA = {
             "lowestPrice": null,
             "discount": "官方商城当前挂牌价（未计促销、运费或会员价）",
             "url": "https://vip.creality.com/zh/goods-detail/1772",
-            "note": "官方页面复核：2026-08-17；Ender-PLA+ 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
+            "note": "官方页面复核：2026-09-05；Ender-PLA+ 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
             "recordedAt": "2026-08-17",
-            "checkedAt": "2026-08-17"
+            "checkedAt": "2026-09-05"
       },
       {
             "brand": "创想三维",
@@ -519,10 +537,10 @@ window.FILAMENT_DATA = {
             "lowestPrice": null,
             "discount": "官方商城当前挂牌价（未计促销、运费或会员价）",
             "url": "https://vip.creality.com/zh/goods-detail/1786",
-            "note": "官方页面复核：2026-08-17；CR-PETG 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
+            "note": "官方页面复核：2026-09-05；CR-PETG 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
             "recordedAt": "2026-08-17",
-            "checkedAt": "2026-08-17"
+            "checkedAt": "2026-09-05"
       },
       {
             "brand": "创想三维",
@@ -535,10 +553,10 @@ window.FILAMENT_DATA = {
             "lowestPrice": null,
             "discount": "官方商城当前挂牌价（未计促销、运费或会员价）",
             "url": "https://vip.creality.com/zh/goods-detail/2234",
-            "note": "官方页面复核：2026-08-17；Hyper PETG 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
+            "note": "官方页面复核：2026-09-05；Hyper PETG 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
             "recordedAt": "2026-08-17",
-            "checkedAt": "2026-08-17"
+            "checkedAt": "2026-09-05"
       },
       {
             "brand": "创想三维",
@@ -551,10 +569,10 @@ window.FILAMENT_DATA = {
             "lowestPrice": null,
             "discount": "官方商城当前挂牌价（未计促销、运费或会员价）",
             "url": "https://vip.creality.com/zh/goods-detail/1785",
-            "note": "官方页面复核：2026-08-17；CR-ABS 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
+            "note": "官方页面复核：2026-09-05；CR-ABS 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
             "recordedAt": "2026-08-17",
-            "checkedAt": "2026-08-17"
+            "checkedAt": "2026-09-05"
       },
       {
             "brand": "创想三维",
@@ -567,10 +585,10 @@ window.FILAMENT_DATA = {
             "lowestPrice": null,
             "discount": "官方商城当前挂牌价（未计促销、运费或会员价）",
             "url": "https://vip.creality.com/zh/goods-detail/2063",
-            "note": "官方页面复核：2026-08-17；Hyper ABS 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
+            "note": "官方页面复核：2026-09-05；Hyper ABS 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
             "recordedAt": "2026-08-17",
-            "checkedAt": "2026-08-17"
+            "checkedAt": "2026-09-05"
       },
       {
             "brand": "创想三维",
@@ -583,10 +601,10 @@ window.FILAMENT_DATA = {
             "lowestPrice": null,
             "discount": "官方商城当前挂牌价（未计促销、运费或会员价）",
             "url": "https://vip.creality.com/zh/goods-detail/2131",
-            "note": "官方页面复核：2026-08-17；HP ASA 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
+            "note": "官方页面复核：2026-09-05；HP ASA 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
             "recordedAt": "2026-08-17",
-            "checkedAt": "2026-08-17"
+            "checkedAt": "2026-09-05"
       },
       {
             "brand": "创想三维",
@@ -599,10 +617,10 @@ window.FILAMENT_DATA = {
             "lowestPrice": null,
             "discount": "官方商城当前挂牌价（未计促销、运费或会员价）",
             "url": "https://vip.creality.com/zh/goods-detail/1788",
-            "note": "官方页面复核：2026-08-17；CR-TPU 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
+            "note": "官方页面复核：2026-09-05；CR-TPU 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
             "recordedAt": "2026-08-17",
-            "checkedAt": "2026-08-17"
+            "checkedAt": "2026-09-05"
       },
       {
             "brand": "创想三维",
@@ -615,10 +633,10 @@ window.FILAMENT_DATA = {
             "lowestPrice": null,
             "discount": "官方商城当前挂牌价（未计促销、运费或会员价）",
             "url": "https://vip.creality.com/zh/goods-detail/2134",
-            "note": "官方页面复核：2026-08-17；Hyper PLA-CF 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
+            "note": "官方页面复核：2026-09-05；Hyper PLA-CF 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
             "recordedAt": "2026-08-17",
-            "checkedAt": "2026-08-17"
+            "checkedAt": "2026-09-05"
       },
       {
             "brand": "创想三维",
@@ -631,10 +649,10 @@ window.FILAMENT_DATA = {
             "lowestPrice": null,
             "discount": "官方商城当前挂牌价（未计促销、运费或会员价）",
             "url": "https://vip.creality.com/zh/goods-detail/2514",
-            "note": "官方页面复核：2026-08-17；Hyper PETG-CF 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
+            "note": "官方页面复核：2026-09-05；Hyper PETG-CF 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
             "recordedAt": "2026-08-17",
-            "checkedAt": "2026-08-17"
+            "checkedAt": "2026-09-05"
       },
       {
             "brand": "创想三维",
@@ -647,13 +665,13 @@ window.FILAMENT_DATA = {
             "lowestPrice": null,
             "discount": "官方商城当前挂牌价（未计促销、运费或会员价）",
             "url": "https://vip.creality.com/zh/goods-detail/2442",
-            "note": "官方页面复核：2026-08-17；Hyper PA6-CF 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
+            "note": "官方页面复核：2026-09-05；Hyper PA6-CF 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
             "recordedAt": "2026-08-17",
-            "checkedAt": "2026-08-17"
+            "checkedAt": "2026-09-05"
       }
 ],
-      summary: "价格快照复核于2026-08-17,当前展示30条记录,来源严格限定为品牌官方店铺：19条为京东/天猫官方旗舰店(店铺名经逛丢/购物党详情页核实),11条为创想三维官方商城当日挂牌价(checkedAt)。已清洗剔除：1688批量价、天猫精选/工厂渠道、店铺名未核实、克重存疑(标题标1KG实为200g)、天天特卖等非品牌店铺来源。每条记录均有recordedAt；价格排行统一将字段转为数值；商品标题中明确克重但原记录未填pricePerKg的条目按克重折算并在界面以*标记，未明确规格仍保持未披露。促销价可能已结束，采购前请以来源页面实时价格为准。"
+      summary: "价格数据更新时间：2026-09-05。当前展示30条记录：其中11条为创想三维官方商城商品页于2026-09-05重新核对的挂牌价，19条为京东/天猫官方店铺的历史促销快照，链接经第三方聚合页留存，不能视为当前实时价。所有价格都必须以打开来源页后的实时规格、克重、优惠和运费为准。已清洗剔除：1688批量价、天猫精选/工厂渠道、店铺名未核实、克重存疑、天天特卖等非品牌店铺来源。每条记录均有recordedAt；价格排行统一将字段转为数值；商品标题明确克重但原记录未填pricePerKg的条目按克重折算并在界面以*标记，未明确规格仍保持未披露。"
     },
   },
 
@@ -858,7 +876,7 @@ window.FILAMENT_DATA = {
           applications: ["丝绸光泽装饰件", "展示模型", "礼品手办", "艺术摆件"],
           drawbacks: ["韧性低于普通 PLA", "光泽依赖打印方向与温度", "拉丝略多"],
           note: "官方实测：eSUN ePLA-Silk TDS 拉伸 32.5 MPa、Izod 缺口冲击 2.93 kJ/m²（X-Y）；Polymaker Panchroma Silk 冲击 13.8 kJ/m²——冲击差异为缺口/无缺口测试方法不同所致。",
-          sources: [{ name: "Polymaker 官方技术数据一览", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-filaments/technical-data-at-a-glance.md" }]
+          sources: [{ name: "Polymaker 官方技术数据一览", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-xian-cai/ji-shu-shu-ju-yi-lan.md" }]
         },
         {
           id: "pla-wood", nameCn: "木质 PLA", nameEn: "Wood-Filled PLA", family: "PLA系",
@@ -888,7 +906,7 @@ window.FILAMENT_DATA = {
           applications: ["软质密封件", "减震缓冲", "可穿戴", "手机壳"],
           drawbacks: ["软料送料困难，需直驱低速", "易拉丝/堵头", "吸湿后表面变差"],
           note: "eSUN 官方 TDS（eFlex-TPU-87A / Elastic-TPE-83A）：注塑样条拉伸 52 MPa、断裂伸长 500%，打印件因层间结合显著更低；官方未公布 Tg/Tm/HDT。",
-          sources: [{ name: "eSUN 官方", url: "https://www.esun3d.com/flexibility-elasticity/" }]
+          sources: [{ name: "eSUN 官方 TPU 系列", url: "https://www.esun3d.com/tpu-series/" }]
         },
         {
           id: "petg-cf", nameCn: "PETG-CF", nameEn: "Carbon Fiber PETG", family: "PET系",
@@ -903,7 +921,7 @@ window.FILAMENT_DATA = {
           applications: ["轻量化支架", "外壳结构件", "工业夹具", "无人机部件"],
           drawbacks: ["磨喷嘴（需硬化钢，HRC40+）", "比 PETG 脆", "表面哑光带纤维纹理"],
           note: "三产品官方交叉：Polymaker PETG-rCF08 拉伸 59.8/HDT 68.6、拓竹 PETG-CF 拉伸 59±4/HDT 74、eSUN ePETG-CF 拉伸 51.3/HDT 70；冲击方法差异大（缺口 4–5 vs 无缺口 41.2 kJ/m²），表内取缺口值。",
-          sources: [{ name: "Polymaker 官方技术数据一览", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-filaments/technical-data-at-a-glance.md" }]
+          sources: [{ name: "Polymaker 官方技术数据一览", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-xian-cai/ji-shu-shu-ju-yi-lan.md" }]
         },
         {
           id: "petg-gf", nameCn: "PETG-GF", nameEn: "Glass Fiber PETG（玻纤增强）", family: "PET系",
@@ -933,7 +951,7 @@ window.FILAMENT_DATA = {
           applications: ["水溶性支撑（多材料兼容）", "复杂内腔结构", "多色打印"],
           drawbacks: ["极吸湿，开封即需干燥密封", "价格昂贵、溶解需数小时", "与部分材料（如PETG）配合效果不佳"],
           note: "Bambu 官方未发布完整 TDS：打印/干燥参数取自官方 Bambu Studio 配置（喷嘴 220℃、AMS HT 干燥 60℃×12h）；物性（密度 1.14、Tg 68℃、Tm 176℃、拉伸 45 MPa）为 Verbatim BVOH 官方 TDS 同类参考值。",
-          sources: [{ name: "Bambu Lab Wiki", url: "https://wiki.bambulab.com/zh/filament/bvoh" }]
+          sources: [{ name: "Bambu Lab Wiki 材料总表", url: "https://wiki.bambulab.com/zh/general/filament-guide-material-table" }]
         }
       ]
     },
@@ -1153,7 +1171,7 @@ window.FILAMENT_DATA = {
           applications: ["汽车内外饰", "电子产品外壳", "耐冲击结构件", "电镀装饰件"],
           drawbacks: ["翘曲收缩大，建议封闭舱", "打印温度高，需全金属热端", "吸湿需干燥，建议退火"],
           note: "Polymaker PC-ABS 官方 TDS V5.4（打印件实测）：拉伸 39.9–42.3 MPa、HDT 106–112℃（载荷 1.8/0.45MPa）、Charpy 缺口冲击 25.8 kJ/m²、Tg 109℃、伸长率 4.2%。",
-          sources: [{ name: "Polymaker 官方技术数据一览", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-filaments/technical-data-at-a-glance.md" }]
+          sources: [{ name: "Polymaker 官方技术数据一览", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-xian-cai/ji-shu-shu-ju-yi-lan.md" }]
         },
         {
           id: "pa12-cf", nameCn: "PA12-CF", nameEn: "Carbon Fiber Nylon 12", family: "尼龙PA",
@@ -1168,7 +1186,7 @@ window.FILAMENT_DATA = {
           applications: ["轻量化结构件", "无人机部件", "工装夹具", "耐磨传动件"],
           drawbacks: ["打印后需退火+调湿才获全强度", "需 280℃+ 热端与硬化喷嘴", "断裂伸长率低、偏脆"],
           note: "Fiberon PA12-CF10 官方 TDS V1.1：拉伸 71.7–77.4 MPa（干态退火样）、HDT 105–131℃（1.8/0.45MPa）、Charpy 缺口冲击 9.9–10.2 kJ/m²、密度 1.06；官方热床仅 40–50℃（低翘曲设计），退火 100℃/16h + 调湿 48h。",
-          sources: [{ name: "Polymaker 官方技术数据一览", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-filaments/technical-data-at-a-glance.md" }]
+          sources: [{ name: "Polymaker 官方技术数据一览", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-xian-cai/ji-shu-shu-ju-yi-lan.md" }]
         },
         {
           id: "pet-cf", nameCn: "PET-CF", nameEn: "Carbon Fiber PET", family: "PET系",
@@ -1183,7 +1201,7 @@ window.FILAMENT_DATA = {
           applications: ["高刚度结构件", "耐化学件", "工装夹具", "耐热外壳"],
           drawbacks: ["需硬化喷嘴", "脆性大（伸长率仅 2.4%）", "退火才能获得高 HDT"],
           note: "Fiberon PET-CF17 官方 TDS V1.0（退火样 120℃/10h）：拉伸 65.9 MPa、HDT 105–147.5℃（1.8/0.45MPa）、Charpy 缺口冲击 5.1 kJ/m²、密度 1.34；拓竹 PET-CF 未退火 HDT 约 87℃。",
-          sources: [{ name: "Polymaker 官方技术数据一览", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-filaments/technical-data-at-a-glance.md" }]
+          sources: [{ name: "Polymaker 官方技术数据一览", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-xian-cai/ji-shu-shu-ju-yi-lan.md" }]
         },
         {
           id: "pps-cf", nameCn: "PPS-CF", nameEn: "Carbon Fiber PPS", family: "高温PPS",
@@ -1198,7 +1216,7 @@ window.FILAMENT_DATA = {
           applications: ["航空航天", "化工耐腐蚀结构件", "半导体夹具", "高温电气"],
           drawbacks: ["需 310℃+ 高温热端", "线材在盘上脆、易断", "打印后必须退火 125℃/16h"],
           note: "Fiberon PPS-CF10 官方 TDS V1.1：拉伸 59.4 MPa、HDT 133–252.5℃（1.8/0.45MPa 载荷）、Charpy 缺口冲击 5.3 kJ/m²、密度 1.29、Tg 97.7℃；官方无需加热舱（拓竹 PPS-CF 则要求封闭腔体）。",
-          sources: [{ name: "Polymaker 官方技术数据一览", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-filaments/technical-data-at-a-glance.md" }]
+          sources: [{ name: "Polymaker 官方技术数据一览", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-xian-cai/ji-shu-shu-ju-yi-lan.md" }]
         },
         {
           id: "ppa-cf", nameCn: "PPA-CF", nameEn: "Carbon Fiber PPA (Polyphthalamide)", family: "PPA",
@@ -1213,7 +1231,7 @@ window.FILAMENT_DATA = {
           applications: ["汽车结构件", "无人机/机械臂", "工业精密件", "金属替代件"],
           drawbacks: ["必须封闭腔体打印机", "极吸湿，需严格干燥", "需硬化喷嘴与胶水辅助附着"],
           note: "拓竹官方（wiki + TDS 镜像交叉）：拉伸 168±4 MPa、弯曲 208±6 MPa、HDT 227℃（0.45MPa）、冲击 41.7 kJ/m²（官方未注明缺口方式）、Tm 258℃、密度 1.25；吸湿率比普通 PA6-CF 低 66%。",
-          sources: [{ name: "Bambu Lab Wiki", url: "https://wiki.bambulab.com/zh/filament/ppacf" }]
+          sources: [{ name: "Bambu Lab Wiki PET-CF/PPA-CF", url: "https://wiki.bambulab.com/zh/filament/petcf_ppacf" }]
         },
         {
           id: "peba", nameCn: "PEBA", nameEn: "Polyether Block Amide", family: "柔性",
@@ -1228,7 +1246,7 @@ window.FILAMENT_DATA = {
           applications: ["运动鞋中底", "可穿戴设备", "减震结构", "医疗康复辅具"],
           drawbacks: ["价格昂贵", "柔性材料打印窗口窄", "吸湿需干燥"],
           note: "eSUN PEBA-85A 官方：密度 1.05、回弹率最高 70%、使用温度 -40~90℃；喷嘴温度官方未公开，取同系 PEBA-90A 官方值（230–260℃）与 Siraya Rebound PEBA-85A 交叉。",
-          sources: [{ name: "eSUN 官方", url: "https://www.esun3d.com/flexibility-elasticity/" }]
+          sources: [{ name: "eSUN 官方 TPU 系列", url: "https://www.esun3d.com/tpu-series/" }]
         },
         {
           id: "asa-cf", nameCn: "ASA-CF", nameEn: "Carbon Fiber ASA", family: "ABS/ASA",
@@ -1243,7 +1261,7 @@ window.FILAMENT_DATA = {
           applications: ["户外结构件", "无人机外壳", "汽车外饰加强件"],
           drawbacks: ["磨喷嘴", "韧性低于纯 ASA", "价格较高"],
           note: "官方打印件实测（Polymaker Fiberon ASA-CF08）：拉伸 43.5 MPa、HDT 103℃、缺口冲击 5.5 kJ/m²、密度 1.09。",
-          sources: [{ name: "Polymaker 官方技术数据一览", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-filaments/technical-data-at-a-glance.md" }]
+          sources: [{ name: "Polymaker 官方技术数据一览", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-xian-cai/ji-shu-shu-ju-yi-lan.md" }]
         },
         {
           id: "pctg", nameCn: "PCTG", nameEn: "Glycol-modified PCT (透明耐化聚酯)", family: "PET系",
@@ -1258,7 +1276,7 @@ window.FILAMENT_DATA = {
           applications: ["透明/半透明件", "耐化学容器", "医疗及食品接触件（部分品牌标称）", "灯罩/光学展示件"],
           drawbacks: ["易拉丝，需仔细调回抽", "附着力强易粘板，需脱模剂", "价格高于 PETG"],
           note: "多源交叉（3DXTech 博客/3D-Fuel Pro PCTG TDS/Prusa 材料表）：Tg 78–84℃、HDT 74–76℃（0.455MPa）、断裂伸长 220–340%（3D-Fuel 官方，远超 PETG）、冲击 Izod 860J/m≈93 kJ/m² vs Charpy 8 kJ/m²（口径差异大）；Polymaker 目前无 PCTG 产品。",
-          sources: [{ name: "3DXTech MAX-G PCTG 官方", url: "https://www.3dxtech.com/products/max-g-pctg" }]
+          sources: [{ name: "3DXTech 官方产品集合", url: "https://www.3dxtech.com/collections/all" }]
         },
         {
           id: "pa-gf", nameCn: "PA-GF", nameEn: "Glass Fiber Reinforced Nylon", family: "尼龙PA",
@@ -1273,7 +1291,7 @@ window.FILAMENT_DATA = {
           applications: ["汽车与工程结构件", "工业夹具/工装", "齿轮/轴承座", "高强度耐热外壳"],
           drawbacks: ["吸湿极快，必须烘干+退火(100℃/16h)", "玻纤磨喷嘴", "湿态性能大幅下降"],
           note: "以 Polymaker Fiberon PA6-GF25 官方 TDS V1.1 为准（打印件 XY 向，退火+调湿样）：拉伸 80.1 MPa、HDT 191℃（0.45MPa）/157℃（1.8MPa）、缺口 Charpy 10 kJ/m²、弯曲 133.8 MPa、伸长 2.4%、Tg 70.4℃（DSC）、Tm 214.5℃；Polymaker 独特 Warp-Free 工艺床温 40–50℃（无加热腔），其他品牌（BASF Ultrafuse PA6 GF30）床温 100℃ 并建议腔体。",
-          sources: [{ name: "Polymaker 官方技术数据一览", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-filaments/technical-data-at-a-glance.md" }]
+          sources: [{ name: "Polymaker 官方技术数据一览", url: "https://wiki.polymaker.com/polymaker-wiki/polymaker-wiki-zh/polymaker-chan-pin/polymaker-xian-cai/ji-shu-shu-ju-yi-lan.md" }]
         },
         {
           id: "peek-cf", nameCn: "PEEK-CF", nameEn: "Carbon Fiber PEEK", family: "高温PEEK/PEKK",
@@ -1288,7 +1306,7 @@ window.FILAMENT_DATA = {
           applications: ["航空航天/军工结构件", "油气/半导体设备件", "医疗高温灭菌器械", "高温替代金属件"],
           drawbacks: ["需工业级设备（360–450℃ 热端+主动加热腔）", "成本极高", "半结晶收缩大，易翘曲"],
           note: "3DXTech CarbonX PEEK-CF10 官方 TDS Rev3.0（10% 碳纤，样件 400℃/140℃ 打印）：拉伸 105 MPa、弯曲 136 MPa、HDT 265℃（0.45MPa）、伸长 3%、Tg 143℃、密度 1.39；官方热端 360–450℃、床 120–160℃、腔 70–150℃；Luvocom 交叉：拉伸 126 MPa、缺口 Charpy 7 kJ/m²。",
-          sources: [{ name: "3DXTech CarbonX 系列官方", url: "https://www.3dxtech.com/collections/carbonx" }]
+          sources: [{ name: "3DXTech CarbonX 官方产品集合", url: "https://www.3dxtech.com/collections/carbon-fiber" }]
         },
         {
           id: "peek-gf", nameCn: "PEEK-GF", nameEn: "Glass Fiber PEEK（GF20）", family: "高温PEEK/PEKK",
@@ -1303,7 +1321,7 @@ window.FILAMENT_DATA = {
           applications: ["密封件/齿轮/推力垫圈", "泵与压缩机部件", "油气/化工耐蚀高温件", "航空航天结构件"],
           drawbacks: ["需工业级设备", "玻纤易堵头、磨喷嘴", "结晶控制难"],
           note: "口径说明：3DXTech 官方玻纤增强 PEEK 型号为 FIBREX PEEK+GF20（20% 玻纤，无 GF10）。官方 TDS Rev1.0：拉伸 105 MPa、弯曲 130 MPa、HDT 300℃（0.45MPa）、伸长 2.5%、Tg 143℃、Tm 343℃、密度 1.44、连续使用温度 260℃；热端 360–450℃/床 120–160℃/腔 70–150℃；冲击数据官方未发布。",
-          sources: [{ name: "3DXTech CarbonX 系列官方", url: "https://www.3dxtech.com/collections/carbonx" }]
+          sources: [{ name: "3DXTech CarbonX 官方产品集合", url: "https://www.3dxtech.com/collections/carbon-fiber" }]
         }
       ]
     }
@@ -1348,7 +1366,7 @@ window.FILAMENT_DATA = {
       flagship: "ePLA-ST（高韧性）、ePLA-CF、ePA-CF、ePAHT-CF（高温尼龙碳纤）、ePETG-CF、PET-CF、ePC；工程料矩阵（PA/PC/ESD/阻燃）齐全",
       reputation: "老牌国产耗材大厂，型号命名规范（e 前缀）、品类最全，从通用料到工程料/柔性料全覆盖，TDS 文档公开透明、性价比高",
       materials: ["ePLA", "ePLA-Basic/Lite", "ePLA-Pro(PLA+)", "ePLA-HS（高速）", "ePLA-Matte", "ePLA-Silk 系列", "PLA-Clear", "ePLA-Metal", "ePLA-Luminous", "PLA-Coffee", "ePLA-CF", "ePLA-ST", "ePLA-LW", "ePETG", "ePETG-Pro", "ePETG-CF", "PETG-Matte", "eABS", "eABS-HS/HT/Max", "eABS-CF/GF", "eASA", "ePA", "ePA-CF", "ePA12", "ePA12-CF", "ePAHT-CF", "PET-CF", "ePC", "PC-ESD", "PET-FR", "ABS-ESD", "eTPU-95A", "eFlex-TPU-87A", "Elastic-TPE-83A", "eTPU-64D", "eTPU-LW", "PEBA 系列", "HIPS", "PVA", "PLA-Cast"],
-      sourceUrls: ["https://www.esun3d.com/filaments/", "https://www.esun3d.com/engineering-materials/"]
+      sourceUrls: ["https://www.esun3d.com/filaments/", "https://www.esun3d.com/parameters-download"]
     },
     {
       id: "prusament", nameCn: "Prusament", nameEn: "Prusament（Prusa 官方）", icon: "🔤",

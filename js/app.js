@@ -83,25 +83,36 @@
   function renderLiveStats() {
     var el = $("#liveStats");
     if (!el) return;
-    /* 每次访问都请求计数器：随时展示"已帮助"实时人次（服务端按独立 IP 去重） */
-    var badge = function (pageId, label) {
-      var src = "https://visitor-badge.laobi.icu/badge?page_id=" + pageId
-        + "&labelColor=1b2434&color=4f9cf9";
-      return '<span class="live-stat"><span class="live-label">' + label + '</span>'
-        + '<img src="' + src + '" alt="' + label + '" loading="lazy" decoding="async" '
-        + 'onerror="this.outerHTML=\'<span class=&quot;live-fallback&quot;>统计服务暂不可用</span>\'"></span>';
-    };
-    var helpStat = badge("shu0412-filament-lab", "🧡 已帮助");
     /* 本机访问计数（localStorage，每次加载 +1） */
     var localVisits = 0;
     try { localVisits = parseInt(localStorage.getItem("fd-visits") || "0", 10) + 1; localStorage.setItem("fd-visits", String(localVisits)); } catch (e) { /* ignore */ }
     el.innerHTML = '<div class="live-stats-inner">'
-      + helpStat
-      + '<span class="live-unit">人次</span>'
-      + '<span class="live-divider" style="width:1px;height:20px;background:var(--border)"></span>'
       + '<span class="live-stat"><span class="live-label">📈 本机浏览</span><b class="live-num">' + localVisits + '</b><span class="live-sub">次</span></span>'
       + "</div>"
-      + '<p class="live-note">已帮助 = 独立访客人次（同 IP 只计一次）· 本机浏览 = 当前设备累计打开次数 · 由第三方计数服务提供</p>';
+      + '<p class="live-note">本机浏览 = 当前设备累计打开次数</p>';
+    /* 第三方统计移到空闲时段，避免它参与首屏加载。 */
+    var loadBadge = function () {
+      if (!el.isConnected) return;
+      var row = el.querySelector(".live-stats-inner");
+      if (!row) return;
+      var stat = document.createElement("span");
+      stat.className = "live-stat";
+      stat.innerHTML = '<span class="live-label">🧡 已帮助</span>';
+      var img = document.createElement("img");
+      img.alt = "已帮助";
+      img.loading = "lazy";
+      img.decoding = "async";
+      img.src = "https://visitor-badge.laobi.icu/badge?page_id=shu0412-filament-lab&labelColor=1b2434&color=4f9cf9";
+      img.onerror = function () { stat.remove(); };
+      stat.appendChild(img);
+      var unit = document.createElement("span");
+      unit.className = "live-unit";
+      unit.textContent = "人次";
+      row.insertBefore(stat, row.firstChild);
+      row.insertBefore(unit, row.children[1]);
+    };
+    if ("requestIdleCallback" in window) window.requestIdleCallback(loadBadge, { timeout: 2500 });
+    else window.setTimeout(loadBadge, 1800);
   }
 
   /* ---------- 分区卡片 ---------- */
@@ -198,7 +209,8 @@
     var onInput = el.querySelector("input.filter-search");
     if (onInput) onInput.addEventListener("input", function () {
       zoneFilters(z).q = this.value;
-      renderMaterials();
+      clearTimeout(onInput._timer);
+      onInput._timer = setTimeout(function () { renderMaterials(z); }, 120);
     });
     $all("input[data-f]", el).forEach(function (inp) {
       if (inp.getAttribute("data-type")) inp.addEventListener("change", function () {
@@ -208,21 +220,21 @@
         var i = arr.indexOf(v);
         if (inp.checked && i < 0) arr.push(v);
         if (!inp.checked && i >= 0) arr.splice(i, 1);
-        renderMaterials();
+        renderMaterials(z);
       });
     });
     var clr = el.querySelector("[data-fclear]");
     if (clr) clr.addEventListener("click", function () {
       filterState[z.id] = { q: "", diff: [], safety: [], family: [] };
-      renderFilterBar(z); bindFilterEvents(z); renderMaterials();
+      renderFilterBar(z); bindFilterEvents(z); renderMaterials(z);
     });
   }
   var collapseState = { standard: false, engineering: false };
   var lastPerRow = null;
   function perRow() { return window.innerWidth < 720 ? 1 : 3; }
-  function renderMaterials() {
+  function renderMaterials(onlyZone) {
     lastPerRow = perRow();
-    DATA.zones.forEach(function (z) {
+    (onlyZone ? [onlyZone] : DATA.zones).forEach(function (z) {
       var id = z.id === "standard" ? "Standard" : "Engineering";
       var grid = $("#matGrid" + id);
       var vis = z.materials.filter(function (m) { return matVisible(m, z); });
@@ -278,11 +290,18 @@
     }, { passive: true });
   }
   function bindCardClicks() {
-    $all(".mat-card").forEach(function (card) {
-      card.addEventListener("click", function () { openModal(card.getAttribute("data-mat")); });
-      card.addEventListener("keydown", function (e) {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openModal(card.getAttribute("data-mat")); }
-      });
+    if (bindCardClicks.bound) return;
+    bindCardClicks.bound = true;
+    document.addEventListener("click", function (e) {
+      var card = e.target.closest ? e.target.closest(".mat-card") : null;
+      if (card) openModal(card.getAttribute("data-mat"));
+    });
+    document.addEventListener("keydown", function (e) {
+      var card = e.target.closest ? e.target.closest(".mat-card") : null;
+      if (card && (e.key === "Enter" || e.key === " ")) {
+        e.preventDefault();
+        openModal(card.getAttribute("data-mat"));
+      }
     });
   }
 
@@ -332,10 +351,12 @@
       if (cmpState.mats.indexOf(m.id) < 0) {
         cmpState.mats.push(m.id);
         if (cmpState.mats.length > 5) cmpState.mats.splice(0, cmpState.mats.length - 5);
-        renderCmpChips(); renderCompareCharts();
       }
       closeModal();
-      document.getElementById("compare").scrollIntoView({ behavior: "smooth" });
+      renderCmpChips();
+      if (currentModule !== "compare") navigateModule("compare");
+      renderCompareCharts();
+      document.getElementById("compare").scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }
   function closeModal() {
@@ -464,11 +485,15 @@
         renderCompareCharts();
       });
     });
-    $("#cmpClear").addEventListener("click", function () {
-      cmpState.mats = [];
-      renderCmpChips();
-      renderCompareCharts();
-    });
+    if (!renderCmpChips.clearBound) {
+      renderCmpChips.clearBound = true;
+      $("#cmpClear").addEventListener("click", function () {
+        if (!cmpState.mats.length) return;
+        cmpState.mats = [];
+        renderCmpChips();
+        renderCompareCharts();
+      });
+    }
   }
 
   function selectedMats() {
@@ -930,7 +955,7 @@
     var allKg = prices.items.map(effectiveKgPrice).filter(Boolean);
     var officialCount = prices.items.filter(officialPrice).length;
     var checkedToday = prices.items.filter(function (p) { return p.checkedAt === prices.updatedAt; }).length;
-    var sumHtml = '<div class="price-coverage"><div><b>' + prices.items.length + '</b><span>今年记录</span></div><div><b>' + officialCount + '</b><span>官方/直营</span></div><div><b>' + checkedToday + '</b><span>今日官网复核</span></div><div><b>' + allKg.length + '</b><span>可比每kg价</span></div></div>';
+    var sumHtml = '<div class="price-coverage"><div><b>' + prices.items.length + '</b><span>价格记录</span></div><div><b>' + officialCount + '</b><span>官方店铺记录</span></div><div><b>' + checkedToday + '</b><span>当前官方页复核</span></div><div><b>' + allKg.length + '</b><span>可比每kg价</span></div></div>';
     var byBrand = {};
     prices.items.forEach(function (p) {
       var kg = effectiveKgPrice(p);
@@ -988,7 +1013,9 @@
       var kgCell = kg ? (kg.derived ? '<span class="price-derived" title="按商品标题中的明确克重折算">' + money(kg.value) + "*</span>" : money(kg.value)) : missingPrice("商品规格或每kg价格未核实");
       var source = p.url ? '<a href="' + esc(p.url) + '" target="_blank" rel="noopener" title="' + esc(p.productName || "打开来源") + '">查看</a>' : '<span class="na">无链接</span>';
       var date = recDate(p) || "—";
-      var dateCell = '<span class="price-date">' + esc(date) + '</span>' + (p.checkedAt ? ' <span class="price-verified" title="官方页面复核日期：' + esc(p.checkedAt) + '">✓</span>' : '');
+      var dateCell = '<span class="price-date">' + esc(date) + '</span>' + (p.checkedAt
+        ? ' <span class="price-verified" title="官方商品页复核日期：' + esc(p.checkedAt) + '">✓</span>'
+        : ' <span class="price-history" title="历史促销快照，仅供参考，不代表当前实时价格">历史</span>');
       return '<tr><td><b>' + esc(p.brand) + "</b></td><td>" + esc(p.material) + "</td><td>" + esc(p.platform) + "</td>"
         + "<td><b>" + dealCell + "</b></td><td>" + kgCell + "</td>"
         + "<td>" + (list != null ? money(list) : missingPrice("官方未披露原价")) + "</td>"
@@ -1191,6 +1218,7 @@
     var origGo = goHome, origNav = navigateModule;
     goHome = function () { origGo(); setTab("home"); };
     navigateModule = function (id) { origNav(id); setTab(id); };
+    setTab(currentModule || "home");
   }
 
   function bindRouter() {
