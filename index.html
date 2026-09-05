@@ -890,6 +890,11 @@ html[data-theme="light"] .more-drawer { background:#fff; }
 .price-date { font-variant-numeric:tabular-nums; white-space:nowrap; }
 .price-verified { display:inline-flex; align-items:center; justify-content:center; width:16px; height:16px; border-radius:50%; background:rgba(61,220,132,.16); color:var(--ok); font-size:10px; font-weight:800; vertical-align:1px; cursor:help; }
 .price-history { display:inline-flex; align-items:center; justify-content:center; min-width:28px; height:16px; padding:0 4px; border-radius:4px; background:rgba(249,165,79,.14); color:var(--accent); font-size:10px; font-weight:700; vertical-align:1px; cursor:help; }
+.price-history-wrap { margin-top:18px; }
+.price-history-table { min-width:760px; }
+.price-history-table .cell-best { color:var(--accent); }
+.history-note { color:var(--text-faint); font-size:11px; }
+.price-low-meta { display:block; color:var(--text-faint); font-size:10px; font-weight:400; margin-top:2px; }
 .price-derived-note { margin-top:8px; }
 .pr-derived { border-style:dashed; }
 .price-empty { padding:22px !important; color:var(--text-faint); text-align:center; }
@@ -1123,6 +1128,7 @@ html[data-theme="light"] .more-drawer { background:#fff; }
       <p class="sec-desc" id="priceDesc">品牌 × 耗材价格参考：原价 · 到手价 · 每kg价 · 史低 · 优惠。当前官方页复核价与历史促销快照分开标注，购买前请以来源页实时信息为准。📚 调研方法详见<a href="#" data-openmethod>数据说明</a>。</p>
       <div class="filter-bar" id="priceFilter"><!-- JS 价格筛选 --></div>
       <div class="price-summary" id="priceSummary"><!-- JS 性价比排行 --></div>
+      <div id="priceHistory"><!-- JS 可追溯史低记录 --></div>
       <div class="table-wrap" style="margin-top:18px">
         <h3>📊 价格区间速览（每公斤价 · 当前与历史参考价均标注）</h3>
         <div id="priceRanges"></div>
@@ -1293,7 +1299,7 @@ html[data-theme="light"] .more-drawer { background:#fff; }
   </div>
 </div>
 
-<script src="js/data.js?v=20260905.2" defer></script>
-<script src="js/app.js?v=20260905.1" defer></script>
+<script src="js/data.js?v=20260905.3" defer></script>
+<script src="js/app.js?v=20260905.2" defer></script>
 </body>
 </html>
