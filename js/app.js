@@ -944,6 +944,30 @@
   function missingPrice(label) {
     return '<span class="na" title="' + esc(label) + '">未披露</span>';
   }
+  function effectiveLowestPrice(p, lowInfo) {
+    var low = priceNumber(lowInfo && lowInfo.price);
+    var kg = effectiveKgPrice(p);
+    if (low == null && !kg) return null;
+    if (low == null) {
+      return { value: kg.value, overridden: true, basis: "当前每kg价", date: p.recordedAt || "—" };
+    }
+    if (kg && kg.value < low) {
+      return {
+        value: kg.value,
+        overridden: true,
+        basis: "当前每kg价覆盖",
+        date: p.recordedAt || (lowInfo && lowInfo.date) || "—",
+        note: "当前每kg价低于已收录低价数值，按统一元/kg口径展示"
+      };
+    }
+    return {
+      value: low,
+      overridden: false,
+      basis: (lowInfo && lowInfo.basis) || "已收录低价",
+      date: (lowInfo && lowInfo.date) || "—",
+      note: (lowInfo && lowInfo.note) || ""
+    };
+  }
   function renderPrices() {
     var prices = DATA.meta.prices, el = $("#priceTable");
     if (!el || !prices || !prices.items || !prices.items.length) return;
@@ -1026,11 +1050,14 @@
       var m = p.note.match(/(20\d{2})[-年](\d{1,2})[-月](\d{1,2})/);
       return m ? m[1] + "-" + ("0" + m[2]).slice(-2) + "-" + ("0" + m[3]).slice(-2) : "";
     }
-    var head = "<tr><th data-pk='brand'>品牌</th><th data-pk='material'>材料</th><th data-pk='platform'>平台</th><th data-pk='dealPrice'>到手价 ¥</th><th data-pk='pricePerKg'>每kg ¥</th><th data-pk='listPrice'>原价 ¥</th><th data-pk='lowestPrice'>史低/近90天低价 ¥</th><th>记录</th><th>优惠</th><th>来源</th></tr>";
+    var head = "<tr><th data-pk='brand'>品牌</th><th data-pk='material'>材料</th><th data-pk='platform'>平台</th><th data-pk='dealPrice'>到手价 ¥</th><th data-pk='pricePerKg'>每kg ¥</th><th data-pk='listPrice'>原价/划线 ¥</th><th data-pk='lowestPrice'>史低/近90天低价 ¥/kg</th><th>记录</th><th>优惠</th><th>来源</th></tr>";
     var body = items.map(function (p) {
-      var deal = priceNumber(p.dealPrice), list = priceNumber(p.listPrice), lowInfo = (prices.lowestByGroup || {})[p.brand + "|" + p.material], low = priceNumber(lowInfo && lowInfo.price), kg = effectiveKgPrice(p);
+      var deal = priceNumber(p.dealPrice), list = priceNumber(p.listPrice), lowInfo = (prices.lowestByGroup || {})[p.brand + "|" + p.material], low = effectiveLowestPrice(p, lowInfo), kg = effectiveKgPrice(p);
       var dealCell = deal != null ? money(deal) : list != null ? '<span class="price-fallback" title="未记录活动价，使用官方挂牌价">挂牌 ' + money(list) + "</span>" : missingPrice("官方未披露到手价");
       var kgCell = kg ? (kg.derived ? '<span class="price-derived" title="按商品标题中的明确克重折算">' + money(kg.value) + "*</span>" : money(kg.value)) : missingPrice("商品规格或每kg价格未核实");
+      var listCell = list != null
+        ? money(list) + (p.listPriceBasis ? '<small class="price-low-meta" title="' + esc(p.listPriceBasis) + '">依据</small>' : "")
+        : missingPrice("官方未披露原价");
       var source = p.url ? '<a href="' + esc(p.url) + '" target="_blank" rel="noopener" title="' + esc(p.productName || "打开来源") + '">查看</a>' : '<span class="na">无链接</span>';
       var date = recDate(p) || "—";
       var dateCell = '<span class="price-date">' + esc(date) + '</span>' + (p.checkedAt
@@ -1038,8 +1065,8 @@
         : ' <span class="price-history" title="历史促销快照，仅供参考，不代表当前实时价格">历史</span>');
       return '<tr><td><b>' + esc(p.brand) + "</b></td><td>" + esc(p.material) + "</td><td>" + esc(p.platform) + "</td>"
         + "<td><b>" + dealCell + "</b></td><td>" + kgCell + "</td>"
-        + "<td>" + (list != null ? money(list) : missingPrice("官方未披露原价")) + "</td>"
-        + '<td class="cell-best">' + (low != null ? money(low) + '<small class="price-low-meta" title="' + esc((lowInfo && lowInfo.note) || "历史低价参考") + '">' + esc((lowInfo && lowInfo.basis) || "已收录低价") + '<br>记录 ' + esc((lowInfo && lowInfo.date) || "—") + ' · 更新 ' + esc((lowInfo && lowInfo.updatedAt) || prices.updatedAt) + '</small>' : missingPrice("未记录到史低或近90天最低价")) + "</td>"
+        + "<td>" + listCell + "</td>"
+        + '<td class="cell-best">' + (low != null ? money(low.value) + '/kg<small class="price-low-meta" title="' + esc(low.note || (lowInfo && lowInfo.note) || "历史低价参考") + '">' + esc(low.basis) + '<br>记录 ' + esc(low.date) + ' · 更新 ' + esc((lowInfo && lowInfo.updatedAt) || prices.updatedAt) + '</small>' : missingPrice("未记录到史低或近90天最低价")) + "</td>"
         + "<td>" + dateCell + "</td><td>" + esc(p.discount || "—") + "</td><td>" + source + "</td></tr>";
     }).join("");
     $("#priceTable").innerHTML = '<table class="data-table price-table"><thead>' + head + "</thead><tbody>" + (body || '<tr><td colspan="10" class="price-empty">当前筛选没有价格记录。</td></tr>') + "</tbody></table>";
