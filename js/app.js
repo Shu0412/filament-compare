@@ -830,6 +830,20 @@
       + "</div>";
     if (prices.summary) sumHtml += '<p class="price-note">📚 调研时间与数据口径等详见<a href="#" data-openmethod>数据说明 → 价格调研说明</a></p>';
     $("#priceSummary").innerHTML = sumHtml;
+    var historyBox = $("#priceHistory");
+    if (historyBox) {
+      var history = (prices.history || []).filter(function (h) {
+        return (!priceState.platform || String(h.platform || h.brand || "").indexOf(priceState.platform) >= 0)
+          && (!priceState.officialOnly || /官方|直营/.test(String(h.source || "")));
+      });
+      historyBox.innerHTML = history.length
+        ? '<div class="table-wrap price-history-wrap"><h3>📉 可追溯史低价格（历史参考）</h3><div class="table-scroll"><table class="data-table price-history-table"><thead><tr><th>品牌</th><th>材料</th><th>史低</th><th>规格</th><th>记录日期</th><th>证据级别</th><th>来源与说明</th></tr></thead><tbody>'
+          + history.map(function (h) {
+            return '<tr><td><b>' + esc(h.brand) + '</b></td><td>' + esc(h.material) + '</td><td class="cell-best"><b>¥' + money(h.price) + '</b></td><td>' + esc(h.unit || "—") + '</td><td>' + esc(h.date || "—") + '</td><td>' + esc(h.confidence || "参考") + '</td><td>' + esc(h.source || "—") + (h.note ? '<br><span class="history-note">' + esc(h.note) + '</span>' : "") + '</td></tr>';
+          }).join("")
+          + '</tbody></table></div><p class="hint">史低是已有公开记录中的低点，不等同于全网绝对最低价；不同颜色、克重、料盘和套装规格不能直接横向比较。</p></div>'
+        : "";
+    }
     // 价格区间速览（按材料 × 品牌，有数据才显示——天然无空缺）
     var byMat = {};
     items.forEach(function (p) {
@@ -955,7 +969,13 @@
     var allKg = prices.items.map(effectiveKgPrice).filter(Boolean);
     var officialCount = prices.items.filter(officialPrice).length;
     var checkedToday = prices.items.filter(function (p) { return p.checkedAt === prices.updatedAt; }).length;
-    var sumHtml = '<div class="price-coverage"><div><b>' + prices.items.length + '</b><span>价格记录</span></div><div><b>' + officialCount + '</b><span>官方店铺记录</span></div><div><b>' + checkedToday + '</b><span>当前官方页复核</span></div><div><b>' + allKg.length + '</b><span>可比每kg价</span></div></div>';
+    var lowGroupCount = Object.keys(prices.lowestByGroup || {}).length;
+    var materialGroupCount = prices.items.reduce(function (seen, p) {
+      seen[p.brand + "|" + p.material] = true;
+      return seen;
+    }, {});
+    var sumHtml = '<div class="price-coverage"><div><b>' + prices.items.length + '</b><span>价格记录</span></div><div><b>' + officialCount + '</b><span>官方店铺记录</span></div><div><b>' + checkedToday + '</b><span>当前官方页复核</span></div><div><b>' + allKg.length + '</b><span>可比每kg价</span></div></div>'
+      + '<p class="price-note">低价覆盖：' + lowGroupCount + '/' + Object.keys(materialGroupCount).length + ' 个品牌×材料组合；更新时间：' + esc(prices.updatedAt) + '。</p>';
     var byBrand = {};
     prices.items.forEach(function (p) {
       var kg = effectiveKgPrice(p);
@@ -1006,9 +1026,9 @@
       var m = p.note.match(/(20\d{2})[-年](\d{1,2})[-月](\d{1,2})/);
       return m ? m[1] + "-" + ("0" + m[2]).slice(-2) + "-" + ("0" + m[3]).slice(-2) : "";
     }
-    var head = "<tr><th data-pk='brand'>品牌</th><th data-pk='material'>材料</th><th data-pk='platform'>平台</th><th data-pk='dealPrice'>到手价 ¥</th><th data-pk='pricePerKg'>每kg ¥</th><th data-pk='listPrice'>原价 ¥</th><th data-pk='lowestPrice'>史低 ¥</th><th>记录</th><th>优惠</th><th>来源</th></tr>";
+    var head = "<tr><th data-pk='brand'>品牌</th><th data-pk='material'>材料</th><th data-pk='platform'>平台</th><th data-pk='dealPrice'>到手价 ¥</th><th data-pk='pricePerKg'>每kg ¥</th><th data-pk='listPrice'>原价 ¥</th><th data-pk='lowestPrice'>史低/近90天低价 ¥</th><th>记录</th><th>优惠</th><th>来源</th></tr>";
     var body = items.map(function (p) {
-      var deal = priceNumber(p.dealPrice), list = priceNumber(p.listPrice), low = priceNumber(p.lowestPrice), kg = effectiveKgPrice(p);
+      var deal = priceNumber(p.dealPrice), list = priceNumber(p.listPrice), lowInfo = (prices.lowestByGroup || {})[p.brand + "|" + p.material], low = priceNumber(lowInfo && lowInfo.price), kg = effectiveKgPrice(p);
       var dealCell = deal != null ? money(deal) : list != null ? '<span class="price-fallback" title="未记录活动价，使用官方挂牌价">挂牌 ' + money(list) + "</span>" : missingPrice("官方未披露到手价");
       var kgCell = kg ? (kg.derived ? '<span class="price-derived" title="按商品标题中的明确克重折算">' + money(kg.value) + "*</span>" : money(kg.value)) : missingPrice("商品规格或每kg价格未核实");
       var source = p.url ? '<a href="' + esc(p.url) + '" target="_blank" rel="noopener" title="' + esc(p.productName || "打开来源") + '">查看</a>' : '<span class="na">无链接</span>';
@@ -1019,7 +1039,7 @@
       return '<tr><td><b>' + esc(p.brand) + "</b></td><td>" + esc(p.material) + "</td><td>" + esc(p.platform) + "</td>"
         + "<td><b>" + dealCell + "</b></td><td>" + kgCell + "</td>"
         + "<td>" + (list != null ? money(list) : missingPrice("官方未披露原价")) + "</td>"
-        + '<td class="cell-best">' + (low != null ? money(low) : missingPrice("未记录到可靠史低")) + "</td>"
+        + '<td class="cell-best">' + (low != null ? money(low) + '<small class="price-low-meta" title="' + esc((lowInfo && lowInfo.note) || "历史低价参考") + '">' + esc((lowInfo && lowInfo.basis) || "已收录低价") + '<br>记录 ' + esc((lowInfo && lowInfo.date) || "—") + ' · 更新 ' + esc((lowInfo && lowInfo.updatedAt) || prices.updatedAt) + '</small>' : missingPrice("未记录到史低或近90天最低价")) + "</td>"
         + "<td>" + dateCell + "</td><td>" + esc(p.discount || "—") + "</td><td>" + source + "</td></tr>";
     }).join("");
     $("#priceTable").innerHTML = '<table class="data-table price-table"><thead>' + head + "</thead><tbody>" + (body || '<tr><td colspan="10" class="price-empty">当前筛选没有价格记录。</td></tr>') + "</tbody></table>";
