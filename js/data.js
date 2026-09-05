@@ -216,6 +216,12 @@ window.FILAMENT_DATA = {
         item: "价格页史低覆盖补全（30条记录 / 22个品牌×材料组合）",
         issue: "用户要求价格页所有材料都有可见的史低或近90天最低价，并标注更新时间；原表仍有大量空白。",
         fix: "新增lowestByGroup价格底表，覆盖价格页全部22个品牌×材料组合。近90天窗口统一为2026-06-07至2026-09-05；有公开历史促销记录的显示史低，只有窗口内记录的显示近90天最低，窗口内无公开记录的显示已有记录最低或当前官方页复核价，并统一标注更新时间2026-09-05。"
+      },
+      {
+        date: "2026-09-05",
+        item: "官方价格记录日期统一",
+        issue: "创想三维11条官方商品虽然已在2026-09-05复核，但明细记录日期仍保留为2026-08-17，容易与低价更新日期混淆。",
+        fix: "将创想三维11条官方商品的recordedAt统一改为2026-09-05，并保留checkedAt=2026-09-05作为官方页面复核标记。"
       }
     ],
     prices: {
@@ -527,7 +533,7 @@ window.FILAMENT_DATA = {
             "url": "https://vip.creality.com/zh/goods-detail/1758",
             "note": "官方页面复核：2026-09-05；CR-PLA Matte 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
-            "recordedAt": "2026-08-17",
+            "recordedAt": "2026-09-05",
             "checkedAt": "2026-09-05"
       },
       {
@@ -543,7 +549,7 @@ window.FILAMENT_DATA = {
             "url": "https://vip.creality.com/zh/goods-detail/1772",
             "note": "官方页面复核：2026-09-05；Ender-PLA+ 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
-            "recordedAt": "2026-08-17",
+            "recordedAt": "2026-09-05",
             "checkedAt": "2026-09-05"
       },
       {
@@ -559,7 +565,7 @@ window.FILAMENT_DATA = {
             "url": "https://vip.creality.com/zh/goods-detail/1786",
             "note": "官方页面复核：2026-09-05；CR-PETG 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
-            "recordedAt": "2026-08-17",
+            "recordedAt": "2026-09-05",
             "checkedAt": "2026-09-05"
       },
       {
@@ -575,7 +581,7 @@ window.FILAMENT_DATA = {
             "url": "https://vip.creality.com/zh/goods-detail/2234",
             "note": "官方页面复核：2026-09-05；Hyper PETG 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
-            "recordedAt": "2026-08-17",
+            "recordedAt": "2026-09-05",
             "checkedAt": "2026-09-05"
       },
       {
@@ -591,7 +597,7 @@ window.FILAMENT_DATA = {
             "url": "https://vip.creality.com/zh/goods-detail/1785",
             "note": "官方页面复核：2026-09-05；CR-ABS 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
-            "recordedAt": "2026-08-17",
+            "recordedAt": "2026-09-05",
             "checkedAt": "2026-09-05"
       },
       {
@@ -607,7 +613,7 @@ window.FILAMENT_DATA = {
             "url": "https://vip.creality.com/zh/goods-detail/2063",
             "note": "官方页面复核：2026-09-05；Hyper ABS 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
-            "recordedAt": "2026-08-17",
+            "recordedAt": "2026-09-05",
             "checkedAt": "2026-09-05"
       },
       {
@@ -623,7 +629,7 @@ window.FILAMENT_DATA = {
             "url": "https://vip.creality.com/zh/goods-detail/2131",
             "note": "官方页面复核：2026-09-05；HP ASA 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
-            "recordedAt": "2026-08-17",
+            "recordedAt": "2026-09-05",
             "checkedAt": "2026-09-05"
       },
       {
@@ -639,7 +645,7 @@ window.FILAMENT_DATA = {
             "url": "https://vip.creality.com/zh/goods-detail/1788",
             "note": "官方页面复核：2026-09-05；CR-TPU 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
-            "recordedAt": "2026-08-17",
+            "recordedAt": "2026-09-05",
             "checkedAt": "2026-09-05"
       },
       {
@@ -655,7 +661,7 @@ window.FILAMENT_DATA = {
             "url": "https://vip.creality.com/zh/goods-detail/2134",
             "note": "官方页面复核：2026-09-05；Hyper PLA-CF 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
-            "recordedAt": "2026-08-17",
+            "recordedAt": "2026-09-05",
             "checkedAt": "2026-09-05"
       },
       {
@@ -671,7 +677,7 @@ window.FILAMENT_DATA = {
             "url": "https://vip.creality.com/zh/goods-detail/2514",
             "note": "官方页面复核：2026-09-05；Hyper PETG-CF 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
-            "recordedAt": "2026-08-17",
+            "recordedAt": "2026-09-05",
             "checkedAt": "2026-09-05"
       },
       {
@@ -687,7 +693,7 @@ window.FILAMENT_DATA = {
             "url": "https://vip.creality.com/zh/goods-detail/2442",
             "note": "官方页面复核：2026-09-05；Hyper PA6-CF 商品页显示 1kg 级规格挂牌价，价格以官方页面实时值为准",
             "sourceType": "官方店铺",
-            "recordedAt": "2026-08-17",
+            "recordedAt": "2026-09-05",
             "checkedAt": "2026-09-05"
       }
 ],
