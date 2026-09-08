@@ -1,0 +1,15 @@
+{
+  "name": "Filament Lab · 丝验室",
+  "short_name": "丝验室",
+  "description": "42 种 3D 打印耗材全维度对比：性能 / 价格 / 安全，官方 TDS 多源交叉验证，矫正留痕",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0B0E17",
+  "theme_color": "#070A12",
+  "icons": [
+    { "src": "./icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

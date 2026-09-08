@@ -1,6 +1,6 @@
 # 🧪 Filament Lab · 丝验室 · 3D 打印耗材对比库
 
-> 🧡 内容创建：舒舒 · 基于 DeepSeek Harness 构建 · 开源免费
+> 🧡 内容创建：舒舒 · AI 辅助创作 · 开源免费
 > 🌐 **永久网址（GitHub Pages）**：https://shu0412.github.io/filament-compare/
 > 电脑关机也能访问，分享给朋友永不失效；内容更新后重新部署约 1 分钟生效。
 
