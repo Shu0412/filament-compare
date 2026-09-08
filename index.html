@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- ============================================================
   Filament Lab · 丝验室 · 3D 打印耗材对比库
-  内容创建：舒舒（基于 DeepSeek Harness 构建）
+  内容创建：舒舒（基于 AI 辅助创作）
   开源免费，仅供学习交流；转载数据请注明出处
 ============================================================ -->
 <html lang="zh-CN">
@@ -9,7 +9,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="author" content="舒舒">
-<meta name="generator" content="DeepSeek Harness">
+<meta name="generator" content="AI-assisted · filament-lab">
 <meta property="og:title" content="Filament Lab · 丝验室 — 3D 打印耗材对比库（42 种耗材 · 22 大品牌）">
 <meta property="og:description" content="物理性能 × 打印便利性 × 安全性全维度对比，官方 TDS 多源交叉验证，每次更新矫正留痕。内容创建：舒舒，开源免费。">
 <meta property="og:type" content="website">
@@ -27,7 +27,7 @@
 <style>
 /* ============================================================
  * Filament DB · 主流 3D 打印耗材对比库
- * 内容创建：舒舒（基于 DeepSeek Harness 构建）
+ * 内容创建：舒舒（基于 AI 辅助创作）
  * 开源免费，仅供学习交流；转载数据请注明出处
  * ============================================================ */
 /* ===== Filament DB · 样式表 ===== */
@@ -50,11 +50,28 @@
   --shadow: 0 8px 30px rgba(0,0,0,.35);
   --font: "PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",-apple-system,"Segoe UI",Roboto,sans-serif;
   --mono: "SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  /* ===== 设计 token（2026-09-08 二轮统一） ===== */
+  --r-xs:6px; --r-sm:10px; --r-md:14px; --r-lg:18px; --r-pill:999px;
+  --sp-1:4px; --sp-2:8px; --sp-3:12px; --sp-4:16px; --sp-5:20px; --sp-6:24px; --sp-8:32px; --sp-10:40px;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.16); --shadow-md:0 8px 30px rgba(0,0,0,.32); --shadow-lg:0 16px 50px rgba(0,0,0,.42);
+  --ease:cubic-bezier(.2,.7,.2,1);
+  --glass-hi:rgba(255,255,255,.11);
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 html { scroll-behavior:smooth; scroll-padding-top:72px; }
-html, body { max-width:100%; overflow-x:hidden; }
-body { background:var(--bg); color:var(--text); font-family:var(--font); line-height:1.65; font-size:15px; }
+html, body { max-width:100%; overflow-x:clip; }
+/* overflow-x:clip 不产生滚动容器，吸顶(position:sticky)才能生效；
+   旧浏览器回退到 hidden（横向无溢出风险已由布局验证为 0） */
+@supports not (overflow: clip) { html, body { overflow-x:hidden; } }
+body { background:var(--bg); color:var(--text); font-family:var(--font); line-height:1.65; font-size:15px; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility; }
+html { color-scheme:dark; }
+html[data-theme="light"] { color-scheme:light; }
+/* 表单控件统一继承字体，避免浏览器默认样式破坏排版层级 */
+button, input, select, textarea { font:inherit; letter-spacing:inherit; }
+button { cursor:pointer; }
+/* 数值统一等宽数字（表格/图表/价格），避免抖动 */
+table.data-table td, .price-table td, .bar-val, .pr-range, .price-coverage b, .hstat b,
+.rank-avg, .price-low-meta, .pd-scale, .cell-mono, .score-badge, .live-num { font-variant-numeric:tabular-nums; }
 a { color:var(--primary); text-decoration:none; }
 a:hover { text-decoration:underline; }
 .container { max-width:1180px; margin:0 auto; padding:0 20px; }
@@ -153,10 +170,12 @@ html[data-theme="light"] .section-alt { background:rgba(238,241,246,.7); }
 
 /* ===== 对比工具 ===== */
 .compare-layout { display:grid; grid-template-columns:300px 1fr; gap:22px; margin-bottom:30px; }
-.compare-panel { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; align-self:start; position:sticky; top:80px; }
+.compare-panel { background:var(--bg-card); border:1px solid var(--border); border-radius:var(--radius); padding:20px; align-self:start; position:sticky; top:128px; }
+/* 首列吸顶 z 见 .table-sticky-first；横滑容器防滚动链 */
+.table-scroll { overflow-x:auto; overscroll-behavior-x:contain; }
 .compare-panel h3 { font-size:14px; color:var(--text-dim); margin:14px 0 10px; letter-spacing:.5px; }
 .compare-panel h3:first-child { margin-top:0; }
-.chips { display:flex; flex-wrap:wrap; gap:8px; max-height:300px; overflow-y:auto; padding-right:4px; }
+.chips { display:flex; flex-wrap:wrap; gap:8px; max-height:300px; overflow-y:auto; overscroll-behavior:contain; padding-right:4px; }
 .chip { display:inline-flex; align-items:center; gap:6px; font-size:12.5px; padding:6px 12px; border-radius:999px; border:1px solid var(--border); background:rgba(255,255,255,.03); color:var(--text-dim); cursor:pointer; user-select:none; transition:.15s; }
 .chip:hover { border-color:var(--primary); color:var(--text); }
 .chip.on { background:var(--mat-color,var(--primary)); border-color:transparent; color:#06121f; font-weight:700; }
@@ -182,7 +201,9 @@ html[data-theme="light"] .section-alt { background:rgba(238,241,246,.7); }
 .table-wrap h3 { font-size:15px; margin-bottom:14px; color:var(--text-dim); }
 .table-scroll { overflow-x:auto; }
 table.data-table { width:100%; border-collapse:collapse; font-size:12.8px; min-width:900px; }
-table.data-table th { position:sticky; top:0; background:#1d2736; color:var(--text-dim); font-weight:600; padding:9px 10px; text-align:center; border-bottom:1px solid var(--border); cursor:pointer; user-select:none; white-space:nowrap; }
+/* 表头在 .table-scroll 横滑容器内无法纵向吸顶（overflow-x 使容器成为纵滚容器），
+   横向可读性由「首列吸顶」（.table-sticky-first）承担；此处不再声明无效的纵向 sticky */
+table.data-table th { background:#1d2736; color:var(--text-dim); font-weight:600; padding:9px 10px; text-align:center; border-bottom:1px solid var(--border); cursor:pointer; user-select:none; white-space:nowrap; }
 table.data-table th:hover { color:var(--primary); }
 table.data-table th.sorted { color:var(--primary); }
 table.data-table td { padding:8px 10px; text-align:center; border-bottom:1px solid rgba(255,255,255,.05); color:var(--text-dim); white-space:nowrap; }
@@ -580,12 +601,10 @@ html[data-theme="light"] .safety-tips, html[data-theme="light"] .guide-result, h
   border:1px solid rgba(255,255,255,.9);
   box-shadow:inset 0 1px 0 rgba(255,255,255,1), 0 6px 22px rgba(40,60,100,.1);
 }
-html[data-theme="light"] table.data-table th { background:rgba(233,238,245,.75); }
-/* 移动端性能：降低模糊 */
+html[data-theme="light"] table.data-table th { background:rgba(233,238,245,.97); }
+/* 移动端性能：极光层已整体隐藏，无需再对 blob 做大半径模糊（原 filter:blur(60px) 是纯开销） */
 @media (max-width:720px){
-  .mat-card, .brand-card, .zone-card, .dim-card, .guide-card, .chart-wrap, .compare-panel { backdrop-filter:blur(8px) saturate(150%); -webkit-backdrop-filter:blur(8px) saturate(150%); }
-  .table-wrap, .method-card, .modal, .filter-bar { backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
-  #aurora .blob { filter:blur(60px); }
+  .table-wrap, .method-card, .modal, .filter-bar { backdrop-filter:none; -webkit-backdrop-filter:none; }
 }
 /* 减少动态偏好 */
 @media (prefers-reduced-motion: reduce){
@@ -593,19 +612,25 @@ html[data-theme="light"] table.data-table th { background:rgba(233,238,245,.75);
   #glowLayer, #flowLayer { display:none; }
 }
 
-/* ---- 性能兜底：保留玻璃层级，但降低重复模糊与合成压力 ---- */
+/* ---- 性能兜底 v2（2026-09-08 重构）----
+ * 玻璃视觉由「渐变 + 高光描边 + 内阴影」承担，卡片不再挂 backdrop-filter：
+ * 卡片背后是近纯色背景，实时模糊的视觉收益≈0，但每张卡都是一块持续合成的模糊层。
+ * 仅保留少数「真正有内容从背后滚过」的元素的模糊：吸顶头部 / 模块顶栏 / 吸顶对比面板 / 弹窗遮罩。 */
 .site-header { backdrop-filter:blur(10px) saturate(1.25); -webkit-backdrop-filter:blur(10px) saturate(1.25); }
-.mat-card, .brand-card, .zone-card, .dim-card, .guide-card, .chart-wrap, .compare-panel {
-  backdrop-filter:blur(8px) saturate(135%);
-  -webkit-backdrop-filter:blur(8px) saturate(135%);
+.module-topbar { backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
+.compare-panel { backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); }
+.mat-card, .brand-card, .zone-card, .dim-card, .guide-card, .chart-wrap, .app-card {
+  backdrop-filter:none; -webkit-backdrop-filter:none;
 }
 .table-wrap, .method-card, .modal, .safety-tips, .guide-result, .filter-bar {
-  backdrop-filter:blur(6px) saturate(125%);
-  -webkit-backdrop-filter:blur(6px) saturate(125%);
+  backdrop-filter:none; -webkit-backdrop-filter:none;
 }
+/* 表头吸顶：改为不透明底色，避免滚动透字（原来靠 blur 撑，代价高） */
+table.data-table th { background:#1d2736; }
+html[data-theme="light"] table.data-table th { background:#e9eef5; }
 .mat-grid, .brand-grid, .app-grid, .guide-grid, .table-wrap { content-visibility:auto; contain-intrinsic-size: 1px 720px; }
 body.perf-lite #aurora .blob, body.perf-lite #glowLayer, body.perf-lite #flowLayer { display:none; }
-/* ---- 中端设备（≤8 核/8GB）：保留玻璃质感，停用背景动画与鼠标光晕 ---- */
+/* ---- 中端设备（≤8 核/8GB）：停用背景动画与鼠标光晕 ---- */
 body.perf-mid #aurora .blob { animation-play-state:paused; }
 body.perf-mid #glowLayer { display:none; }
 
@@ -614,18 +639,12 @@ body.perf-lite .dim-card, body.perf-lite .guide-card, body.perf-lite .chart-wrap
 body.perf-lite .compare-panel, body.perf-lite .table-wrap, body.perf-lite .method-card,
 body.perf-lite .modal, body.perf-lite .safety-tips, body.perf-lite .guide-result,
 body.perf-lite .filter-bar {
-  backdrop-filter:none !important;
-  -webkit-backdrop-filter:none !important;
   background:var(--bg-card);
   box-shadow:var(--shadow);
 }
-@media (prefers-reduced-motion: reduce), (max-width:720px) {
+@media (max-width:720px) {
   .site-header { backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
-  .mat-card, .brand-card, .zone-card, .dim-card, .guide-card, .chart-wrap, .compare-panel,
-  .table-wrap, .method-card, .modal, .safety-tips, .guide-result, .filter-bar {
-    backdrop-filter:none;
-    -webkit-backdrop-filter:none;
-  }
+  .module-topbar { backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); }
 }
 
 /* ---- 折叠栏 ---- */
@@ -696,32 +715,10 @@ body.perf-lite .filter-bar {
   .method-duo { grid-template-columns:1fr; }
 }
 
-/* ---- 滚动期间降级：关闭 backdrop-filter，滚动停止 150ms 后恢复（性能优化，视觉基本不变） ---- */
-body.scrolling #aurora .blob { animation-play-state:paused; }
-body.scrolling .mat-card, body.scrolling .brand-card, body.scrolling .zone-card, body.scrolling .dim-card,
-body.scrolling .guide-card, body.scrolling .chart-wrap, body.scrolling .compare-panel,
-body.scrolling .table-wrap, body.scrolling .method-card, body.scrolling .modal, body.scrolling .safety-tips,
-body.scrolling .guide-result, body.scrolling .filter-bar {
-  backdrop-filter:none !important; -webkit-backdrop-filter:none !important;
-}
-body.scrolling .mat-card, body.scrolling .brand-card, body.scrolling .zone-card, body.scrolling .dim-card,
-body.scrolling .guide-card, body.scrolling .chart-wrap, body.scrolling .compare-panel {
-  background:linear-gradient(150deg, rgba(255,255,255,.14) 0%, rgba(255,255,255,.05) 55%, rgba(255,255,255,.08) 100%);
-}
-body.scrolling .table-wrap, body.scrolling .method-card, body.scrolling .modal, body.scrolling .safety-tips,
-body.scrolling .guide-result, body.scrolling .filter-bar {
-  background:rgba(20,28,40,.96);
-}
-html[data-theme="light"] body.scrolling .table-wrap, html[data-theme="light"] body.scrolling .method-card,
-html[data-theme="light"] body.scrolling .modal, html[data-theme="light"] body.scrolling .safety-tips,
-html[data-theme="light"] body.scrolling .guide-result, html[data-theme="light"] body.scrolling .filter-bar {
-  background:rgba(255,255,255,.98);
-}
-html[data-theme="light"] body.scrolling .mat-card, html[data-theme="light"] body.scrolling .brand-card,
-html[data-theme="light"] body.scrolling .zone-card, html[data-theme="light"] body.scrolling .dim-card,
-html[data-theme="light"] body.scrolling .guide-card {
-  background:linear-gradient(150deg, rgba(255,255,255,.92), rgba(255,255,255,.75) 55%, rgba(255,255,255,.85));
-}
+/* ---- 滚动降级机制已移除（2026-09-08）----
+ * 原方案在滚动开始/停止时反复开关全部玻璃层的 backdrop-filter，
+ * 每次启停都会使整页样式失效并重绘，代价高于收益（还会造成玻璃质感闪烁）。
+ * 现方案：卡片本身不挂 backdrop-filter（见「性能兜底 v2」），滚动全程零切换。 */
 
 /* ---- 移动端/窄屏：无鼠标光晕（省 GPU），极光静态 ---- */
 @media (hover:none), (max-width:720px){
@@ -762,8 +759,7 @@ html[data-theme="light"] .app-card { background:linear-gradient(150deg, rgba(255
 @media (max-width:400px){
   .app-grid { grid-template-columns:1fr; }
 }
-/* 滚动降级包含 app-card */
-body.scrolling .app-card { backdrop-filter:none !important; }
+/* （滚动降级对 app-card 的规则已随 body.scrolling 机制一并移除） */
 
 /* ============================================================
  * 移动端专属：底部 Tab 导航 + 更多抽屉 + 筛选面板
@@ -816,8 +812,41 @@ body.scrolling .app-card { backdrop-filter:none !important; }
   .dim-grid { grid-template-columns:1fr; }
   .hero-actions { flex-direction:column; align-items:stretch; }
   .hero-actions .btn { text-align:center; }
+  .mat-kv { grid-template-columns:1fr; }
+  .mat-card h3 { font-size:17px; }
+  .modal-mask { padding:24px 12px; align-items:center; }
+  .modal { padding:22px 18px; max-height:84vh; overflow-y:auto; }
+  #toastWrap { bottom:calc(84px + env(safe-area-inset-bottom)); padding:0 12px; }
+  /* 表格容器在手机上留出可横向拖动空间 */
+  .table-wrap { padding:14px 6px; }
+  .data-table { font-size:12px; }
+  .price-ranges { gap:10px; }
+  .pd-row { grid-template-columns:64px 1fr; gap:4px 8px; }
+  .cmdk-mask { padding-top:10vh; }
+  .brand-card, .mat-card { padding:18px 16px; }
+  .hero h1 { font-size:30px; }
+  .sec-title { font-size:22px; }
+  .guide-block-title { font-size:18px; }
+  /* 完整数据表在手机上最小宽度控制，避免内容被挤爆 */
+  table.data-table { min-width:760px; }
+  .compare-layout { grid-template-columns:1fr; }
+  .compare-panel { position:static; max-height:none; }
+  .compare-panel .chips { max-height:190px; }
+  .section { padding:40px 0; }
+  .hero { padding:52px 0 44px; }
+  .chart-box { min-height:auto; }
+  #scatterChart svg { max-width:100%; }
+  #radarChart svg { max-width:100%; }
+  #radarChart svg, #scatterChart svg { height:auto; }
+  #radarChart .chart-legend { font-size:11px; gap:8px; }
+  #barChart .bar-row .bar-label { width:88px; font-size:11.5px; }
+  #barChart .bar-row .bar-val { width:64px; font-size:11px; }
   .chart-wrap { padding:12px; }
   .compare-panel .chips { max-height:180px; }
+  /* 模块顶栏：移动端隐藏冗余面包屑，避免与两侧按钮拥挤重叠 */
+  .module-crumb { display:none; }
+  .module-topbar-inner { justify-content:space-between; padding:8px 12px; }
+  .module-actions .btn { font-size:11.5px; padding:7px 12px; }
 }
 html[data-theme="light"] .mobile-tabbar { background:rgba(248,250,253,.94); }
 html[data-theme="light"] .more-drawer { background:#fff; }
@@ -917,6 +946,216 @@ html[data-theme="light"] .more-drawer { background:#fff; }
 
 .na { color:var(--text-faint); cursor:help; }
 
+/* ============================================================
+ * 2026-09-08 性能与体验升级
+ * ============================================================ */
+
+/* ---- 视口外动画暂停：IO 给元素加 .ao，滚出屏幕即停帧，回屏自动恢复（视觉零差异） ---- */
+.hero.ao::before, .hero.ao::after, .hero.ao .grad,
+.sec-title.ao::after, .btn-primary.ao::after { animation-play-state:paused !important; }
+
+/* ---- 模块切换入场过渡（一次性，respects reduced-motion） ---- */
+@keyframes moduleIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:none; } }
+.module.module-enter { animation:moduleIn .28s ease; }
+
+/* ---- 雷达图数据层入场动画（一次性） ---- */
+@keyframes radarIn { from { opacity:0; transform:scale(.9); } to { opacity:1; transform:none; } }
+#radarChart svg .radar-data { transform-box:fill-box; transform-origin:center; animation:radarIn .5s ease both; }
+#radarChart svg .radar-data:nth-of-type(2) { animation-delay:.06s; }
+#radarChart svg .radar-data:nth-of-type(3) { animation-delay:.12s; }
+#radarChart svg .radar-data:nth-of-type(4) { animation-delay:.18s; }
+#radarChart svg .radar-data:nth-of-type(5) { animation-delay:.24s; }
+
+/* ---- 弹层滚动防 chaining ---- */
+.modal-mask, .method-modal-body { overscroll-behavior:contain; }
+
+/* ---- Toast 轻提示 ---- */
+#toastWrap { position:fixed; bottom:86px; left:50%; transform:translateX(-50%); z-index:600; display:flex; flex-direction:column; align-items:center; gap:8px; pointer-events:none; }
+.toast { pointer-events:auto; display:flex; align-items:center; gap:12px; max-width:min(88vw, 420px);
+  background:rgba(20,28,40,.92); border:1px solid var(--border); border-radius:12px; padding:10px 16px;
+  font-size:13.5px; color:var(--text); box-shadow:var(--shadow); animation:moduleIn .25s ease;
+  transition:opacity .3s ease, transform .3s ease; }
+.toast.out { opacity:0; transform:translateY(6px); }
+.toast .toast-act { background:none; border:none; color:var(--primary); font-weight:700; font-size:13px; cursor:pointer; font-family:inherit; white-space:nowrap; padding:2px 4px; border-radius:6px; }
+.toast .toast-act:hover { text-decoration:underline; }
+html[data-theme="light"] .toast { background:rgba(255,255,255,.96); }
+
+/* ---- ⌘K 命令面板 ---- */
+.cmdk-mask { position:fixed; inset:0; z-index:500; background:rgba(5,8,14,.66); backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px); display:flex; align-items:flex-start; justify-content:center; padding:12vh 16px 16px; }
+.cmdk-panel { width:min(560px,100%); background:var(--bg-card); border:1px solid var(--border); border-radius:16px;
+  box-shadow:var(--shadow); overflow:hidden; animation:moduleIn .22s ease; display:flex; flex-direction:column; max-height:64vh; }
+.cmdk-input-row { display:flex; align-items:center; gap:10px; padding:14px 18px; border-bottom:1px solid var(--border); }
+.cmdk-input-row .cmdk-ico { font-size:16px; }
+.cmdk-input { flex:1; background:none; border:none; outline:none; color:var(--text); font-size:15px; font-family:inherit; }
+.cmdk-input::placeholder { color:var(--text-faint); }
+.cmdk-kbd { font-size:11px; color:var(--text-faint); border:1px solid var(--border); border-radius:6px; padding:2px 7px; font-family:var(--mono); }
+.cmdk-list { overflow-y:auto; overscroll-behavior:contain; padding:8px; }
+.cmdk-item { display:flex; align-items:center; gap:11px; width:100%; text-align:left; background:none; border:none;
+  border-radius:10px; padding:10px 12px; cursor:pointer; color:var(--text-dim); font-family:inherit; font-size:13.5px; }
+.cmdk-item .ci { font-size:16px; width:22px; text-align:center; flex-shrink:0; }
+.cmdk-item .cl { color:var(--text); flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.cmdk-item .ch { font-size:11px; color:var(--text-faint); flex-shrink:0; }
+.cmdk-item:hover { background:rgba(79,156,249,.08); }
+.cmdk-item.sel { background:rgba(79,156,249,.16); }
+.cmdk-item.sel .cl { color:var(--primary); }
+.cmdk-empty { padding:26px 0; text-align:center; color:var(--text-faint); font-size:13px; }
+html[data-theme="light"] .cmdk-panel { background:#fff; }
+html[data-theme="light"] .cmdk-item.sel { background:rgba(79,156,249,.12); }
+
+/* ---- 价格分布速览（每kg价 · 纯 SVG/DOM 一次性渲染） ---- */
+.pd-row { display:grid; grid-template-columns:88px 1fr; gap:6px 12px; align-items:center; padding:9px 0; border-bottom:1px dashed rgba(255,255,255,.06); }
+.pd-row:last-child { border-bottom:none; }
+.pd-name { font-size:13px; font-weight:700; color:var(--text); text-align:right; }
+.pd-track { position:relative; height:22px; background:rgba(255,255,255,.045); border-radius:6px; }
+.pd-dot { position:absolute; top:50%; width:11px; height:11px; margin:-5.5px 0 0 -5.5px; border-radius:50%;
+  background:var(--primary); border:1.5px solid rgba(255,255,255,.55); box-shadow:0 0 8px -2px rgba(79,156,249,.8);
+  cursor:default; transition:transform .15s ease; }
+.pd-dot:hover { transform:scale(1.5); z-index:2; }
+.pd-dot.pd-low { background:var(--ok); border-color:rgba(255,255,255,.65); box-shadow:0 0 10px -2px rgba(61,220,132,.9); }
+.pd-dot.pd-derived { border-style:dashed; }
+.pd-scale { grid-column:2; display:flex; justify-content:space-between; font-size:10.5px; color:var(--text-faint); font-variant-numeric:tabular-nums; margin-top:-2px; }
+html[data-theme="light"] .pd-track { background:rgba(40,60,100,.08); }
+@media (max-width:720px){
+  .pd-row { grid-template-columns:70px 1fr; }
+  .pd-name { font-size:12px; }
+}
+
+/* ---- 交互反馈闭环（2026-09-08 二轮）：按压态 + 键盘焦点环 + 触屏点按高光抑制 ---- */
+/* 桌面导航：当前模块高亮（下划线绝对定位，不影响行高布局） */
+.nav a { position:relative; }
+.nav a.on { color:var(--primary); font-weight:600; text-shadow:0 0 12px rgba(79,156,249,.45); }
+.nav a.on::after { content:""; position:absolute; left:2px; right:2px; bottom:-5px; height:2px; border-radius:2px;
+  background:linear-gradient(90deg,var(--primary),var(--primary-2)); box-shadow:0 0 8px rgba(79,156,249,.6); }
+/* 移动端触控热区：筛选项/按钮最小高度 ≥40px，降低误触 */
+@media (max-width:720px){
+  .chip { min-height:32px; align-items:center; padding-top:8px; padding-bottom:8px; }
+  .btn { min-height:40px; line-height:1.2; }
+  .filter-toggle, .collapse-bar .btn, .btn-sm { min-height:38px; }
+  .pay-tab, .donate-amt { min-height:42px; }
+}
+button, input, select, textarea, a, [role="button"], th[data-key], th[data-pk], summary, .chip, label { -webkit-tap-highlight-color: transparent; }
+:focus { outline:none; }
+:focus-visible { outline:2px solid var(--primary); outline-offset:2px; border-radius:6px; }
+.btn:not(:disabled):active, .app-card:active, .guide-card:active, .zone-card:active, .dim-card:active,
+.brand-card:active, .tab-item:active, .chip:active, .guide-mat:active, .theme-toggle:active,
+.filter-toggle:active, .back-top:active, .collapse-bar .btn:active, .modal-close:active, .pay-tab:active,
+.donate-amt:active, .toast-act:active, .cmdk-item:active { transform:translateY(1px) scale(.985); }
+/* chips：输入框由 display:none 改为"视觉隐藏但可聚焦"，键盘 Tab 可达、焦点有环（a11y 提升） */
+.chip input { position:absolute; opacity:0; width:0; height:0; pointer-events:none; }
+.chip:has(input:focus-visible) { outline:2px solid var(--primary); outline-offset:2px; }
+th[data-key]:active, th[data-pk]:active, td[data-mat]:active, tr[data-mat]:active td { background:rgba(79,156,249,.10); }
+/* 键盘焦点移动到卡片时给环（role=button/可点击卡） */
+.mat-card:focus-visible, .zone-card:focus-visible, .dim-card:focus-visible, .brand-card:focus-visible,
+.guide-card:focus-visible, .guide-mat:focus-visible, .mx-row:focus-visible { outline:2px solid var(--primary); outline-offset:2px; }
+
+/* ============================================================
+ * 2026-09-08 二轮 · 排版与数据可读性精修
+ * ============================================================ */
+/* 锚点/scrollIntoView 落点让开吸顶头部+模块顶栏 */
+.section[id], section[id], .guide-result, #overview { scroll-margin-top:112px; }
+/* ---- 长文可读性：行高与行宽节奏 ---- */
+.sec-desc, .guide-reason, .modal-sec, .donate-qr-tip, .legal p, .price-note, .history-note { line-height:1.75; }
+.sec-desc { max-width:72ch; }
+/* ---- 大表格：吸顶首列（材料/品牌）+ 柔和斑马纹，横滑时始终可见首列 ---- */
+.table-sticky-first { min-width:0; }
+.table-sticky-first thead th:first-child { position:sticky; left:0; z-index:6; background:#1d2736; }
+.table-sticky-first tbody td:first-child { position:sticky; left:0; z-index:2; background:#161d29; }
+.table-sticky-first tbody tr:hover td:first-child { background:#1b2434; }
+.table-sticky-first tbody tr:nth-child(even) td:not(:first-child) { background:rgba(255,255,255,.02); }
+html[data-theme="light"] .table-sticky-first thead th:first-child { background:#e9eef5; }
+html[data-theme="light"] .table-sticky-first tbody td:first-child { background:#fff; }
+html[data-theme="light"] .table-sticky-first tbody tr:hover td:first-child { background:#f1f4f9; }
+html[data-theme="light"] .table-sticky-first tbody tr:nth-child(even) td:not(:first-child) { background:rgba(60,80,120,.025); }
+/* 首列 cell 高亮态（🏆/最佳）在斑马纹上保持可读 */
+.table-sticky-first td.cell-best:first-child, .table-sticky-first td.mx-hit { background:transparent; }
+/* 图表标题与图例层级统一 */
+.chart-wrap h3 { font-size:14.5px; letter-spacing:.4px; }
+.chart-legend, .scatter-legend { font-size:12px; gap:14px; }
+/* 头部导航项间距与热区 */
+.nav a { padding:4px 2px; }
+.header-tools { display:flex; gap:6px; align-items:center; }
+/* 卡片/浮层圆角统一到 token */
+.cmdk-panel, .modal, .method-modal-inner, .more-drawer { border-radius:18px; }
+/* 数值/图表读数颜色层级：次要信息降噪 */
+.pr-per, .pd-scale, .price-note, .history-note, .chart-legend { color:var(--text-faint); }
+
+/* ---- A1 打印机适配（设备设置弹窗 + 材料卡角标） ---- */
+.printer-modal { max-width:560px; }
+.printer-head h3 { font-size:20px; margin-bottom:6px; }
+.printer-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; margin:16px 0 6px; }
+.pr-field { display:flex; flex-direction:column; gap:6px; font-size:12.5px; color:var(--text-dim); }
+.pr-field input, .pr-field select { padding:9px 11px; border-radius:9px; border:1px solid var(--border);
+  background:rgba(255,255,255,.05); color:var(--text); font-size:14px; font-family:inherit; width:100%; }
+.pr-field input:focus-visible, .pr-field select:focus-visible { outline:2px solid var(--primary); outline-offset:1px; }
+.pr-toggles { display:flex; gap:18px; flex-wrap:wrap; margin:12px 0 4px; }
+.pr-check { display:inline-flex; align-items:center; gap:7px; font-size:13.5px; color:var(--text); cursor:pointer; }
+.pr-check input { accent-color:var(--primary); width:16px; height:16px; }
+.pr-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:18px; }
+html[data-theme="light"] .pr-field input, html[data-theme="light"] .pr-field select { background:#fff; color:#0d1117; }
+.p-badge { display:inline-flex; align-items:center; gap:3px; font-size:11px; font-weight:800; padding:2px 8px;
+  border-radius:999px; white-space:nowrap; line-height:1.5; }
+.p-badge.p-fit { color:var(--ok); border:1px solid rgba(61,220,132,.45); background:rgba(61,220,132,.08); }
+.p-badge.p-warn { color:var(--accent); border:1px solid rgba(249,165,79,.5); background:rgba(249,165,79,.08); }
+.p-badge.p-block { color:var(--danger); border:1px solid rgba(249,104,95,.5); background:rgba(249,104,95,.08); }
+.mat-card.p-block { opacity:.58; }
+.mat-card.p-block:hover { opacity:1; }
+.pr-edit { font-weight:400; font-size:11px; opacity:.7; margin-left:4px; }
+#prSave:disabled { opacity:.5; cursor:not-allowed; }
+@media (max-width:720px){
+  .printer-grid { grid-template-columns:1fr 1fr; }
+  .pr-actions { justify-content:stretch; }
+  .pr-actions .btn { flex:1; text-align:center; }
+}
+
+/* ---- A2 用量成本计算器 ---- */
+.cost-calc { padding:6px 0 2px; }
+.cc-row { display:grid; grid-template-columns:minmax(150px,1.3fr) repeat(3,minmax(110px,1fr)); gap:10px; align-items:end; }
+.cc-field { display:flex; flex-direction:column; gap:6px; font-size:12.5px; color:var(--text-dim); }
+.cc-field select, .cc-field input { padding:9px 11px; border-radius:9px; border:1px solid var(--border);
+  background:rgba(255,255,255,.05); color:var(--text); font-size:14px; font-family:inherit; width:100%; }
+.cc-field select:focus-visible, .cc-field input:focus-visible { outline:2px solid var(--primary); outline-offset:1px; }
+html[data-theme="light"] .cc-field select, html[data-theme="light"] .cc-field input { background:#fff; color:#0d1117; }
+.cc-out { display:flex; align-items:baseline; gap:14px; flex-wrap:wrap; margin-top:14px;
+  padding:12px 16px; border:1px solid var(--border); border-radius:10px; background:rgba(79,156,249,.06); }
+.cc-out b { font-size:24px; color:var(--primary); font-variant-numeric:tabular-nums; }
+html[data-theme="light"] .cc-out b { color:var(--primary); }
+.cc-out .hint { margin-top:0; }
+@media (max-width:900px){
+  .cc-row { grid-template-columns:1fr 1fr; }
+}
+@media (max-width:520px){
+  .cc-row { grid-template-columns:1fr; }
+}
+
+/* ---- A3 价格关注 / 降价提醒 ---- */
+.watch-bar { display:flex; align-items:center; gap:8px; flex-wrap:wrap; padding:10px 12px; margin-bottom:12px;
+  border:1px solid var(--border); border-radius:12px; background:rgba(255,255,255,.03); }
+html[data-theme="light"] .watch-bar { background:rgba(255,255,255,.7); }
+.watch-title { font-size:13px; font-weight:800; color:var(--primary); }
+.watch-item { display:inline-flex; align-items:center; gap:8px; font-size:12px; padding:5px 10px; border-radius:999px;
+  border:1px solid var(--border); background:rgba(255,255,255,.04); color:var(--text-dim); }
+html[data-theme="light"] .watch-item { background:rgba(40,60,100,.05); }
+.watch-item b { color:var(--text); font-weight:600; }
+.watch-item .w-now { font-variant-numeric:tabular-nums; color:var(--text); }
+.watch-item .w-delta { font-variant-numeric:tabular-nums; font-weight:800; }
+.watch-item.down .w-delta { color:var(--ok); }
+.watch-item.up .w-delta { color:var(--accent); }
+.watch-item .w-date { font-size:10.5px; color:var(--text-faint); }
+.watch-item button { background:none; border:none; cursor:pointer; font-size:12px; padding:0 2px; color:var(--text-faint); }
+.watch-item .w-refresh:hover { color:var(--primary); }
+.watch-item .w-del:hover { color:var(--danger); }
+.watch-cell { text-align:center; width:34px; padding:6px 4px !important; }
+.watch-star { background:none; border:none; font-size:16px; cursor:pointer; line-height:1; padding:4px; color:var(--text-faint); transition:transform .12s ease, color .12s ease; }
+.watch-star:hover { color:var(--accent); transform:scale(1.15); }
+.watch-star.on { color:var(--accent); }
+.watch-star:disabled { opacity:.35; cursor:not-allowed; }
+th.th-watch { width:34px; font-size:14px; }
+@media (max-width:520px){
+  .watch-item { flex-wrap:wrap; border-radius:10px; }
+  .watch-item .w-date { display:none; }
+}
+
 /* 移动端轻量渲染：保留颜色、层次和静态光感，停止非必要动画与局部光影 */
 @media (hover:none), (max-width:720px){
   #aurora, #glowLayer, #flowLayer { display:none !important; }
@@ -933,6 +1172,9 @@ html[data-theme="light"] .more-drawer { background:#fff; }
 </style>
 </head>
 <body>
+
+<!-- 回到顶部按钮的 IO 哨兵：越过首屏 800px 即显示，替代逐帧 scroll 监听 -->
+<div id="backTopSentinel" aria-hidden="true" style="position:absolute;top:800px;left:0;width:1px;height:1px;pointer-events:none"></div>
 
 <div id="aurora" aria-hidden="true">
   <div class="blob b1"></div>
@@ -963,6 +1205,7 @@ html[data-theme="light"] .more-drawer { background:#fff; }
     </nav>
     <button class="nav-toggle" id="navToggle" aria-label="菜单">☰</button>
     <div class="header-tools">
+      <button class="theme-toggle" id="cmdkBtn" title="快速搜索（⌘K / Ctrl+K）" aria-label="打开快速搜索" style="font-size:12px;font-weight:700;letter-spacing:.5px">⌘K</button>
       <button class="theme-toggle" id="themeToggle" title="切换主题" aria-label="切换主题">🌙</button>
     </div>
   </div>
@@ -972,7 +1215,7 @@ html[data-theme="light"] .more-drawer { background:#fff; }
   <!-- HERO -->
   <section class="hero">
     <div class="container">
-      <div class="hero-badge">🧡 内容创建：舒舒 · 基于 DeepSeek Harness 构建</div>
+      <div class="hero-badge">🧡 内容创建：舒舒 · 基于 AI 辅助创作</div>
       <h1>Filament Lab · <span class="grad">丝验室</span></h1>
       <p class="hero-sub">实验精神 · 数据说话：42 种主流耗材 · 物理性能 / 打印便利性 / 安全性三大维度，官方 TDS 逐项验过<br>常规耗材与工程耗材分区呈现，22 大品牌（拓竹 · Polymaker · eSUN · 三绿 · 爱乐酷 · Jayo · 艾普创 等）一网打尽</p>
       <div class="hero-stats" id="heroStats"><!-- JS 填充 --></div>
@@ -1075,6 +1318,7 @@ html[data-theme="light"] .more-drawer { background:#fff; }
           <h3>② 选择维度</h3>
           <div class="chips chips-metric" id="cmpMetrics"><!-- JS 填充 --></div>
           <button class="btn btn-primary btn-block" id="cmpClear">清空选择</button>
+          <button class="btn btn-ghost btn-block" id="cmpShare" type="button" title="复制当前对比结果链接，分享给他人">🔗 复制分享链接</button>
           <p class="hint">雷达图维度为归一化得分（0–100）；条形图展示原始数值。数据为典型区间中值。</p>
         </aside>
         <div class="compare-main">
@@ -1126,9 +1370,26 @@ html[data-theme="light"] .more-drawer { background:#fff; }
     <div class="container">
       <h2 class="sec-title">💰 价格情报</h2>
       <p class="sec-desc" id="priceDesc">品牌 × 耗材价格参考：原价/划线价 · 到手价 · 每kg价 · 史低/近90天低价（统一按元/kg） · 优惠。每条记录都标注记录日期与更新时间；当前官方页复核价、历史促销快照和原价补全依据分开标注，购买前请以来源页实时信息为准。📚 调研方法详见<a href="#" data-openmethod>数据说明</a>。</p>
+      <div class="watch-bar" id="priceWatch" style="display:none"><span class="watch-title">🔔 关注</span></div>
       <div class="filter-bar" id="priceFilter"><!-- JS 价格筛选 --></div>
       <div class="price-summary" id="priceSummary"><!-- JS 性价比排行 --></div>
       <div id="priceHistory"><!-- JS 可追溯史低记录 --></div>
+      <div class="table-wrap" style="margin-top:18px">
+        <h3>🧮 用量成本计算器 <span style="display:inline;margin-left:6px" class="price-sum-title">克重/体积 → 估算耗材成本</span></h3>
+        <div class="cost-calc">
+          <div class="cc-row">
+            <label class="cc-field cc-mat"><span>① 材料</span><select id="ccMat"></select></label>
+            <label class="cc-field"><span>② 重量 (g)</span><input type="number" id="ccGrams" min="0" step="1" inputmode="decimal" placeholder="如 200"></label>
+            <label class="cc-field"><span>③ 体积 (cm³)</span><input type="number" id="ccVolume" min="0" step="0.1" inputmode="decimal" placeholder="与重量二选一"></label>
+            <label class="cc-field"><span>单价 (¥/kg)</span><input type="number" id="ccPrice" min="0" step="0.01" inputmode="decimal" placeholder="自动填/手填"></label>
+          </div>
+          <div class="cc-out"><b id="ccResult">—</b><span class="hint" id="ccHint"></span></div>
+        </div>
+      </div>
+      <div class="table-wrap" style="margin-top:18px">
+        <h3>📈 每kg价格分布（同材料 × 各品牌 · 🟢=最低价 · 悬停查看明细）</h3>
+        <div id="priceDist"></div>
+      </div>
       <div class="table-wrap" style="margin-top:18px">
         <h3>📊 价格区间速览（每公斤价 · 当前与历史参考价均标注）</h3>
         <div id="priceRanges"></div>
@@ -1199,7 +1460,7 @@ html[data-theme="light"] .more-drawer { background:#fff; }
         <p><b>1. 数据仅供参考。</b>本站所有数值均为典型区间，来源于厂商官方 TDS、官方 Wiki 及公开第三方测试；同一材料因牌号、批次、打印参数与测试方法不同，实测值可能存在显著差异。本站数据不构成选材、采购、工程设计或安全决策的专业建议，工业及关键应用请以材料厂商正式 TDS 与专业机构测试为准。</p>
         <p><b>2. 安全责任由使用者自行承担。</b>3D 打印涉及高温、电气设备与化学释放物（含苯乙烯、甲醛、己内酰胺、氟化氢等，详见本站「打印安全指南」）。使用者应自行采取通风、过滤、封闭腔体、防护装备等必要安全措施，并遵守设备与材料厂商的操作指引。本站不对因使用本站信息（含数据、建议、参数）而导致的任何直接或间接损失、人身伤害承担任何责任。</p>
         <p><b>3. 品牌与商标声明。</b>页面中出现的品牌名称、产品型号、商标均为其各自权利人的财产。本站仅作信息整理与客观对比，与上述品牌不存在隶属、代言、授权或合作关系；品牌信息以各厂商官方发布为准。</p>
-        <p><b>4. 知识产权与署名。</b>「Filament Lab · 丝验室」站点内容（数据整理、可视化、界面设计）由「舒舒」创建，基于 DeepSeek Harness 构建，开源免费供 3D 打印爱好者学习与交流。转载、引用本站数据或图表请注明出处（本站网址）。禁止将本站内容用于任何形式的虚假宣传或商业欺诈。</p>
+        <p><b>4. 知识产权与署名。</b>「Filament Lab · 丝验室」站点内容（数据整理、可视化、界面设计）由「舒舒」创建，AI 辅助创作，开源免费供 3D 打印爱好者学习与交流。转载、引用本站数据或图表请注明出处（本站网址）。禁止将本站内容用于任何形式的虚假宣传或商业欺诈。</p>
         <p><b>5. 时效性。</b>本站数据持续矫正更新（矫正记录见上），以页面当前版本为准；外部链接指向的第三方页面内容与可用性由第三方负责，与本站无关。</p>
       </div>
       <p class="disclaimer">⚠️ 简短版：本站为公益性的数据整理与可视化项目，仅供参考与学习交流，不构成专业建议；打印安全与选材责任由使用者自行承担。如有数据勘误，欢迎反馈，我们将记录并矫正。</p>
@@ -1210,13 +1471,44 @@ html[data-theme="light"] .more-drawer { background:#fff; }
 </div>
 
 
+<!-- A1 打印机设置弹窗 -->
+<div class="modal-mask" id="printerModal" style="display:none" role="dialog" aria-modal="true" aria-label="打印机设置">
+  <div class="modal printer-modal">
+    <button class="modal-close" id="prCancel" aria-label="关闭">✕</button>
+    <div class="printer-head">
+      <h3>🖨️ 我的打印机</h3>
+      <p class="donate-sub">按设备能力评估全部耗材能否打印。设置保存于本机，材料卡将显示 🚫不可打 / ⚠️临界 / ✓可打。</p>
+    </div>
+    <div class="printer-grid">
+      <label class="pr-field"><span>最高喷嘴温度 ℃</span>
+        <input type="number" id="prNozzle" min="150" max="600" step="5" inputmode="numeric" placeholder="如 260"></label>
+      <label class="pr-field"><span>热床最高温 ℃ <small>(0=不加热)</small></span>
+        <input type="number" id="prBed" min="0" max="300" step="5" inputmode="numeric" placeholder="如 100"></label>
+      <label class="pr-field"><span>最高接受难度</span>
+        <select id="prDiff">
+          <option value="0">不限</option><option value="1">1 · 入门</option><option value="2">2 · 简单</option>
+          <option value="3">3 · 中等</option><option value="4">4 · 较难</option><option value="5">5 · 很难</option>
+        </select></label>
+    </div>
+    <div class="pr-toggles">
+      <label class="pr-check"><input type="checkbox" id="prChamber"> 有封闭腔体（打印舱）</label>
+      <label class="pr-check"><input type="checkbox" id="prDryer" checked> 有材料干燥能力</label>
+    </div>
+    <p class="hint">判定口径：🚫不可打 = 设备硬性不足（喷嘴温度 / 热床 / 必需腔体）；⚠临界 = 可打但需注意（建议腔体、需干燥、难度高、需低温慢打）。</p>
+    <div class="pr-actions">
+      <button class="btn btn-primary" id="prSave">保存并应用</button>
+      <button class="btn btn-ghost" id="prClear">清除配置</button>
+    </div>
+  </div>
+</div>
+
 <!-- 捐赠/建议 弹窗 -->
 <div class="modal-mask" id="donateModal" style="display:none">
   <div class="modal donate-modal">
     <button class="modal-close" id="donateClose" aria-label="关闭">✕</button>
     <div class="donate-head">
       <h3>🧡 支持 Filament Lab</h3>
-      <p class="donate-sub">内容创建：舒舒 · 基于 DeepSeek Harness 构建 · 开源免费</p>
+      <p class="donate-sub">内容创建：舒舒 · 基于 AI 辅助创作 · 开源免费</p>
       <p class="donate-sub">您的每一份支持都是继续做数据矫正与更新的动力 🙏</p>
     </div>
     <div class="donate-body">
@@ -1252,7 +1544,7 @@ html[data-theme="light"] .more-drawer { background:#fff; }
       <p>发现数据问题或有改进想法？欢迎反馈：</p>
       <div class="donate-links">
         <a class="btn btn-ghost btn-sm" href="https://github.com/Shu0412/filament-compare/issues" target="_blank" rel="noopener">🐙 GitHub Issues</a>
-        <a class="btn btn-ghost btn-sm" href="mailto:filamentlab.feedback@gmail.com?subject=Filament%20Lab%20建议">📧 邮件反馈</a>
+        <a class="btn btn-ghost btn-sm" href="mailto:hishu0412@gmail.com?subject=Filament%20Lab%20建议">📧 邮件反馈</a>
       </div>
     </div>
   </div>
@@ -1261,12 +1553,27 @@ html[data-theme="light"] .more-drawer { background:#fff; }
 <footer class="site-footer">
   <div class="container">
     <p>🧪 Filament Lab · 丝验室 — 3D 打印耗材对比库，数据多源交叉验证，持续矫正更新</p>
-    <p class="footer-credit">内容创建：<b>舒舒</b> 🧡 · 基于 DeepSeek Harness 构建 · 开源免费分享给每一位 3D 打印爱好者</p>
+    <p class="footer-credit">内容创建：<b>舒舒</b> 🧡 · 基于 AI 辅助创作 · 开源免费分享给每一位 3D 打印爱好者</p>
     <p class="footer-note">🔗 shu0412.github.io/filament-compare · <a href="https://github.com/Shu0412/filament-compare/issues" target="_blank" rel="noopener">💬 提供建议</a> · <a href="#" data-opendonate>🧡 支持我们</a></p>
   </div>
 </footer>
 
 <button class="back-top" id="backTop" title="回到顶部" aria-label="回到顶部">↑</button>
+
+<!-- Toast 轻提示容器 -->
+<div id="toastWrap" aria-live="polite"></div>
+
+<!-- ⌘K 快速搜索命令面板 -->
+<div class="cmdk-mask" id="cmdkMask" style="display:none" role="dialog" aria-modal="true" aria-label="快速搜索">
+  <div class="cmdk-panel">
+    <div class="cmdk-input-row">
+      <span class="cmdk-ico">🔍</span>
+      <input class="cmdk-input" id="cmdkInput" type="text" placeholder="搜索耗材、模块、操作…" autocomplete="off">
+      <span class="cmdk-kbd">Esc 关闭</span>
+    </div>
+    <div class="cmdk-list" id="cmdkList"></div>
+  </div>
+</div>
 
 <!-- 材料详情弹窗 -->
 <div class="modal-mask" id="matModal" style="display:none">
@@ -1299,7 +1606,7 @@ html[data-theme="light"] .more-drawer { background:#fff; }
   </div>
 </div>
 
-<script src="js/data.js?v=20260905.5" defer></script>
-<script src="js/app.js?v=20260905.3" defer></script>
+<script src="js/data.js?v=20260908.1" defer></script>
+<script src="js/app.js?v=20260908.1" defer></script>
 </body>
 </html>
